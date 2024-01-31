@@ -1,4 +1,12 @@
-import { createContext } from "react";
-import { websocketService } from "../services/websocketService";
+// WebsocketContext.ts
+import { createContext } from 'react';
 
-export const WebsocketContext = createContext(websocketService)
+type WebSocketService = {
+    subscribe: (type: string, callback: (data: any) => void) => () => void;
+};
+
+const defaultWebSocketContext: WebSocketService = {
+    subscribe: () => () => {} // Placeholder function
+};
+
+export const WebsocketContext = createContext<WebSocketService>(defaultWebSocketContext);

@@ -1,4 +1,13 @@
 import { USPlayer } from "../models/USPlayer";
+import { USGame } from "../models/UpdateState/USGame";
+
+const getBlueTeamName = (USGame: USGame): string => {
+  return USGame.teams[0].name;
+};
+
+const getOrangeTeamName = (USGame: USGame): string => {
+  return USGame.teams[0].name;
+};
 
 const getBlueTeam = (players: USPlayer[]): USPlayer[] => {
   return players.filter((player) => player.team === 0);
@@ -12,7 +21,9 @@ const getPlayerFromTarget = (
   players: USPlayer[],
   target: string
 ): USPlayer | undefined => {
+  if (Array.isArray(players)) {
   return players.find((player) => target.includes(player.name));
+  }
 };
 
 const getClockFromSeconds = (seconds: number, isOT: boolean): string => {
@@ -55,6 +66,8 @@ const getDemosFromPlayers = (players: USPlayer[]) => {
 };
 
 export const gameService = {
+  getBlueTeamName,
+  getOrangeTeamName,
   getBlueTeam,
   getOrangeTeam,
   getPlayerFromTarget,
