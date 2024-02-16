@@ -17,6 +17,6 @@ export const transformGameUpdate = (data: UpdateState): GameContext => {
         score: {
             blue: gameData.teams[0].score,
             orange: gameData.teams[1].score,
-        }
+        },
     };
 };

@@ -1,5 +1,7 @@
 // Overlay.tsx
-import React, { useContext, useEffect } from "react";
+import 
+// React, 
+{ useContext, useEffect } from "react";
 import { WebsocketContext } from "../contexts/WebsocketContext";
 import { GameInfoContext } from "../contexts/GameInfoContext";
 import { Scorebug } from "../components/Scorebug/Scorebug";
@@ -9,14 +11,14 @@ import { PlayerTeamName } from "../components/PlayerTeamNames/PlayerTeamName";
 import { transformGameUpdate } from "../contexts/transformGameUpdate";
 
 export const Overlay = () => {
-  const { gameInfo, setGameInfo } = useContext(GameInfoContext);
+  const { setGameInfo } = useContext(GameInfoContext);
   const { subscribe } = useContext(WebsocketContext); // Changed to useContext
 
   useEffect(() => {
     const handleGameUpdate = (innerMessage: any) => {
-        console.log("innerMessage:", innerMessage);
+        //console.log("innerMessage:", innerMessage);
         const gameContext = transformGameUpdate(innerMessage);
-        console.log("gameContext:", gameContext);
+        //console.log("gameContext:", gameContext);
         setGameInfo(gameContext);
     };
 

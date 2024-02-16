@@ -1,5 +1,6 @@
 // Scorebug.tsx
 import { useContext, useEffect } from "react";
+import { ControlPanelSettingsContext } from "../../contexts/ControlPanelSettingsContext";
 import { GameInfoContext } from "../../contexts/GameInfoContext";
 import { WebsocketContext } from "../../contexts/WebsocketContext";
 import {
@@ -9,36 +10,44 @@ import {
   ScorebugOrangeName,
   ScorebugBlueScore,
   ScorebugClock,
-  ScorebugCreatorBanner,
   ScorebugOrangeScore,
   ScorebugWrapper,
   ScorebugWinPercentage,
+  ScorebugSvgWrapper,
+  ScorebugSeriesScore,
+  OrangeUndertone,
+  BlueUndertone,
 } from "./Scorebug.style";
 import { gameService } from "../../services/gameService";
-import { UpdateState } from "../../models/UpdateState/UpdateState";
-import { GameContext } from "../../models/contexts/GameContext";
 import { transformGameUpdate } from "../../contexts/transformGameUpdate";
 import { calculateWinProbability } from "../../services/winPercentage";
+import ScoreBoardPNG from "../../assets/Asset 2_ScoreBoard_Holes.png";
 
 export const Scorebug = () => {
   const { gameInfo, setGameInfo } = useContext(GameInfoContext);
+  const { controlPanelSettings } = useContext(ControlPanelSettingsContext);
   const { subscribe } = useContext(WebsocketContext); // Changed to useContext
 
   useEffect(() => {
     const handleGameUpdate = (innerMessage: any) => {
-        console.log("innerMessage:", innerMessage);
-        const gameContext = transformGameUpdate(innerMessage);
-        console.log("gameContext:", gameContext);
-        setGameInfo(gameContext);
+      //console.log("innerMessage:", innerMessage);
+      const gameContext = transformGameUpdate(innerMessage);
+      //console.log("gameContext:", gameContext);
+      setGameInfo(gameContext);
     };
 
     // Subscribe and get the unsubscribe function
     const unsubscribe = subscribe("gamestate", handleGameUpdate);
 
     return () => {
-        unsubscribe(); // Call the unsubscribe function on cleanup
+      unsubscribe(); // Call the unsubscribe function on cleanup
     };
-}, [subscribe, setGameInfo]);
+  }, [subscribe, setGameInfo]);
+
+  useEffect(() => {
+    // Logic that should run when controlPanelSettings changes
+    console.log("Updated settings:", controlPanelSettings);
+  }, [controlPanelSettings]);
 
   if (!gameInfo) {
     console.log("No gameInfo");
@@ -47,19 +56,61 @@ export const Scorebug = () => {
   //console.log("gameInfo:", gameInfo);
   const blueScore = gameInfo.score.blue;
   const orangeScore = gameInfo.score.orange;
-  const winPred = calculateWinProbability(blueScore, orangeScore, gameInfo.timeRemaining);
+  const winPred = calculateWinProbability(
+    blueScore,
+    orangeScore,
+    gameInfo.timeRemaining
+  );
   const winnerPred = winPred.Predicted_Winner;
   //create winprob, which is the predicted win percentage * 100, and truncate to 2 decimal places
-  const winProb = (winPred.Win_Probability * 100).toFixed(2);
+  const winProb =
+    (winPred.Win_Probability * 100).toFixed(2) === "0.00"
+      ? "50"
+      : (winPred.Win_Probability * 100).toFixed(2);
+
+  const currentGame = controlPanelSettings.blueWins + controlPanelSettings.orangeWins + 1;
+  //console.log(controlPanelSettings.BlueTeamPhoto, controlPanelSettings.OrangeTeamPhoto);
   return (
     <>
+    <OrangeUndertone />
+    <BlueUndertone />
+      <ScorebugSvgWrapper>
+        <img src={ScoreBoardPNG} alt="ScoreBoard" />
+      </ScorebugSvgWrapper>
       <ScorebugWrapper>
-        <ScorebugWinPercentage>{winnerPred}: {winProb}%</ScorebugWinPercentage>
-        <ScorebugBlueLogo />
-        <ScorebugBlueName>BLUE</ScorebugBlueName>
+        {controlPanelSettings.showWinProb === true && (
+          <ScorebugWinPercentage>
+            {winnerPred === "team0"
+              ? controlPanelSettings.blueTeamName
+              : controlPanelSettings.orangeTeamName}
+            : {winProb}%
+          </ScorebugWinPercentage>
+        )}
+        <ScorebugSeriesScore>
+          {controlPanelSettings.showSeriesScore === true && 
+            <>
+              {controlPanelSettings.NumberOfGames === 1 && <span>BO1 | Game </span>}
+              {controlPanelSettings.NumberOfGames === 3 && <span>BO3 | Game </span>}
+              {controlPanelSettings.NumberOfGames === 5 && <span>BO5 | Game </span>}
+              {controlPanelSettings.NumberOfGames === 7 && <span>BO7 | Game </span>}
+              {controlPanelSettings.NumberOfGames === 9 && <span>BO9 | Game </span>}
+              {controlPanelSettings.NumberOfGames === 11 && <span>BO11 | Game </span>}
+              {currentGame}
+            </>
+          }
+        </ScorebugSeriesScore>
+        <ScorebugBlueLogo>
+          <img src={controlPanelSettings.BlueTeamPhoto} alt="" />
+        </ScorebugBlueLogo>
+        <ScorebugBlueName>{controlPanelSettings.blueTeamName}</ScorebugBlueName>
         <ScorebugBlueScore>{gameInfo.score.blue}</ScorebugBlueScore>
-        <ScorebugOrangeName>ORANGE</ScorebugOrangeName>
+        <ScorebugOrangeName>
+          {controlPanelSettings.orangeTeamName}
+        </ScorebugOrangeName>
         <ScorebugOrangeScore>{gameInfo.score.orange}</ScorebugOrangeScore>
+        <ScorebugOrangeLogo>
+          <img src={controlPanelSettings.OrangeTeamPhoto} alt="" />
+        </ScorebugOrangeLogo>
         <ScorebugClock>
           {gameService.getClockFromSeconds(
             gameInfo.timeRemaining,
@@ -67,10 +118,7 @@ export const Scorebug = () => {
           )}
         </ScorebugClock>
         <ScorebugOrangeLogo />
-        <ScorebugCreatorBanner>Powered by CANA Solutions</ScorebugCreatorBanner>
-        
       </ScorebugWrapper>
     </>
   );
 };
-

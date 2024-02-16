@@ -5,6 +5,7 @@ export interface GameInfoContextModel {
 
     gameInfo: GameContext;
     setGameInfo: (newGameInfo: GameContext) => void;
+    
 }
 
 export const DEFAULT_GAME_INFO: GameContext = {

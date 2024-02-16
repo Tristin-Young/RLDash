@@ -5,7 +5,6 @@ import styled from "styled-components";
 export const ScorebugWrapper = styled.div`
   height: 250px;
   width: 1000px;
-  color: white;
   position: absolute;
   top: 0px;
   left: 460px;
@@ -18,7 +17,6 @@ export const ScorebugWrapper = styled.div`
 export const ScorebugCreatorBanner = styled.div`
   height: 35px;
   width: 824px;
-  background-color: lightgrey;
   font-weight: bold;
   font-size: 25px;
   text-align: center;
@@ -26,9 +24,6 @@ export const ScorebugCreatorBanner = styled.div`
   top: 0px;
   left: 86px;
   color: black;
-  border-left: 3px solid black;
-  border-right: 3px solid black;
-  border-bottom: 3px solid black;
 `;
 
 // create a div for the blue teams logo
@@ -36,35 +31,38 @@ export const ScorebugCreatorBanner = styled.div`
 // position is at X=460, Y=35
 // relative to scorebugWraper, position is X=0, Y=35
 export const ScorebugBlueLogo = styled.div`
-  height: 70px;
-  width: 85px;
-  background-color: black;
-  position: absolute;
-  top: 35px;
-  left: 0px;
+display: flex;
+height: 75px;
+width: 75px;
+position: absolute;
+top: 51px;
+left: 44px;
+justify-content: center;
+> img {
+  width: 100%;
+ padding-left: 18px; 
+}
 `;
 
 // create a div for the blue teams name
 // size it to 265px by 70px
 // position is at X=545, Y=35
 // relative to scorebugWraper, position is X=85, Y=35
+//give background color of green at 30% opacity
 export const ScorebugBlueName = styled.div`
-  height: 70px;
-  width: 275px;
-  background-color: lightblue;
+  
+  height: 56px;
+  width: 225px;
   font-weight: bold;
   font-size: 40px;
   position: absolute;
-  top: 35px;
-  left: 85px;
-  color: black;
-  border-radius:0 0 15px 0;
+  top: 56px;
+  left: 135px;
+  color: white;
   display: flex;
   flex-flow: column;
   justify-content: center;
   align-items: center;
-  border-bottom: 3px solid black;
-  border-left: 3px solid black;
 `;
 
 // create a div for the blue teams score
@@ -72,20 +70,18 @@ export const ScorebugBlueName = styled.div`
 // position is at X=810, Y=35
 // relative to scorebugWraper, position is X=350, Y=35
 export const ScorebugBlueScore = styled.div`
-  height: 65px;
+
+  height: 56px;
   width: 70px;
-  background-color: lightblue;
   position: absolute;
-  top: 35px;
-  left: 355px;
-  color: black;
+  top: 56px;
+  left: 360px;
+  color: white;
   align-items: center;
   display: flex;
   justify-content: center;
   font-size: 50px;
   font-weight: bold;
-  border-bottom: 3px solid black;
-  border-left: 3px solid black;
 `;
 
 // create a div for the clock
@@ -93,22 +89,19 @@ export const ScorebugBlueScore = styled.div`
 // position is at X=885, Y=35
 // relative to scorebugWraper, position is X=425, Y=35
 export const ScorebugClock = styled.div`
-  height: 65px;
-  width: 150px;
-  background-color: lightgrey;
+
+  height: 70px;
+  width: 130px;
   color: white;
   position: absolute;
-  top: 35px;
-  left: 425px;
-  color: black;
+  top: 46px;
+  left: 435px;
+  color: white;
   align-items: center;
   display: flex;
   justify-content: center;
   font-size: 50px;
   font-weight: bold;
-  border-bottom: 3px solid black;
-  border-left: 3px solid black;
-  border-right: 3px solid black;
 `;
 
 // create a div for the orange teams score
@@ -116,21 +109,18 @@ export const ScorebugClock = styled.div`
 // position is at X=1035, Y=35
 // relative to scorebugWraper, position is X=575, Y=35
 export const ScorebugOrangeScore = styled.div`
-  height: 65px;
+
+  height: 56px;
   width: 70px;
-  background-color: #FFD580;
-  color: white;
   position: absolute;
-  top: 35px;
-  left: 575px;
-  color: black;
+  top: 56px;
+  right: 360px;
+  color: white;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 50px;
   font-weight: bold;
-  border-bottom: 3px solid black;
-  border-right: 3px solid black;
 `;
 
 // create a div for the orange teams name
@@ -138,22 +128,19 @@ export const ScorebugOrangeScore = styled.div`
 // position is at X=1100, Y=35
 // relative to scorebugWraper, position is X=640, Y=35
 export const ScorebugOrangeName = styled.div`
-  height: 70px;
-  width: 275px;
-  background-color: #FFD580;
+  height: 56px;
+  width: 225px;
   font-weight: bold;
   font-size: 40px;
   position: absolute;
-  top: 35px;
-  left: 640px;
-  color: black;
-  border-radius:0 0 0 15px;
+  top: 56px;
+  right: 135px;
+  color: white;
   display: flex;
   flex-flow: column;
   justify-content: center;
   align-items: center;
-  border-bottom: 3px solid black;
-  border-right: 3px solid black;
+
 `;
 
 // create a div for the blue teams logo
@@ -161,12 +148,18 @@ export const ScorebugOrangeName = styled.div`
 // position is at X=1375, Y=35
 // relative to scorebugWraper, position is X=915, Y=35
 export const ScorebugOrangeLogo = styled.div`
-  height: 70px;
-  width: 85px;
-  background-color: black;
-  position: absolute;
-  top: 35px;
-  left: 915px;
+display: flex;
+justify-content: center;
+height: 75px;
+width: 75px;
+position: absolute;
+top: 51px;
+right: 44px;
+
+> img {
+  width: 100%;
+ padding-right: 18px; 
+}
 `;
 
 // create a div for the win percentage
@@ -176,19 +169,70 @@ export const ScorebugOrangeLogo = styled.div`
 // width is the width of the bluescore + the width of the clock + the width of the orangescore
 export const ScorebugWinPercentage = styled.div`
   height: 30px;
-  width: 290px;
-  background-color: lightgrey;
+  width: 210px;
   color: black;
   position: absolute;
-  top: 100px;
-  left: 355px;
-  color: black;
+  top: 163px;
+  left: 395px;
+  color: white;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 20px;
   font-weight: bold;
-  border-left: 3px solid black;
-  border-right: 3px solid black;
-  border-bottom: 3px solid black;
+  
+
+`;
+
+export const ScorebugSeriesScore = styled.div`
+  height: 30px;
+  width: 210px;
+  color: black;
+  position: absolute;
+  top: 125px;
+  left: 395px;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  font-weight: bold;
+  
+
+`;
+
+// Styled wrapper for SVGs
+export const ScorebugSvgWrapper = styled.div`
+  position: absolute;
+  z-index: -1;
+  top: 0px;
+  left: 460px;
+  width: 1000px; /* Ensure this matches the actual width of your PNG for proper alignment */
+  height: 275px; /* Adjust if you know the exact height of your image or prefer a specific height */
+  
+  img {
+    width: 100%; /* This will make the image fill the div's width */
+    height: 250px; /* Adjust the height automatically to maintain aspect ratio */
+  }
+`;
+export const OrangeUndertone = styled.div`
+  position: absolute;
+  top: 125px;
+  left: 1100px;
+  width: 175px;
+  height: 20px;
+  background-color: #443630;
+  opacity: 1;
+  z-index: -1;
+`;
+
+export const BlueUndertone = styled.div`
+  position: absolute;
+  top: 125px;
+  left: 645px;
+  width: 175px;
+  height: 20px;
+  background-color: #2d373f;
+  opacity: 1;
+  z-index: -1;
 `;

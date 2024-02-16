@@ -8,9 +8,12 @@ import {
   StatBarStatPair,
   StatBarStatValue,
   StatBarWrapper,
+  StatsContainer,
 } from "./PlayerStatBar.style";
 import { WebsocketContext } from "../../contexts/WebsocketContext";
 import { transformGameUpdate } from "../../contexts/transformGameUpdate";
+import PlayerStatBarPNG from '../../assets/PlayerStats.png';
+
 
 export const PlayerStatBar = () => {
   const { gameInfo, setGameInfo } = useContext(GameInfoContext);
@@ -18,9 +21,9 @@ export const PlayerStatBar = () => {
 
   useEffect(() => {
     const handleGameUpdate = (innerMessage: any) => {
-        console.log("innerMessage:", innerMessage);
+        //console.log("innerMessage:", innerMessage);
         const gameContext = transformGameUpdate(innerMessage);
-        console.log("gameContext:", gameContext);
+        //console.log("gameContext:", gameContext);
         setGameInfo(gameContext);
     };
 
@@ -35,43 +38,47 @@ export const PlayerStatBar = () => {
     gameInfo.players,
     gameInfo.target
   );
-  const PlayerTeam = spectatedPlayer?.team === 0 ? "blue" : "orange";
-  return (
+   return (
     <>
-      {spectatedPlayer && (
-        <StatBarWrapper
-          style={{
-            backgroundColor: PlayerTeam === "blue" ? "lightblue" : "#FFD580",
-          }}
-        >
-          <PlayerName>{spectatedPlayer.name}</PlayerName>
-          <Divider />
-          <StatBarStatPair>
-            <StatBarStatValue>{spectatedPlayer.score}</StatBarStatValue>
-            <StatBarStatName>SCORE</StatBarStatName>
-          </StatBarStatPair>
-          <Divider />
-          <StatBarStatPair>
-            <StatBarStatValue>{spectatedPlayer.goals}</StatBarStatValue>
-            <StatBarStatName>GOALS</StatBarStatName>
-          </StatBarStatPair>
-          <Divider />
-          <StatBarStatPair>
-            <StatBarStatValue>{spectatedPlayer.shots}</StatBarStatValue>
-            <StatBarStatName>SHOTS</StatBarStatName>
-          </StatBarStatPair>
-          <Divider />
-          <StatBarStatPair>
-            <StatBarStatValue>{spectatedPlayer.assists}</StatBarStatValue>
-            <StatBarStatName>ASSISTS</StatBarStatName>
-          </StatBarStatPair>
-          <Divider />
-          <StatBarStatPair>
-            <StatBarStatValue>{spectatedPlayer.saves}</StatBarStatValue>
-            <StatBarStatName>SAVES</StatBarStatName>
-          </StatBarStatPair>
-        </StatBarWrapper>
-      )}
-    </>
+  {spectatedPlayer && (
+    <StatBarWrapper>
+      <img src={PlayerStatBarPNG} alt="PlayerStatBar" />
+      {/* <PlayerName>Mountailously</PlayerName> */}
+      <PlayerName>{spectatedPlayer.name}</PlayerName>
+      <StatsContainer>
+        <StatBarStatPair>
+          {/* <StatBarStatValue>1234</StatBarStatValue> */}
+          <StatBarStatValue>{spectatedPlayer.score}</StatBarStatValue>
+          <StatBarStatName>SCORE</StatBarStatName>
+        </StatBarStatPair>
+        <Divider />
+        <StatBarStatPair>
+          {/* <StatBarStatValue>12</StatBarStatValue> */}
+          <StatBarStatValue>{spectatedPlayer.goals}</StatBarStatValue>
+          <StatBarStatName>GOALS</StatBarStatName>
+        </StatBarStatPair>
+        <Divider />
+        <StatBarStatPair>
+          {/* <StatBarStatValue>16</StatBarStatValue> */}
+          <StatBarStatValue>{spectatedPlayer.shots}</StatBarStatValue>
+          <StatBarStatName>SHOTS</StatBarStatName>
+        </StatBarStatPair>
+        <Divider />
+        <StatBarStatPair>
+          {/* <StatBarStatValue>18</StatBarStatValue> */}
+          <StatBarStatValue>{spectatedPlayer.assists}</StatBarStatValue>
+          <StatBarStatName>ASSISTS</StatBarStatName>
+        </StatBarStatPair>
+        <Divider />
+        <StatBarStatPair>
+          {/* <StatBarStatValue>21</StatBarStatValue> */}
+          <StatBarStatValue>{spectatedPlayer.saves}</StatBarStatValue>
+          <StatBarStatName>SAVES</StatBarStatName>
+        </StatBarStatPair>
+      </StatsContainer>
+    </StatBarWrapper>
+   )}
+</>
+
   );
 };
