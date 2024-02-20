@@ -30,5 +30,5 @@ export interface USPlayer {
     speed: number;
     team: number;
     touches: number;
-    
+    hasFlip: string;
 }

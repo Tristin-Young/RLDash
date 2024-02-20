@@ -36,7 +36,7 @@ export const PlayerBoostMeter = () => {
 
   useEffect(() => {
     // Logic that should run when controlPanelSettings changes
-    console.log("Updated settings:", controlPanelSettings);
+    //console.log("Updated settings:", controlPanelSettings);
   }, [controlPanelSettings]);
 
   const spectatedPlayer = gameService.getPlayerFromTarget(

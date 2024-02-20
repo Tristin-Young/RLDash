@@ -1,5 +1,6 @@
 import { useContext, 
-  useEffect, 
+  useEffect,
+  useState, 
   // useState,
  } from "react";
 import { GameInfoContext } from "../../contexts/GameInfoContext";
@@ -10,7 +11,7 @@ import {
   BlueSvgWrapper,
   BlueTeamNamesWrapper,
   BoostBarContainer,
-  // FlipIconSvgWrapper,
+  FlipIconSvgWrapper,
   GreyBoostBar,
   GreyBoostBarOrange,
   OrangeBoostBar,
@@ -28,63 +29,91 @@ import {
 } from "./PlayerTeamName.style";
 import BlueTeamPNG from "../../assets/BlueTeam.png";
 import OrangeTeamPNG from "../../assets/OrangeTeam.png";
-//import FlipIconPNG from "../../assets/flipIcon.png";
+import FlipIconPNG from "../../assets/flipIcon.png";
 import { transformGameUpdate } from "../../contexts/transformGameUpdate";
-//import { USPlayer } from "../../models/USPlayer";
+import { USPlayer } from "../../models/USPlayer";
+
+interface PlayerData {
+  [key: string]: {
+    name: string;
+    numWheelsOnGround: number;
+    timeOffGround: number;
+    isDodging: string;
+  };
+}
+
+interface TeamData {
+  players: Array<{
+    name: string;
+    numWheelsOnGround: number;
+    timeOffGround: number;
+    isDodging: string;
+  }>;
+}
+
+interface ReceivedData {
+  teams: {
+    [key: string]: TeamData;
+  };
+}
 
 export const PlayerTeamName = () => {
   const { gameInfo, setGameInfo } = useContext(GameInfoContext);
-  // const [team0Players, setTeam0Players] = useState<WebSocketPlayer[]>([]);
-  // const [team1Players, setTeam1Players] = useState<WebSocketPlayer[]>([]);
   const { subscribe } = useContext(WebsocketContext);
-  // const [combinedBlueTeam, setCombinedBlueTeam] = useState<
-  //   (USPlayer & Partial<WebSocketPlayer>)[]
-  // >([]);
-  // const [combinedOrangeTeam, setCombinedOrangeTeam] = useState<
-  //   (USPlayer & Partial<WebSocketPlayer>)[]
-  // >([]);
+  const [playerData, setPlayerData] = useState<PlayerData>({});
 
-  // const combinePlayerArrays = (
-  //   existingPlayers: USPlayer[],
-  //   newPlayers: WebSocketPlayer[]
-  // ) => {
-  //   console.log("Existing Players:", gameInfo.players);
-  //   console.log("New Players from WebSocket:", team0Players, team1Players);
-  //   let combined = existingPlayers.map((existingPlayer) => {
-  //     const match = newPlayers.find(
-  //       (newPlayer) => newPlayer.name.trim().toLowerCase() === existingPlayer.name.trim().toLowerCase()
-  //     );
-  //     if (match) {
-  //       console.log(`Matching player found for ${existingPlayer.name}:`, match);
-  //       return {
-  //         ...existingPlayer,
-  //         numWheelsOnGround: match.numWheelsOnGround,
-  //         timeOffGround: match.timeOffGround,
-  //         isDodging: match.isDodging
-  //       };
-  //     } else {
-  //       console.log(`No match found for ${existingPlayer.name}`, existingPlayer, newPlayers);
-  //       return existingPlayer;
-  //     }
-  //   });
+  useEffect(() => {
+    // Create WebSocket connection.
+    const ws = new WebSocket('ws://localhost:43003');
 
-  //   console.log("Combined Array:", combined);
-  //   return combined;
-  // };
+    // Connection opened
+    ws.addEventListener('open', (event) => {
+        console.log('Connected to Flip Plugin server');
+    });
 
-  // Function to determine the correct filter for the flip icon
-  // const getFilter = (player: USPlayer & Partial<WebSocketPlayer>) => {
-  //   const isOnGround = player.onGround;
-  //   const isOnWall = player.onWall;
+    // Listen for messages
+    ws.addEventListener('message', (event) => {
+      const receivedData = JSON.parse(event.data); // Assuming receivedData is structured as described
 
-  //   if (isOnGround || isOnWall){
-  //     return player.team === 0
-  //       ? "invert(77%) sepia(75%) saturate(3420%) hue-rotate(133deg) brightness(104%) contrast(104%)"
-  //       : "invert(55%) sepia(72%) saturate(560%) hue-rotate(347deg) brightness(105%) contrast(92%)";
-  //   } else {
-  //     return "invert(51%) sepia(1%) saturate(0%) hue-rotate(353deg) brightness(99%) contrast(87%)";
-  //   }
-  // };
+      const newData: PlayerData = {}; // Add type annotation for newData
+      Object.entries(receivedData.teams).forEach(([teamKey, teamPlayers]: [string, any]) => {
+        // Note: Now iterating over an object of players directly under each team
+        Object.values(teamPlayers).forEach((player: any) => {
+          newData[player.name] = { ...player, hasFlip: player.hasFlip, numWheelsOnGround: player.numWheelsOnGround, timeOffGround: player.timeOffGround, isDodging: player.isDodging};
+        });
+      });
+    
+      setPlayerData(newData); 
+      });
+
+    return () => {
+      if (ws.readyState === WebSocket.OPEN) ws.close();
+    };
+  }, []);
+
+  //Function to determine the correct filter for the flip icon
+  const getFilter = (player: USPlayer) => {
+    const isOnGround = player.onGround;
+    const isOnWall = player.onWall;
+    const numWheelsOnGround = playerData[player.name]?.numWheelsOnGround;
+    const timeOffGround = playerData[player.name]?.timeOffGround;
+    const isDodging = playerData[player.name]?.isDodging;
+    // const hasFlip = playerData[player.name]?.hasFlip;
+    //console.log(player.name, numWheelsOnGround, timeOffGround, isDodging);
+    
+    if (isOnGround || isOnWall || numWheelsOnGround === 4){
+      return player.team === 0
+        ? "invert(77%) sepia(75%) saturate(3420%) hue-rotate(133deg) brightness(104%) contrast(104%)"
+        : "invert(55%) sepia(72%) saturate(560%) hue-rotate(347deg) brightness(105%) contrast(92%)";
+    } else if(!isDodging && timeOffGround < 1.45){
+      return player.team === 0
+      ? "invert(77%) sepia(75%) saturate(3420%) hue-rotate(133deg) brightness(104%) contrast(104%)"
+      : "invert(55%) sepia(72%) saturate(560%) hue-rotate(347deg) brightness(105%) contrast(92%)";
+    }
+    else {
+      return "invert(51%) sepia(1%) saturate(0%) hue-rotate(353deg) brightness(99%) contrast(87%)";
+    }
+  };
 
   useEffect(() => {
     const handleGameUpdate = (innerMessage: any) => {
@@ -94,40 +123,11 @@ export const PlayerTeamName = () => {
 
     const unsubscribe = subscribe("gamestate", handleGameUpdate);
 
-    // const ws = new WebSocket("ws://localhost:43003");
-    // ws.onmessage = (event) => {
-    //   const { team0, team1 } = JSON.parse(event.data);
-    //   //console.log("WebSocket message received:", team0, team1);
-    //   setTeam0Players(team0);
-    //   setTeam1Players(team1);
-    // };
-    
-
-
     return () => {
       unsubscribe();
       // ws.close();
     };
   }, [subscribe, setGameInfo]);
-
-  // useEffect(() => {
-  //   const combinedBlue = combinePlayerArrays(
-  //     gameInfo.players.filter((p) => p.team === 0),
-  //     team0Players
-  //   );
-  //   const combinedOrange = combinePlayerArrays(
-  //     gameInfo.players.filter((p) => p.team === 1),
-  //     team1Players
-  //   );
-
-  //   console.log("Combined Blue Team:", combinedBlue);
-  //   console.log("Combined Orange Team:", combinedOrange);
-  //   setCombinedBlueTeam(combinedBlue);
-  //   setCombinedOrangeTeam(combinedOrange);
-  // }, [gameInfo.players, team0Players, team1Players]);
-
-  // Assuming the rest of your component returns correctly
-  // Including rendering logic for displaying player names, circles, etc.
 
   return (
     <>
@@ -149,26 +149,26 @@ export const PlayerTeamName = () => {
                 <BlueBoostBar boost={Number(player.boost)} />
               </BoostBarContainer>
             </PlayerContainer>
-            {/* <FlipIconSvgWrapper>
+            <FlipIconSvgWrapper>
               <img
                 src={FlipIconPNG}
                 alt="Flip Indicator"
                 style={{ filter: getFilter(player) }}
               />
-            </FlipIconSvgWrapper> */}
+            </FlipIconSvgWrapper>
           </PlayerAndFlipIconContainer>
         ))}
       </BlueTeamNamesWrapper>
       <OrangeTeamNamesWrapper>
         {gameInfo.players.filter((p) => p.team === 1).map((player, index) => (
           <OrangePlayerAndFlipIconContainer key={index}>
-            {/* <FlipIconSvgWrapper>
+            <FlipIconSvgWrapper>
               <img
                 src={FlipIconPNG}
                 alt="Flip Indicator"
                 style={{ filter: getFilter(player) }}
               />
-            </FlipIconSvgWrapper> */}
+            </FlipIconSvgWrapper>
             <OrangePlayerContainer >
               <OrangePlayerNameAndBoostContainer>
                 <OrangePlayerName>{player.name}</OrangePlayerName>

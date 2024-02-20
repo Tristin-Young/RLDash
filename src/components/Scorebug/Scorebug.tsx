@@ -1,5 +1,5 @@
 // Scorebug.tsx
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ControlPanelSettingsContext } from "../../contexts/ControlPanelSettingsContext";
 import { GameInfoContext } from "../../contexts/GameInfoContext";
 import { WebsocketContext } from "../../contexts/WebsocketContext";
@@ -25,8 +25,9 @@ import ScoreBoardPNG from "../../assets/Asset 2_ScoreBoard_Holes.png";
 
 export const Scorebug = () => {
   const { gameInfo, setGameInfo } = useContext(GameInfoContext);
-  const { controlPanelSettings } = useContext(ControlPanelSettingsContext);
+  const { controlPanelSettings, setControlPanelSettings } = useContext(ControlPanelSettingsContext);
   const { subscribe } = useContext(WebsocketContext); // Changed to useContext
+  const [data, setData] = useState({});
 
   useEffect(() => {
     const handleGameUpdate = (innerMessage: any) => {
@@ -46,8 +47,23 @@ export const Scorebug = () => {
 
   useEffect(() => {
     // Logic that should run when controlPanelSettings changes
-    console.log("Updated settings:", controlPanelSettings);
+    //console.log("Updated settings:", controlPanelSettings);
   }, [controlPanelSettings]);
+
+  useEffect(() => {
+    const webSocket = new WebSocket('ws://localhost:42000');
+
+    webSocket.onmessage = (event) => {
+        const message = JSON.parse(event.data);
+        if (message.type === 'loadSettings' || message.type === 'updateSettings') {
+          setControlPanelSettings(message.data); // Update local state with new settings
+        }
+      };
+
+    return () => {
+      if (webSocket.readyState === WebSocket.OPEN) webSocket.close();
+    };
+}, []);
 
   if (!gameInfo) {
     console.log("No gameInfo");
@@ -80,21 +96,19 @@ export const Scorebug = () => {
       <ScorebugWrapper>
         {controlPanelSettings.showWinProb === true && (
           <ScorebugWinPercentage>
-            {winnerPred === "team0"
-              ? controlPanelSettings.blueTeamName
-              : controlPanelSettings.orangeTeamName}
+            {winProb === "50" ? "TIED" : (winnerPred === "team1" ? controlPanelSettings.blueTeamName : controlPanelSettings.orangeTeamName)}
             : {winProb}%
           </ScorebugWinPercentage>
         )}
         <ScorebugSeriesScore>
           {controlPanelSettings.showSeriesScore === true && 
             <>
-              {controlPanelSettings.NumberOfGames === 1 && <span>BO1 | Game </span>}
-              {controlPanelSettings.NumberOfGames === 3 && <span>BO3 | Game </span>}
-              {controlPanelSettings.NumberOfGames === 5 && <span>BO5 | Game </span>}
-              {controlPanelSettings.NumberOfGames === 7 && <span>BO7 | Game </span>}
-              {controlPanelSettings.NumberOfGames === 9 && <span>BO9 | Game </span>}
-              {controlPanelSettings.NumberOfGames === 11 && <span>BO11 | Game </span>}
+              {controlPanelSettings.NumberOfGames === 1 && <span>BO1 | Game&nbsp;</span>}
+              {controlPanelSettings.NumberOfGames === 3 && <span>BO3 | Game&nbsp;</span>}
+              {controlPanelSettings.NumberOfGames === 5 && <span>BO5 | Game&nbsp;</span>}
+              {controlPanelSettings.NumberOfGames === 7 && <span>BO7 | Game&nbsp;</span>}
+              {controlPanelSettings.NumberOfGames === 9 && <span>BO9 | Game&nbsp;</span>}
+              {controlPanelSettings.NumberOfGames === 11 && <span>BO11 | Game&nbsp;</span>}
               {currentGame}
             </>
           }

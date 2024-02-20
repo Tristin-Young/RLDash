@@ -9,8 +9,8 @@ export interface ControlPanelSettingsContextModel {
 export const DEFAULT_CONTROL_PANEL_SETTINGS: ControlPanelContext = {
     blueTeamName: "Blue",
     orangeTeamName: "Orange",
-    BlueTeamPhoto: "../assets/DefaultTeamLogo.png",
-    OrangeTeamPhoto: "../assets/DefaultTeamLogo.png",
+    BlueTeamPhoto: "",
+    OrangeTeamPhoto: "",
     blueWins: 0,
     orangeWins: 0,
     NumberOfGames: 5,

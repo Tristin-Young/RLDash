@@ -20,13 +20,14 @@
 
 // export default App;
 
-import React, { useState } from "react";
+//App.tsx
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { WebsocketContext } from "./contexts/WebsocketContext";
 import { GameInfoContext, DEFAULT_GAME_INFO } from "./contexts/GameInfoContext";
 import { useWebSocketService } from "./services/UseWebSocketService";
 import { Overlay } from "./scenes/Overlay";
-import { ControlPanel } from "./components/ControlPanel/ControlPanel"; // Adjust the import path as needed
+import { ControlPanel } from "./components/ControlPanel/ControlPanel";
 import {
   ControlPanelSettingsContext,
   DEFAULT_CONTROL_PANEL_SETTINGS,
@@ -35,19 +36,26 @@ import {
 function App() {
   const [controlPanelSettings, setControlPanelSettings] = useState(() => {
     const savedSettings = localStorage.getItem("controlPanelSettings");
-    return savedSettings
-      ? JSON.parse(savedSettings)
-      : DEFAULT_CONTROL_PANEL_SETTINGS;
+    return savedSettings ? JSON.parse(savedSettings) : DEFAULT_CONTROL_PANEL_SETTINGS;
   });
   const websocketService = useWebSocketService();
   const [gameInfo, setGameInfo] = useState(DEFAULT_GAME_INFO);
+
+  useEffect(() => {
+    const handleStorageChange = (event: StorageEvent) => {
+      if (event.key === 'controlPanelSettings') {
+        const newSettings = JSON.parse(event.newValue || '{}');
+        setControlPanelSettings(newSettings);
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
+  }, []);
+
   return (
     <Router>
-      {" "}
-      {/* This wraps your routes in the Router component */}
-      <ControlPanelSettingsContext.Provider
-        value={{ controlPanelSettings, setControlPanelSettings }}
-      >
+      <ControlPanelSettingsContext.Provider value={{ controlPanelSettings, setControlPanelSettings }}>
         <WebsocketContext.Provider value={websocketService}>
           <GameInfoContext.Provider value={{ gameInfo, setGameInfo }}>
             <Routes>

@@ -4,6 +4,7 @@ import
 { useContext, useEffect } from "react";
 import { WebsocketContext } from "../contexts/WebsocketContext";
 import { GameInfoContext } from "../contexts/GameInfoContext";
+import { ControlPanelSettingsContext } from "../contexts/ControlPanelSettingsContext";
 import { Scorebug } from "../components/Scorebug/Scorebug";
 import { PlayerStatBar } from "../components/PlayerStatBar/PlayerStatBar";
 import { PlayerBoostMeter } from "../components/PlayerBoostMeter/PlayerBoostMeter";
@@ -13,6 +14,7 @@ import { transformGameUpdate } from "../contexts/transformGameUpdate";
 export const Overlay = () => {
   const { setGameInfo } = useContext(GameInfoContext);
   const { subscribe } = useContext(WebsocketContext); // Changed to useContext
+  const { controlPanelSettings } = useContext(ControlPanelSettingsContext);
 
   useEffect(() => {
     const handleGameUpdate = (innerMessage: any) => {
@@ -29,6 +31,11 @@ export const Overlay = () => {
         unsubscribe(); // Call the unsubscribe function on cleanup
     };
 }, [subscribe, setGameInfo]);
+
+useEffect(() => {
+  // Logic that should run when controlPanelSettings changes
+  //console.log("Updated settings:", controlPanelSettings);
+}, [controlPanelSettings]);
 
   return (
     <>

@@ -1,15 +1,51 @@
 // ControlPanel.tsx
 import React, { useState, useContext, useEffect } from "react";
 import { ControlPanelSettingsContext } from "../../contexts/ControlPanelSettingsContext";
-import { Form, FormGroup, Label, Input, Select, SubmitButton, FormWrapper, RowInput, CheckboxContainer, FileInputContainer, ImagePreview, LogoFormGroup, FileInputContainer2 } from "./ControlPanel.style";
+import {
+  Form,
+  FormGroup,
+  Label,
+  Input,
+  Select,
+  SubmitButton,
+  FormWrapper,
+  RowInput,
+  CheckboxContainer,
+  FileInputContainer,
+  ImagePreview,
+  LogoFormGroup,
+  FileInputContainer2,
+} from "./ControlPanel.style";
 import { ControlPanelContext } from "../../models/contexts/ControlPanelContext";
-
+import { useWebSocketService } from "../../services/UseWebSocketService";
 
 export const ControlPanel = () => {
-
   const { controlPanelSettings, setControlPanelSettings } = useContext(
     ControlPanelSettingsContext
   );
+  // const { sendControlPanelUpdate } = useWebSocketService();
+  const [ws, setWs] = useState<WebSocket | null>(null);
+
+  useEffect(() => {
+
+    const webSocket = new WebSocket("ws://localhost:42000"); // Connect to your WebSocket server
+
+    webSocket.onopen = () => {
+      console.log("WebSocket connection established");
+      
+    };
+
+    webSocket.onclose = () => {
+      console.log("WebSocket connection closed");
+    };
+
+    setWs(webSocket);
+
+    return () => {
+      if (webSocket.readyState === WebSocket.OPEN) webSocket.close();
+    };
+  }, []);
+
   const [blueTeamName, setBlueTeamName] = useState(
     controlPanelSettings.blueTeamName
   );
@@ -35,11 +71,13 @@ export const ControlPanel = () => {
     controlPanelSettings.serverPortNumber
   );
 
-  const [blueTeamLogo, setBlueTeamLogo] = useState('');
-  const [orangeTeamLogo, setOrangeTeamLogo] = useState('');
-  const [blueTeamLogoPreview, setBlueTeamLogoPreview] = useState('');
-  const [orangeTeamLogoPreview, setOrangeTeamLogoPreview] = useState('');
+  const [blueTeamLogo, setBlueTeamLogo] = useState("");
+  const [orangeTeamLogo, setOrangeTeamLogo] = useState("");
+  const [blueTeamLogoPreview, setBlueTeamLogoPreview] = useState("");
+  const [orangeTeamLogoPreview, setOrangeTeamLogoPreview] = useState("");
 
+  // Add a new state for feedback message
+  const [feedbackMessage, setFeedbackMessage] = useState("");
 
   const handleBlueTeamNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setBlueTeamName(e.target.value);
@@ -51,30 +89,25 @@ export const ControlPanel = () => {
     setOrangeTeamName(e.target.value);
   };
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>, teamKey: string) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const url = URL.createObjectURL(file);
-      setControlPanelSettings((controlPanelSettings: ControlPanelContext) => ({
-        ...controlPanelSettings,
-        [teamKey]: url // Use keys like 'BlueTeamPhoto' and 'OrangeTeamPhoto'
-      }));
-    }
-  };
-
-    // UseEffect hooks for cleaning up image URL objects to avoid memory leaks
-    useEffect(() => () => {
+  // UseEffect hooks for cleaning up image URL objects to avoid memory leaks
+  useEffect(
+    () => () => {
       URL.revokeObjectURL(blueTeamLogoPreview);
-    }, [blueTeamLogoPreview]);
-  
-    useEffect(() => () => {
+    },
+    [blueTeamLogoPreview]
+  );
+
+  useEffect(
+    () => () => {
       URL.revokeObjectURL(orangeTeamLogoPreview);
-    }, [orangeTeamLogoPreview]);
+    },
+    [orangeTeamLogoPreview]
+  );
 
   const handleBlueWinsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setBlueWins(Number(e.target.value));
-  }
-  
+  };
+
   const handleOrangeWinsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setOrangeWins(Number(e.target.value));
   };
@@ -111,21 +144,31 @@ export const ControlPanel = () => {
     setServerPortNumber(Number(e.target.value));
   };
 
+  function convertToBase64(file: Blob) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = error => reject(error);
+      reader.readAsDataURL(file);
+    });
+  }
+  
+
+  async function handleImageChange(e: React.ChangeEvent<HTMLInputElement>, teamKey: string) {
+    const file = e.target.files?.[0];
+    if (file) {
+      const base64 = await convertToBase64(file);
+      // Assuming setControlPanelSettings is a function that updates the local state
+      // and `controlPanelSettings` is your current settings state
+      setControlPanelSettings(prevSettings => ({
+        ...prevSettings,
+        [teamKey]: base64 // teamKey might be "BlueTeamPhoto" or "OrangeTeamPhoto"
+      }));
+    }
+  }
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(
-      "Submitting",
-      blueTeamName,
-      orangeTeamName,
-      blueWins,
-      orangeWins,
-      NumberOfGames,
-      showWinProb,
-      showSeriesScore,
-      metricOrImperial,
-      savedata,
-      serverPortNumber
-    );
     const newSettings = {
       ...controlPanelSettings,
       blueTeamName,
@@ -144,8 +187,15 @@ export const ControlPanel = () => {
       serverPortNumber,
     };
     setControlPanelSettings(newSettings);
-    console.log("controlPanelSettings:", controlPanelSettings);
     localStorage.setItem("controlPanelSettings", JSON.stringify(newSettings));
+    console.log("newControlPanelSettings:", newSettings);
+    if (ws && ws.readyState === WebSocket.OPEN) {
+      ws.send(JSON.stringify({ type: 'updateSettings', data: newSettings }));
+    }
+    setFeedbackMessage("Settings updated successfully!");
+    setTimeout(() => {
+      setFeedbackMessage("");
+    }, 3000);
   };
 
   return (
@@ -178,7 +228,12 @@ export const ControlPanel = () => {
               accept="image/*"
               onChange={(e) => handleImageChange(e, "BlueTeamPhoto")}
             />
-            {blueTeamLogo && <ImagePreview src={blueTeamLogoPreview} alt="Blue Team Logo Preview" />}
+            {blueTeamLogo && (
+              <ImagePreview
+                src={blueTeamLogoPreview}
+                alt="Blue Team Logo Preview"
+              />
+            )}
           </FileInputContainer>
         </LogoFormGroup>
         <LogoFormGroup>
@@ -190,7 +245,12 @@ export const ControlPanel = () => {
               accept="image/*"
               onChange={(e) => handleImageChange(e, "OrangeTeamPhoto")}
             />
-            {orangeTeamLogo && <ImagePreview src={orangeTeamLogoPreview} alt="Orange Team Logo Preview" />}
+            {orangeTeamLogo && (
+              <ImagePreview
+                src={orangeTeamLogoPreview}
+                alt="Orange Team Logo Preview"
+              />
+            )}
           </FileInputContainer2>
         </LogoFormGroup>
         <FormGroup>
@@ -260,7 +320,7 @@ export const ControlPanel = () => {
           </CheckboxContainer>
         </RowInput>
         {/* Save Data and Server Port Number inputs */}
-    
+
         {/* <RowInput>
         <Label htmlFor="savedata">Save Data</Label>
           <CheckboxContainer>
@@ -282,6 +342,11 @@ export const ControlPanel = () => {
           />
         </FormGroup> */}
         <SubmitButton type="submit">Update Settings</SubmitButton>
+        {feedbackMessage && (
+          <div style={{ marginTop: "20px", color: "green" }}>
+            {feedbackMessage}
+          </div>
+        )}
       </Form>
     </FormWrapper>
   );

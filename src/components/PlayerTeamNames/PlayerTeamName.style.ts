@@ -67,7 +67,7 @@ export const OrangePlayerContainer = styled.div`
   align-items: center;
   height: 55px;
   width: 230px;
-  padding-left: 115px;
+  padding-left: 70px;
   position: relative;
   right: 45px;
 `;
