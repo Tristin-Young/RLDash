@@ -19,13 +19,17 @@ async function loadSettings() {
   } catch (error) {
     console.log('Error loading settings:', error);
     return {
-      blueTeamName: "",
-      orangeTeamName: "",
+      blueTeamName: "GMU",
+      orangeTeamName: "CANA",
       blueWins: 0,
       orangeWins: 0,
+      blueTeamColor: "#00E8F4",
+      orangeTeamColor: "#F59323",
       NumberOfGames: 5,
-      showWinProb: false,
-      showSeriesScore: false,
+      SeriesScoreWinPercent: "SeriesScore",
+      // showWinProb: false,
+      // showSeriesScore: false,
+      showFlipResets: false,
       metricOrImperial: "KPH",
       savedata: false,
       serverPortNumber: 3000,

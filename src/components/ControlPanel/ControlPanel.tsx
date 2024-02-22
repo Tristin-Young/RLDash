@@ -52,17 +52,23 @@ export const ControlPanel = () => {
   const [orangeTeamName, setOrangeTeamName] = useState(
     controlPanelSettings.orangeTeamName
   );
+  const [blueTeamColor, setBlueTeamColor] = useState(
+    controlPanelSettings.blueTeamColor
+  );
+  const [orangeTeamColor, setOrangeTeamColor] = useState(
+    controlPanelSettings.orangeTeamColor
+  );
   const [blueWins, setBlueWins] = useState(controlPanelSettings.blueWins);
   const [orangeWins, setOrangeWins] = useState(controlPanelSettings.orangeWins);
   const [NumberOfGames, setNumberOfGames] = useState(
     controlPanelSettings.NumberOfGames
   );
-  const [showWinProb, setShowWinProb] = useState(
-    controlPanelSettings.showWinProb
-  );
-  const [showSeriesScore, setShowSeriesScore] = useState(
-    controlPanelSettings.showSeriesScore
-  );
+  // const [showWinProb, setShowWinProb] = useState(
+  //   controlPanelSettings.showWinProb
+  // );
+  // const [showSeriesScore, setShowSeriesScore] = useState(
+  //   controlPanelSettings.showSeriesScore
+  // );
   const [metricOrImperial, setMetricOrImperial] = useState(
     controlPanelSettings.metricOrImperial
   );
@@ -71,11 +77,14 @@ export const ControlPanel = () => {
     controlPanelSettings.serverPortNumber
   );
 
+  const [SeriesScoreWinPercent, setSeriesScoreWinPercent] = useState(controlPanelSettings.SeriesScoreWinPercent);
+  const [showPlayerSpeed, setShowPlayerSpeed] = useState(controlPanelSettings.showPlayerSpeed);
+
   const [blueTeamLogo, setBlueTeamLogo] = useState("");
   const [orangeTeamLogo, setOrangeTeamLogo] = useState("");
   const [blueTeamLogoPreview, setBlueTeamLogoPreview] = useState("");
   const [orangeTeamLogoPreview, setOrangeTeamLogoPreview] = useState("");
-
+  const [showFlipResets, setShowFlipResets] = useState(controlPanelSettings.showFlipResets);
   // Add a new state for feedback message
   const [feedbackMessage, setFeedbackMessage] = useState("");
 
@@ -104,6 +113,22 @@ export const ControlPanel = () => {
     [orangeTeamLogoPreview]
   );
 
+  const handleSeriesScoreWinPercentChange = (
+    e: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    setSeriesScoreWinPercent(e.target.value);
+  };
+  
+  const handleBlueTeamColorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setBlueTeamColor(e.target.value);
+  };
+
+  const handleOrangeTeamColorChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setOrangeTeamColor(e.target.value);
+  };
+
   const handleBlueWinsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setBlueWins(Number(e.target.value));
   };
@@ -118,6 +143,12 @@ export const ControlPanel = () => {
     setNumberOfGames(Number(e.target.value));
   };
 
+  const handleShowPlayerSpeedChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setShowPlayerSpeed(e.target.checked);
+  };
+
   const handleShowWinProbChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setShowWinProb(e.target.checked);
   };
@@ -126,6 +157,12 @@ export const ControlPanel = () => {
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     setShowSeriesScore(e.target.checked);
+  };
+
+  const handleShowFlipResetsChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setShowFlipResets(e.target.checked);
   };
 
   const handleMetricOrImperialChange = (
@@ -180,8 +217,11 @@ export const ControlPanel = () => {
       blueWins,
       orangeWins,
       NumberOfGames,
-      showWinProb,
-      showSeriesScore,
+      SeriesScoreWinPercent,
+      // showWinProb,
+      // showSeriesScore,
+      showFlipResets,
+      showPlayerSpeed,
       metricOrImperial,
       savedata,
       serverPortNumber,
@@ -253,6 +293,24 @@ export const ControlPanel = () => {
             )}
           </FileInputContainer2>
         </LogoFormGroup>
+        {/* <FormGroup>
+          <Label htmlFor="blueColor">Blue Team Color:</Label>
+          <Input
+            id="blueColor"
+            type="text"
+            value={blueTeamColor}
+            onChange={handleBlueTeamColorChange}
+          />
+        </FormGroup>
+        <FormGroup>
+          <Label htmlFor="orangeColor">Orange Team Color:</Label>
+          <Input
+            id="orangeColor"
+            type="text"
+            value={orangeTeamColor}
+            onChange={handleOrangeTeamColorChange}
+          />
+        </FormGroup> */}
         <FormGroup>
           <Label htmlFor="blueWinCount">Blue Win Count:</Label>
           <Input
@@ -298,7 +356,31 @@ export const ControlPanel = () => {
           </Select>
         </RowInput>
         <RowInput>
-          <Label htmlFor="showWinProb">Show Win Probability:</Label>
+          <Label htmlFor="SeriesScoreWinPercent">Series Score / Win Percent:</Label>
+          <Select
+            id="SeriesScoreWinPercent"
+            value={SeriesScoreWinPercent}
+            onChange={handleSeriesScoreWinPercentChange}
+          >
+            <option value="SeriesScore">Series Score</option>
+            <option value="WinPercent">Win Percent</option>
+            <option value="Both">Both</option>
+            <option value="None">None</option>
+          </Select>
+        </RowInput>
+        <RowInput>
+          <Label htmlFor="showPlayerSpeed">Show Player Speed</Label>
+          <CheckboxContainer>
+            <Input
+              id="showPlayerSpeed"
+              type="checkbox"
+              checked={showPlayerSpeed}
+              onChange={handleShowPlayerSpeedChange}
+            />
+          </CheckboxContainer>
+        </RowInput>
+        {/* <RowInput>
+          <Label htmlFor="showWinProb">Show Win Probability</Label>
           <CheckboxContainer>
             <Input
               id="showWinProb"
@@ -309,13 +391,24 @@ export const ControlPanel = () => {
           </CheckboxContainer>
         </RowInput>
         <RowInput>
-          <Label htmlFor="showSeriesScore">Show Series Score:</Label>
+          <Label htmlFor="showSeriesScore">Show Series Score</Label>
           <CheckboxContainer>
             <Input
               id="showSeriesScore"
               type="checkbox"
               checked={showSeriesScore}
               onChange={handleShowSeriesScoreChange}
+            />
+          </CheckboxContainer>
+        </RowInput> */}
+        <RowInput>
+          <Label htmlFor="showFlipResets">Show Flip Resets</Label>
+          <CheckboxContainer>
+            <Input
+              id="showFlipResets"
+              type="checkbox"
+              checked={showFlipResets}
+              onChange={handleShowFlipResetsChange}
             />
           </CheckboxContainer>
         </RowInput>
@@ -351,3 +444,11 @@ export const ControlPanel = () => {
     </FormWrapper>
   );
 };
+function setShowWinProb(checked: boolean) {
+  throw new Error("Function not implemented.");
+}
+
+function setShowSeriesScore(checked: boolean) {
+  throw new Error("Function not implemented.");
+}
+

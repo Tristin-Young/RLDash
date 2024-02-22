@@ -3,11 +3,11 @@ import styled from "styled-components";
 // the entire scorebug is 1000px by 170px
 // position is at X=460, Y=0
 export const ScorebugWrapper = styled.div`
-  height: 250px;
-  width: 1000px;
+  height: 171px;
+  width: 1048px;
   position: absolute;
   top: 0px;
-  left: 460px;
+  left: 436px;
 `;
 
 // create a div for the creator banner
@@ -31,17 +31,16 @@ export const ScorebugCreatorBanner = styled.div`
 // position is at X=460, Y=35
 // relative to scorebugWraper, position is X=0, Y=35
 export const ScorebugBlueLogo = styled.div`
-display: flex;
-height: 75px;
-width: 75px;
-position: absolute;
-top: 51px;
-left: 44px;
-justify-content: center;
-> img {
-  width: 100%;
- padding-left: 18px; 
-}
+  display: flex;
+  height: 92px;
+  width: 92px;
+  position: absolute;
+  top: 33px;
+  left: 21px;
+  justify-content: center;
+  > img {
+    width: 100%;
+  }
 `;
 
 // create a div for the blue teams name
@@ -50,14 +49,12 @@ justify-content: center;
 // relative to scorebugWraper, position is X=85, Y=35
 //give background color of green at 30% opacity
 export const ScorebugBlueName = styled.div`
-  
-  height: 56px;
-  width: 225px;
-  font-weight: bold;
-  font-size: 40px;
+  height: 95px;
+  width: 190px;
+  font-size: 60px;
   position: absolute;
-  top: 56px;
-  left: 135px;
+  top: 36px;
+  left: 132px;
   color: white;
   display: flex;
   flex-flow: column;
@@ -70,17 +67,16 @@ export const ScorebugBlueName = styled.div`
 // position is at X=810, Y=35
 // relative to scorebugWraper, position is X=350, Y=35
 export const ScorebugBlueScore = styled.div`
-
-  height: 56px;
-  width: 70px;
+  height: 95px;
+  width: 78px;
   position: absolute;
-  top: 56px;
-  left: 360px;
+  top: 32px;
+  left: 337px;
   color: white;
   align-items: center;
   display: flex;
   justify-content: center;
-  font-size: 50px;
+  font-size: 100px;
   font-weight: bold;
 `;
 
@@ -89,19 +85,16 @@ export const ScorebugBlueScore = styled.div`
 // position is at X=885, Y=35
 // relative to scorebugWraper, position is X=425, Y=35
 export const ScorebugClock = styled.div`
-
-  height: 70px;
-  width: 130px;
-  color: white;
+  height: 95px;
+  width: 170px;
   position: absolute;
-  top: 46px;
-  left: 435px;
+  top: 32px;
+  left: 439px;
   color: white;
   align-items: center;
   display: flex;
   justify-content: center;
-  font-size: 50px;
-  font-weight: bold;
+  font-size: 75px;
 `;
 
 // create a div for the orange teams score
@@ -109,17 +102,16 @@ export const ScorebugClock = styled.div`
 // position is at X=1035, Y=35
 // relative to scorebugWraper, position is X=575, Y=35
 export const ScorebugOrangeScore = styled.div`
-
-  height: 56px;
-  width: 70px;
+  height: 95px;
+  width: 78px;
   position: absolute;
-  top: 56px;
-  right: 360px;
+  top: 32px;
+  right: 337px;
   color: white;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 50px;
+  font-size: 100px;
   font-weight: bold;
 `;
 
@@ -128,19 +120,17 @@ export const ScorebugOrangeScore = styled.div`
 // position is at X=1100, Y=35
 // relative to scorebugWraper, position is X=640, Y=35
 export const ScorebugOrangeName = styled.div`
-  height: 56px;
-  width: 225px;
-  font-weight: bold;
-  font-size: 40px;
+  height: 95px;
+  width: 190px;
+  font-size: 60px;
   position: absolute;
-  top: 56px;
-  right: 135px;
+  top: 36px;
+  right: 132px;
   color: white;
   display: flex;
   flex-flow: column;
   justify-content: center;
   align-items: center;
-
 `;
 
 // create a div for the blue teams logo
@@ -148,18 +138,17 @@ export const ScorebugOrangeName = styled.div`
 // position is at X=1375, Y=35
 // relative to scorebugWraper, position is X=915, Y=35
 export const ScorebugOrangeLogo = styled.div`
-display: flex;
-justify-content: center;
-height: 75px;
-width: 75px;
-position: absolute;
-top: 51px;
-right: 44px;
+  display: flex;
+  justify-content: center;
+  height: 92px;
+  width: 92px;
+  position: absolute;
+  top: 33px;
+  right: 21px;
 
-> img {
-  width: 100%;
- padding-right: 18px; 
-}
+  > img {
+    width: 100%;
+  }
 `;
 
 // create a div for the win percentage
@@ -168,51 +157,57 @@ right: 44px;
 // relative to scorebugWraper, position is X=355, Y=100
 // width is the width of the bluescore + the width of the clock + the width of the orangescore
 export const ScorebugWinPercentage = styled.div`
-  height: 30px;
-  width: 210px;
-  color: black;
+  height: 44px;
+  width: 211px;
+  color: white;
   position: absolute;
-  top: 163px;
-  left: 395px;
+  top: 127px;
+  left: 419px;
   color: white;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 20px;
-  font-weight: bold;
-  
-
+  font-size: 32px;
 `;
 
 export const ScorebugSeriesScore = styled.div`
-  height: 30px;
-  width: 210px;
-  color: black;
+  height: 44px;
+  width: 211px;
+  color: white;
   position: absolute;
-  top: 125px;
-  left: 395px;
+  top: 127px;
+  left: 419px;
   color: white;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 20px;
-  font-weight: bold;
-  
-
+  font-size: 32px;
 `;
-
+export const ScorebugSeriesScoreAndWinPercentage = styled.div`
+  height: 44px;
+  width: 211px;
+  color: white;
+  position: absolute;
+  top: 127px;
+  left: 419px;
+  color: white;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  font-size: 22px;
+`;
 // Styled wrapper for SVGs
 export const ScorebugSvgWrapper = styled.div`
   position: absolute;
   z-index: -1;
   top: 0px;
-  left: 460px;
-  width: 1000px; /* Ensure this matches the actual width of your PNG for proper alignment */
-  height: 275px; /* Adjust if you know the exact height of your image or prefer a specific height */
-  
+  left: 436px;
+  width: 1048px; /* Ensure this matches the actual width of your PNG for proper alignment */
+  height: 171px; /* Adjust if you know the exact height of your image or prefer a specific height */
+
   img {
     width: 100%; /* This will make the image fill the div's width */
-    height: 250px; /* Adjust the height automatically to maintain aspect ratio */
+    height: auto; /* Adjust the height automatically to maintain aspect ratio */
   }
 `;
 export const OrangeUndertone = styled.div`
@@ -235,4 +230,19 @@ export const BlueUndertone = styled.div`
   background-color: #2d373f;
   opacity: 1;
   z-index: -1;
+`;
+
+export const CanaSVGwrapper = styled.div`
+position: absolute;
+z-index: -1;
+//top: 1015px;
+top: 3px;
+left: 1775px;
+width: 150px; /* Ensure this matches the actual width of your PNG for proper alignment */
+height: auto; /* Adjust if you know the exact height of your image or prefer a specific height */
+
+img {
+  width: 100%; /* This will make the image fill the div's width */
+  height: auto; /* Adjust the height automatically to maintain aspect ratio */
+}
 `;

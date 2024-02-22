@@ -17,12 +17,14 @@ import {
   ScorebugSeriesScore,
   OrangeUndertone,
   BlueUndertone,
+  ScorebugSeriesScoreAndWinPercentage,
+  CanaSVGwrapper,
 } from "./Scorebug.style";
 import { gameService } from "../../services/gameService";
 import { transformGameUpdate } from "../../contexts/transformGameUpdate";
 import { calculateWinProbability } from "../../services/winPercentage";
-import ScoreBoardPNG from "../../assets/Asset 2_ScoreBoard_Holes.png";
-
+import ScoreBoardPNG from "../../assets/GMUScorebug.png";
+import CanaLogo from "../../assets/CANAesportsLogo.png";
 export const Scorebug = () => {
   const { gameInfo, setGameInfo } = useContext(GameInfoContext);
   const { controlPanelSettings, setControlPanelSettings } = useContext(ControlPanelSettingsContext);
@@ -88,31 +90,49 @@ export const Scorebug = () => {
   //console.log(controlPanelSettings.BlueTeamPhoto, controlPanelSettings.OrangeTeamPhoto);
   return (
     <>
+    <CanaSVGwrapper><img src={CanaLogo} alt="Cana Logo" /></CanaSVGwrapper>
     <OrangeUndertone />
     <BlueUndertone />
       <ScorebugSvgWrapper>
         <img src={ScoreBoardPNG} alt="ScoreBoard" />
       </ScorebugSvgWrapper>
       <ScorebugWrapper>
-        {controlPanelSettings.showWinProb === true && (
+        {controlPanelSettings.SeriesScoreWinPercent === "WinPercent" && (
           <ScorebugWinPercentage>
             {winProb === "50" ? "TIED" : (winnerPred === "team1" ? controlPanelSettings.blueTeamName : controlPanelSettings.orangeTeamName)}
             : {winProb}%
           </ScorebugWinPercentage>
         )}
-        <ScorebugSeriesScore>
-          {controlPanelSettings.showSeriesScore === true && 
-            <>
-              {controlPanelSettings.NumberOfGames === 1 && <span>BO1 | Game&nbsp;</span>}
-              {controlPanelSettings.NumberOfGames === 3 && <span>BO3 | Game&nbsp;</span>}
-              {controlPanelSettings.NumberOfGames === 5 && <span>BO5 | Game&nbsp;</span>}
-              {controlPanelSettings.NumberOfGames === 7 && <span>BO7 | Game&nbsp;</span>}
-              {controlPanelSettings.NumberOfGames === 9 && <span>BO9 | Game&nbsp;</span>}
-              {controlPanelSettings.NumberOfGames === 11 && <span>BO11 | Game&nbsp;</span>}
-              {currentGame}
-            </>
+          {controlPanelSettings.SeriesScoreWinPercent === "Both" &&
+            <ScorebugSeriesScoreAndWinPercentage>
+              <div>
+              <span>Game&nbsp;</span>{currentGame}<span>&nbsp;|&nbsp;</span>
+              {controlPanelSettings.NumberOfGames === 1 && <span>BO1</span>}
+              {controlPanelSettings.NumberOfGames === 3 && <span>BO3</span>}
+              {controlPanelSettings.NumberOfGames === 5 && <span>BO5</span>}
+              {controlPanelSettings.NumberOfGames === 7 && <span>BO7</span>}
+              {controlPanelSettings.NumberOfGames === 9 && <span>BO9</span>}
+              {controlPanelSettings.NumberOfGames === 11 && <span>BO11</span>}
+              </div>
+              <div>
+              {winProb === "50" ? "TIED" : (winnerPred === "team1" ? controlPanelSettings.blueTeamName : controlPanelSettings.orangeTeamName)}
+            : {winProb}%
+              </div>
+            </ScorebugSeriesScoreAndWinPercentage>
           }
-        </ScorebugSeriesScore>
+          {controlPanelSettings.SeriesScoreWinPercent === "SeriesScore" &&
+            <ScorebugSeriesScore>
+              <span>Game&nbsp;</span>{currentGame}<span>&nbsp;|&nbsp;</span>
+              {controlPanelSettings.NumberOfGames === 1 && <span>BO1</span>}
+              {controlPanelSettings.NumberOfGames === 3 && <span>BO3</span>}
+              {controlPanelSettings.NumberOfGames === 5 && <span>BO5</span>}
+              {controlPanelSettings.NumberOfGames === 7 && <span>BO7</span>}
+              {controlPanelSettings.NumberOfGames === 9 && <span>BO9</span>}
+              {controlPanelSettings.NumberOfGames === 11 && <span>BO11</span>}
+              
+            </ScorebugSeriesScore>
+          }
+        
         <ScorebugBlueLogo>
           <img src={controlPanelSettings.BlueTeamPhoto} alt="" />
         </ScorebugBlueLogo>

@@ -1,3 +1,4 @@
+
 import styled from "styled-components";
 
 // create a wapper for the blue team's player names
@@ -6,12 +7,12 @@ import styled from "styled-components";
 export const BlueTeamNamesWrapper = styled.div`
   color: white;
   position: absolute;
-  top: 0px;
-  left: 0px;
-  height: 255px;
-  width: 320px;
+  top: 300px;
+  left: 40px;
+  height: 223px;
+  width: 256px;
   text-align: center;
-  font-family: "Arial, Helvetica, sans-serif";
+  
 `;
 
 // create a wapper for the blue team's player names
@@ -20,34 +21,36 @@ export const BlueTeamNamesWrapper = styled.div`
 export const OrangeTeamNamesWrapper = styled.div`
   color: white;
   position: absolute;
-  height: 255px;
-  width: 320px;
-  top: 0px;
-  left: 1600px;
+  height: 223px;
+  width: 256px;
+  top: 300px;
+  left: 1624px;
   text-align: center;
-  font-family: "Arial, Helvetica, sans-serif";
+  
 `;
 
 // create a container for a single player's name
 // size is 300px wide by 80px tall
 export const PlayerNameAndBoostContainer = styled.div`
+  
+  
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
   align-items: center;
-  height: 25px;
-  width: 230px;
-  padding-top: 20px;
+  height: 70px;
+  width: 256px;
+
+ 
 `;
 
 export const OrangePlayerNameAndBoostContainer = styled.div`
   display: flex;
   flex-flow: row nowrap;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
-  height: 25px;
-  width: 230px;
-  padding-top: 20px;
+  height: 70px;
+  width: 256px;
 `;
 
 export const PlayerContainer = styled.div`
@@ -55,9 +58,9 @@ export const PlayerContainer = styled.div`
   flex-flow: column;
   justify-content: space-between;
   align-items: center;
-  height: 55px;
-  width: 230px;
-  padding-left: 15px;
+  height: 70px;
+  width: 256px;
+  margin-bottom: 7px;
 `;
 
 export const OrangePlayerContainer = styled.div`
@@ -65,31 +68,49 @@ export const OrangePlayerContainer = styled.div`
   flex-flow: column;
   justify-content: space-between;
   align-items: center;
-  height: 55px;
-  width: 230px;
-  padding-left: 70px;
+  height: 70px;
+  width: 256px;
   position: relative;
   right: 45px;
+  margin-bottom: 7px;
 `;
 
 // create a styled p for the name
 // font size is 40px
 // font weight is bold
 export const PlayerName = styled.p`
-  font-size: 25px;
-  font-weight: bold;
+  font-size: 40px;
   margin: 0;
-  margin-left: 5px;
+  margin-left: 28px;
+  position: relative;
+  top: -5px;
+`;
+
+export const PlayerBoost = styled.p`
+  font-size: 40px;
+  margin: 0;
+  margin-right: 20px;
+  position: relative;
+  top: -5px;
 `;
 
 // create a styled p for the name
 // font size is 40px
 // font weight is bold
 export const OrangePlayerName = styled.p`
-  font-size: 25px;
-  font-weight: bold;
-  margin: 0;
-  margin-right: 5px;
+font-size: 40px;
+margin: 0;
+margin-right: 28px;
+position: relative;
+top: -5px;
+`;
+
+export const OrangePlayerBoost = styled.p`
+font-size: 40px;
+margin: 0;
+margin-left: 20px;
+position: relative;
+top: -5px;
 `;
 
 // create a styled p for the boost number
@@ -118,44 +139,75 @@ export const OrangeBoostBarContainer = styled.div`
   padding-right: 10px;
 `;
 
+interface BlueBoostBarProps {
+  boost: number;
+  index: number;
+}
+
 // create a dynamic boost bar that changes width as
 // the boost number changes
 // size is 265px wide by 10px tall
 // fills with blue as boost increases
-export const BlueBoostBar = styled.div.withConfig({
-  shouldForwardProp: (prop) => prop !== 'boost',
-})<{ boost: number }>` // Add type declaration for 'props' parameter
+export const BlueBoostBar = styled.div.attrs<BlueBoostBarProps>((props) => ({
+  style: {
+    bottom: `${[6.5, 8.5, 13][props.index % 3]}px`, // Use props.index here
+    width: `${props.boost * 2.14}px`, // Use props.boost here
+  },
+}))<BlueBoostBarProps>` // Apply the interface here as well
   background-color: #00E8F4;
   position: absolute;
-  height: 7px;
-  width: ${(props) => props.boost * 2.3}px;
-  border-radius: 5px;
+  height: 9.5px;
+  border-radius: 10px;
+  margin-left: 8px;
 `;
+
+
+interface OrangeBoostBarProps {
+  boost: number;
+  index: number;
+}
 
 // create a dynamic boost bar that changes width as
 // the boost number changes
 // size is 265px wide by 10px tall
 // fills with orange as boost increases
 // fill is from right to left
-export const OrangeBoostBar = styled.div.withConfig({
-  shouldForwardProp: (prop) => prop !== 'boost',
-})<{ boost: number }>` // Add type declaration for 'props' parameter
-  background-color: #F59323;
-  position: absolute;
-  height: 7px;
-  width: ${(props) => props.boost * 2.3}px;
-  right: 5px;
-  border-radius: 5px;
-`;
+// export const OrangeBoostBar = styled.div.withConfig({
+//   shouldForwardProp: (prop) => prop !== 'boost',
+// })<{ boost: number }>` // Add type declaration for 'props' parameter
+//   background-color: #F59323;
+//   position: absolute;
+//   height: 7px;
+//   width: ${(props) => props.boost * 2.3}px;
+//   right: 5px;
+//   border-radius: 5px;
+// `;
 
+export const OrangeBoostBar = styled.div.attrs<OrangeBoostBarProps>((props) => ({
+  style: {
+    bottom: `${[6.5, 8.5, 12.5][props.index % 3]}px`, // Use props.index here
+    width: `${props.boost * 2.14}px`, // Use props.boost here
+  },
+}))<OrangeBoostBarProps>` // Apply the interface here as well
+background-color: #F59323;
+
+
+  position: absolute;
+  height: 9.5px;
+  border-radius: 10px;
+  right: 18px;
+  
+
+`;
 // create background grey bar to show max boost
 // size is 265px wide by 10px tall
 export const GreyBoostBar = styled.div`
   background-color: grey;
   position: absolute;
-  height: 7px;
-  width: 230px;
+  height: 10px;
+  width: 214px;
   border-radius: 5px;
+  margin-left: 8px;
 `;
 
 export const GreyBoostBarOrange = styled.div`
@@ -171,9 +223,9 @@ export const GreyBoostBarOrange = styled.div`
 export const BlueSvgWrapper = styled.div`
   position: absolute;
   z-index: -1;
-  top: 0px;
-  left: 0px;
-  width: 380px;
+  top: 300px;
+  left: 40px;
+  width: 256px;
   height: auto; /* Adjust if you know the exact height of your image or prefer a specific height */
   
   img {
@@ -185,9 +237,9 @@ export const BlueSvgWrapper = styled.div`
 export const OrangeSvgWrapper = styled.div`
   position: absolute;
   z-index: -1;
-  top: 0px; // Adjust these values as needed
-  left: 1540px; // Adjust these values as needed
-  width: 380px;
+  top: 300px; // Adjust these values as needed
+  left: 1624px; // Adjust these values as needed
+  width: 256px;
   height: auto; /* Adjust if you know the exact height of your image or prefer a specific height */
   
   img {
@@ -211,18 +263,17 @@ export const FlipIconSvgWrapper = styled.div`
 `;
 
 export const PlayerAndFlipIconContainer = styled.div`
+  
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-between; // Align items to the start of the container
-  width: 100%;
+  width: 320px;
 
   img {
     width: 45px;
     height: auto;
     position: relative;
-    top: 18px;
-    right: 15px;
+    left: 5px;
   }
 `;
 
@@ -231,13 +282,14 @@ export const OrangePlayerAndFlipIconContainer = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: space-between; // Align items to the start of the container
-  width: 100%;
+  width: 320px;
+  position: relative;
+  right: 19.5px;
 
   img {
     width: 45px;
     height: auto;
     position: relative;
-    top: 18px;
-    left: 15px;
+    right: 40px;
   }
 `;

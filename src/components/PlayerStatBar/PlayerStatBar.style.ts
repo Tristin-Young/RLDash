@@ -9,14 +9,13 @@ export const StatBarWrapper = styled.div`
  //red bg at 50% opacity 
   // background-color: rgba(99, 0, 0, 0.5);
   position: absolute;
-  height: 50px;
-  width: 1195px;
-  left: 0;
-  top:1030px;
+  height: 110px;
+  width: 612px;
+  left: 110px;
+  top:930px;
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
-  font-family: "Arial, Helvetica, sans-serif";
   color: white;
 
   img {
@@ -24,8 +23,8 @@ export const StatBarWrapper = styled.div`
     position: absolute;
     z-index: -1;
     height: auto;
-    width: 1250px;
-    bottom: 0px;
+    width: 612px;
+    
   }
 `;
 
@@ -33,16 +32,16 @@ export const StatBarWrapper = styled.div`
 // create stat name
 export const StatBarStatName = styled.p`
 
-  font-size: 26px;
-  font-weight: bold;
+  font-size: 28px;
+
   margin: 0;
 `;
 
 // create stat value
 export const StatBarStatValue = styled.p`
 
-  font-size: 26px;
-  font-weight: bold;
+  font-size: 28px;
+
   margin: 0;
 `;
 
@@ -53,40 +52,39 @@ export const StatBarStatPair = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  gap: 10px;
-  font-family: "Arial, Helvetica, sans-serif";
+
   
 `;
 
 // class to modify the player name in bottom left corner
 export const PlayerName = styled.p`
-  font-size: 34px;
-  font-weight: bold;
+
+  font-size: 60px;
   margin: 0;
-  margin-left: 25px;
+  margin-left: 35px;
   display: flex;
   flex-direction: row;
   align-items: center;
-  font-family: "Arial, Helvetica, sans-serif";
-  
+  position: absolute;
+  top: -7px;
 `;
-export const Divider = styled.div`
-  width: 2px;
-  height: 30px;
-  background-color: white;
-  //margin-left: 25px;
-  align-items: center;
-`;
+// export const Divider = styled.div`
+//   width: 2px;
+//   height: 30px;
+//   background-color: white;
+//   //margin-left: 25px;
+//   align-items: center;
+// `;
 
 export const StatsContainer = styled.div`
-// background-color: rgba(0, 0, 99, 0.5);
+
+width: 550px;
+margin-left: 30px;
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: flex-start;
-  gap: 25px; /* Adjust gap as needed */
-  margin-left: auto; /* Pushes the stats container to the right */
-  position: relative;
-  top: -3px;
+  justify-content: space-around;
+  position: absolute;
+  top: 68px;
   
 `;

@@ -16,12 +16,10 @@ export const BoostMeterInnerCircle = styled.circle`
 `;
 
 export const BoostMeterAmount = styled.text`
-  font-family: "Arial, Helvetica, sans-serif";
 
 `;
 
 export const BoostMeterSpeed = styled.text`
-  font-family: "Arial, Helvetica, sans-serif";
 
 `;
 
@@ -30,18 +28,19 @@ export const BoostMeterInfo = styled.div`
   flex-direction: column;
 `;
 export const BoostMeterWrapper = styled.div`
+  
   position: absolute;
-  top: 820px;
-  left: 1605px;
-  height: 250px;
-  width: 300px;
+  top: 778px;
+  left: 1628px;
+  height: 242px;
+  width: 242px;
   margin: 0p auto;
   overflow: hidden;
   transform-origin: 0 0;
 
   svg > circle {
-    transform: rotate(90deg);
-    transform-origin: 57% 57%;
+    transform: rotate(135deg);
+    transform-origin: 50% 50%;
     z-index: 2;
   }
 

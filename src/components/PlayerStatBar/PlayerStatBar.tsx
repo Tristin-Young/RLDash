@@ -2,7 +2,7 @@ import { useContext, useEffect } from "react";
 import { GameInfoContext } from "../../contexts/GameInfoContext";
 import { gameService } from "../../services/gameService";
 import {
-    Divider,
+    // Divider,
   PlayerName,
   StatBarStatName,
   StatBarStatPair,
@@ -12,7 +12,7 @@ import {
 } from "./PlayerStatBar.style";
 import { WebsocketContext } from "../../contexts/WebsocketContext";
 import { transformGameUpdate } from "../../contexts/transformGameUpdate";
-import PlayerStatBarPNG from '../../assets/PlayerStats.png';
+import PlayerStatBarPNG from '../../assets/GMUFocusedPlayerStats.png';
 
 
 export const PlayerStatBar = () => {
@@ -48,31 +48,31 @@ export const PlayerStatBar = () => {
       <StatsContainer>
         <StatBarStatPair>
           {/* <StatBarStatValue>1234</StatBarStatValue> */}
-          <StatBarStatValue>{spectatedPlayer.score}</StatBarStatValue>
+          <StatBarStatValue>{spectatedPlayer.score}&nbsp;</StatBarStatValue>
           <StatBarStatName>SCORE</StatBarStatName>
         </StatBarStatPair>
-        <Divider />
+        {/* <Divider /> */}
         <StatBarStatPair>
           {/* <StatBarStatValue>12</StatBarStatValue> */}
-          <StatBarStatValue>{spectatedPlayer.goals}</StatBarStatValue>
+          <StatBarStatValue>{spectatedPlayer.goals}&nbsp;</StatBarStatValue>
           <StatBarStatName>GOALS</StatBarStatName>
         </StatBarStatPair>
-        <Divider />
+        {/* <Divider /> */}
         <StatBarStatPair>
           {/* <StatBarStatValue>16</StatBarStatValue> */}
-          <StatBarStatValue>{spectatedPlayer.shots}</StatBarStatValue>
+          <StatBarStatValue>{spectatedPlayer.shots}&nbsp;</StatBarStatValue>
           <StatBarStatName>SHOTS</StatBarStatName>
         </StatBarStatPair>
-        <Divider />
+        {/* <Divider /> */}
         <StatBarStatPair>
           {/* <StatBarStatValue>18</StatBarStatValue> */}
-          <StatBarStatValue>{spectatedPlayer.assists}</StatBarStatValue>
+          <StatBarStatValue>{spectatedPlayer.assists}&nbsp;</StatBarStatValue>
           <StatBarStatName>ASSISTS</StatBarStatName>
         </StatBarStatPair>
-        <Divider />
+        {/* <Divider /> */}
         <StatBarStatPair>
           {/* <StatBarStatValue>21</StatBarStatValue> */}
-          <StatBarStatValue>{spectatedPlayer.saves}</StatBarStatValue>
+          <StatBarStatValue>{spectatedPlayer.saves}&nbsp;</StatBarStatValue>
           <StatBarStatName>SAVES</StatBarStatName>
         </StatBarStatPair>
       </StatsContainer>

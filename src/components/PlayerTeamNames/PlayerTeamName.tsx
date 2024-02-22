@@ -17,21 +17,25 @@ import {
   OrangeBoostBar,
   OrangeBoostBarContainer,
   OrangePlayerAndFlipIconContainer,
+  OrangePlayerBoost,
   OrangePlayerContainer,
   OrangePlayerName,
   OrangePlayerNameAndBoostContainer,
   OrangeSvgWrapper,
   OrangeTeamNamesWrapper,
   PlayerAndFlipIconContainer,
+  PlayerBoost,
   PlayerContainer,
   PlayerName,
   PlayerNameAndBoostContainer,
 } from "./PlayerTeamName.style";
-import BlueTeamPNG from "../../assets/BlueTeam.png";
-import OrangeTeamPNG from "../../assets/OrangeTeam.png";
+import BlueTeamPNG from "../../assets/GMULeftTeamNames.png";
+import OrangeTeamPNG from "../../assets/GMURightTeamNames.png";
 import FlipIconPNG from "../../assets/flipIcon.png";
+import FlipIconMirroredPNG from "../../assets/flipIconMirrored.png";
 import { transformGameUpdate } from "../../contexts/transformGameUpdate";
 import { USPlayer } from "../../models/USPlayer";
+import { ControlPanelSettingsContext } from "../../contexts/ControlPanelSettingsContext";
 
 interface PlayerData {
   [key: string]: {
@@ -61,6 +65,8 @@ export const PlayerTeamName = () => {
   const { gameInfo, setGameInfo } = useContext(GameInfoContext);
   const { subscribe } = useContext(WebsocketContext);
   const [playerData, setPlayerData] = useState<PlayerData>({});
+  const { controlPanelSettings, setControlPanelSettings } = useContext(ControlPanelSettingsContext);
+
 
   useEffect(() => {
     // Create WebSocket connection.
@@ -90,6 +96,27 @@ export const PlayerTeamName = () => {
       if (ws.readyState === WebSocket.OPEN) ws.close();
     };
   }, []);
+
+  useEffect(() => {
+    // Logic that should run when controlPanelSettings changes
+    //console.log("Updated settings:", controlPanelSettings);
+  }, [controlPanelSettings]);
+
+  useEffect(() => {
+    const webSocket = new WebSocket('ws://localhost:42000');
+
+    webSocket.onmessage = (event) => {
+        const message = JSON.parse(event.data);
+        if (message.type === 'loadSettings' || message.type === 'updateSettings') {
+          setControlPanelSettings(message.data); // Update local state with new settings
+        }
+      };
+
+    return () => {
+      if (webSocket.readyState === WebSocket.OPEN) webSocket.close();
+    };
+}, []);
+
 
   //Function to determine the correct filter for the flip icon
   const getFilter = (player: USPlayer) => {
@@ -143,18 +170,20 @@ export const PlayerTeamName = () => {
             <PlayerContainer >
               <PlayerNameAndBoostContainer>
                 <PlayerName>{player.name}</PlayerName>
+                <PlayerBoost>{player.boost}</PlayerBoost>
               </PlayerNameAndBoostContainer>
               <BoostBarContainer>
-                <GreyBoostBar />
-                <BlueBoostBar boost={Number(player.boost)} />
+              <BlueBoostBar boost={Number(player.boost)} index={index} />
+
               </BoostBarContainer>
             </PlayerContainer>
             <FlipIconSvgWrapper>
+            {controlPanelSettings.showFlipResets === true && (
               <img
                 src={FlipIconPNG}
                 alt="Flip Indicator"
                 style={{ filter: getFilter(player) }}
-              />
+              />)}
             </FlipIconSvgWrapper>
           </PlayerAndFlipIconContainer>
         ))}
@@ -162,20 +191,22 @@ export const PlayerTeamName = () => {
       <OrangeTeamNamesWrapper>
         {gameInfo.players.filter((p) => p.team === 1).map((player, index) => (
           <OrangePlayerAndFlipIconContainer key={index}>
+            
             <FlipIconSvgWrapper>
+            {controlPanelSettings.showFlipResets === true && (
               <img
-                src={FlipIconPNG}
+                src={FlipIconMirroredPNG}
                 alt="Flip Indicator"
                 style={{ filter: getFilter(player) }}
-              />
+              />)}
             </FlipIconSvgWrapper>
             <OrangePlayerContainer >
               <OrangePlayerNameAndBoostContainer>
+              <OrangePlayerBoost>{player.boost}</OrangePlayerBoost>
                 <OrangePlayerName>{player.name}</OrangePlayerName>
               </OrangePlayerNameAndBoostContainer>
               <OrangeBoostBarContainer>
-                <GreyBoostBarOrange />
-                <OrangeBoostBar boost={Number(player.boost)} />
+                <OrangeBoostBar boost={Number(player.boost)} index={index} />
               </OrangeBoostBarContainer>
             </OrangePlayerContainer>
           </OrangePlayerAndFlipIconContainer>
