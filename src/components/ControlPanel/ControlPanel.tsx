@@ -149,16 +149,6 @@ export const ControlPanel = () => {
     setShowPlayerSpeed(e.target.checked);
   };
 
-  const handleShowWinProbChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setShowWinProb(e.target.checked);
-  };
-
-  const handleShowSeriesScoreChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setShowSeriesScore(e.target.checked);
-  };
-
   const handleShowFlipResetsChange = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -379,28 +369,7 @@ export const ControlPanel = () => {
             />
           </CheckboxContainer>
         </RowInput>
-        {/* <RowInput>
-          <Label htmlFor="showWinProb">Show Win Probability</Label>
-          <CheckboxContainer>
-            <Input
-              id="showWinProb"
-              type="checkbox"
-              checked={showWinProb}
-              onChange={handleShowWinProbChange}
-            />
-          </CheckboxContainer>
-        </RowInput>
-        <RowInput>
-          <Label htmlFor="showSeriesScore">Show Series Score</Label>
-          <CheckboxContainer>
-            <Input
-              id="showSeriesScore"
-              type="checkbox"
-              checked={showSeriesScore}
-              onChange={handleShowSeriesScoreChange}
-            />
-          </CheckboxContainer>
-        </RowInput> */}
+        
         <RowInput>
           <Label htmlFor="showFlipResets">Show Flip Resets</Label>
           <CheckboxContainer>
@@ -413,7 +382,6 @@ export const ControlPanel = () => {
           </CheckboxContainer>
         </RowInput>
         {/* Save Data and Server Port Number inputs */}
-
         {/* <RowInput>
         <Label htmlFor="savedata">Save Data</Label>
           <CheckboxContainer>
@@ -425,15 +393,7 @@ export const ControlPanel = () => {
             />
           </CheckboxContainer>
         </RowInput>
-        <FormGroup>
-          <Label htmlFor="serverPortNumber">Server Port Number:</Label>
-          <Input
-            id="serverPortNumber"
-            type="number"
-            value={serverPortNumber}
-            onChange={handleServerPortNumberChange}
-          />
-        </FormGroup> */}
+         */}
         <SubmitButton type="submit">Update Settings</SubmitButton>
         {feedbackMessage && (
           <div style={{ marginTop: "20px", color: "green" }}>
@@ -444,11 +404,5 @@ export const ControlPanel = () => {
     </FormWrapper>
   );
 };
-function setShowWinProb(checked: boolean) {
-  throw new Error("Function not implemented.");
-}
 
-function setShowSeriesScore(checked: boolean) {
-  throw new Error("Function not implemented.");
-}
 

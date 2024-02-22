@@ -27,8 +27,6 @@ async function loadSettings() {
       orangeTeamColor: "#F59323",
       NumberOfGames: 5,
       SeriesScoreWinPercent: "SeriesScore",
-      // showWinProb: false,
-      // showSeriesScore: false,
       showFlipResets: false,
       metricOrImperial: "KPH",
       savedata: false,
