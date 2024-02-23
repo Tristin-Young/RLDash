@@ -20,6 +20,7 @@ export const DEFAULT_CONTROL_PANEL_SETTINGS: ControlPanelContext = {
     blueWins: 0,
     orangeWins: 0,
     NumberOfGames: 5,
+    showTeamWins: true,
     SeriesScoreWinPercent: "SeriesScore",
     showFlipResets: false,
     showPlayerSpeed: false,

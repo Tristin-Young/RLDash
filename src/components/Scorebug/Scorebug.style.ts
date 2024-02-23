@@ -252,7 +252,7 @@ left: 525px;
 width: 300px;
 height: 20px;
 z-index: -1;
-opacity: 0.65;
+opacity: 0.8;
 `;
 
 export const OrangeSeriesScoreUndertone = styled.div`
@@ -262,13 +262,24 @@ left: 1095px;
 width: 300px;
 height: 20px;
 z-index: -1;
-opacity: 0.65;
+opacity: 0.8;
+`;
+
+export const DarkSeriesScoreUndertone = styled.div`
+position: absolute;
+top: 140px;
+left: 525px;
+width: 875px;
+height: 20px;
+z-index: -1;
+opacity: .65;
+background-color: #000;
 `;
 
 export const SeriesScoreDynamicUndertone = styled.div`
 position: absolute;
 top: 140px;
-right: 370px;
+right: 1095px;
 width: 300px;
 height: 20px;
 z-index: -1;
@@ -282,7 +293,7 @@ top: 140px;
 left: 1095px;
 width: 300px;
 height: 20px;
-z-index: 1;
+z-index: -1;
 opacity: 1;
 max-width: 300px;
 `;

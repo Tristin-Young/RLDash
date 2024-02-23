@@ -23,6 +23,7 @@ import {
   OrangeSeriesScoreUndertone,
   SeriesScoreDynamicUndertone,
   OrangeSeriesScoreDynamicUndertone,
+  DarkSeriesScoreUndertone,
 } from "./Scorebug.style";
 import { gameService } from "../../services/gameService";
 import { transformGameUpdate } from "../../contexts/transformGameUpdate";
@@ -75,6 +76,7 @@ export const Scorebug = () => {
     };
 }, []);
 
+
   if (!gameInfo) {
     console.log("No gameInfo");
     return <div>Loading game info...</div>;
@@ -99,18 +101,21 @@ export const Scorebug = () => {
   return (
     <>
     <CanaSVGwrapper><img src={CanaLogo} alt="Cana Logo" /></CanaSVGwrapper>
-    {/* <SeriesScoreUndertone style={{ backgroundColor: controlPanelSettings.blueTeamColor }}/>
-    <SeriesScoreDynamicUndertone style={{ backgroundColor: controlPanelSettings.blueTeamColor, width: (300 / Math.round(controlPanelSettings.NumberOfGames / 2 )) * controlPanelSettings.blueWins}}/>
+    <SeriesScoreUndertone style={{ backgroundColor: controlPanelSettings.blueTeamColor }}/>
     <OrangeSeriesScoreUndertone style={{ backgroundColor: controlPanelSettings.orangeTeamColor }}/>
-    <OrangeSeriesScoreDynamicUndertone style={{ backgroundColor: controlPanelSettings.orangeTeamColor, width: (300 / Math.round(controlPanelSettings.NumberOfGames / 2 )) * controlPanelSettings.orangeWins}}/> */}
+    <DarkSeriesScoreUndertone />
+    <OrangeSeriesScoreDynamicUndertone style={{ backgroundColor: controlPanelSettings.orangeTeamColor, width: (300 / Math.round(controlPanelSettings.NumberOfGames / 2 )) * controlPanelSettings.orangeWins}}/>
+    <SeriesScoreDynamicUndertone style={{ backgroundColor: controlPanelSettings.blueTeamColor, width: (300 / Math.round(controlPanelSettings.NumberOfGames / 2 )) * controlPanelSettings.blueWins}}/>
+    
     <OrangeUndertone style={{ backgroundColor: controlPanelSettings.orangeTeamColor }}/>
     <BlueUndertone style={{ backgroundColor: controlPanelSettings.blueTeamColor}}/>
       <ScorebugSvgWrapper>
-        {controlPanelSettings.NumberOfGames === 1 && <img src={ScoreBoardBO1} alt="ScoreBoard" />}
-        {controlPanelSettings.NumberOfGames === 3 && <img src={ScoreBoardBO1} alt="ScoreBoard" />}
-        {controlPanelSettings.NumberOfGames === 5 && <img src={ScoreBoardBO1} alt="ScoreBoard" />}
-        {controlPanelSettings.NumberOfGames === 7 && <img src={ScoreBoardBO1} alt="ScoreBoard" />}
-        {controlPanelSettings.NumberOfGames === 9 && <img src={ScoreBoardBO1} alt="ScoreBoard" />}
+        {controlPanelSettings.showTeamWins && controlPanelSettings.NumberOfGames === 1 && <img src={ScoreBoardBO1} alt="ScoreBoard" />}
+        {controlPanelSettings.showTeamWins && controlPanelSettings.NumberOfGames === 3 && <img src={ScoreBoardBO3} alt="ScoreBoard" />}
+        {controlPanelSettings.showTeamWins && controlPanelSettings.NumberOfGames === 5 && <img src={ScoreBoardBO5} alt="ScoreBoard" />}
+        {controlPanelSettings.showTeamWins && controlPanelSettings.NumberOfGames === 7 && <img src={ScoreBoardBO7} alt="ScoreBoard" />}
+        {controlPanelSettings.showTeamWins && controlPanelSettings.NumberOfGames === 9 && <img src={ScoreBoardBO9} alt="ScoreBoard" />}
+        {!controlPanelSettings.showTeamWins && <img src={ScoreBoardBO1} alt="ScoreBoard" />}
       </ScorebugSvgWrapper>
       <ScorebugWrapper>
         {controlPanelSettings.SeriesScoreWinPercent === "WinPercent" && (
