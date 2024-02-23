@@ -99,18 +99,18 @@ export const Scorebug = () => {
   return (
     <>
     <CanaSVGwrapper><img src={CanaLogo} alt="Cana Logo" /></CanaSVGwrapper>
-    <SeriesScoreUndertone style={{ backgroundColor: controlPanelSettings.blueTeamColor }}/>
+    {/* <SeriesScoreUndertone style={{ backgroundColor: controlPanelSettings.blueTeamColor }}/>
     <SeriesScoreDynamicUndertone style={{ backgroundColor: controlPanelSettings.blueTeamColor, width: (300 / Math.round(controlPanelSettings.NumberOfGames / 2 )) * controlPanelSettings.blueWins}}/>
     <OrangeSeriesScoreUndertone style={{ backgroundColor: controlPanelSettings.orangeTeamColor }}/>
-    <OrangeSeriesScoreDynamicUndertone style={{ backgroundColor: controlPanelSettings.orangeTeamColor, width: (300 / Math.round(controlPanelSettings.NumberOfGames / 2 )) * controlPanelSettings.orangeWins}}/>
+    <OrangeSeriesScoreDynamicUndertone style={{ backgroundColor: controlPanelSettings.orangeTeamColor, width: (300 / Math.round(controlPanelSettings.NumberOfGames / 2 )) * controlPanelSettings.orangeWins}}/> */}
     <OrangeUndertone style={{ backgroundColor: controlPanelSettings.orangeTeamColor }}/>
     <BlueUndertone style={{ backgroundColor: controlPanelSettings.blueTeamColor}}/>
       <ScorebugSvgWrapper>
         {controlPanelSettings.NumberOfGames === 1 && <img src={ScoreBoardBO1} alt="ScoreBoard" />}
-        {controlPanelSettings.NumberOfGames === 3 && <img src={ScoreBoardBO3} alt="ScoreBoard" />}
-        {controlPanelSettings.NumberOfGames === 5 && <img src={ScoreBoardBO5} alt="ScoreBoard" />}
-        {controlPanelSettings.NumberOfGames === 7 && <img src={ScoreBoardBO7} alt="ScoreBoard" />}
-        {controlPanelSettings.NumberOfGames === 9 && <img src={ScoreBoardBO9} alt="ScoreBoard" />}
+        {controlPanelSettings.NumberOfGames === 3 && <img src={ScoreBoardBO1} alt="ScoreBoard" />}
+        {controlPanelSettings.NumberOfGames === 5 && <img src={ScoreBoardBO1} alt="ScoreBoard" />}
+        {controlPanelSettings.NumberOfGames === 7 && <img src={ScoreBoardBO1} alt="ScoreBoard" />}
+        {controlPanelSettings.NumberOfGames === 9 && <img src={ScoreBoardBO1} alt="ScoreBoard" />}
       </ScorebugSvgWrapper>
       <ScorebugWrapper>
         {controlPanelSettings.SeriesScoreWinPercent === "WinPercent" && (

@@ -282,7 +282,7 @@ top: 140px;
 left: 1095px;
 width: 300px;
 height: 20px;
-z-index: -1;
+z-index: 1;
 opacity: 1;
 max-width: 300px;
 `;
