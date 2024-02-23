@@ -252,7 +252,7 @@ left: 525px;
 width: 300px;
 height: 20px;
 z-index: -1;
-opacity: 0.4;
+opacity: 0.65;
 `;
 
 export const OrangeSeriesScoreUndertone = styled.div`
@@ -262,13 +262,13 @@ left: 1095px;
 width: 300px;
 height: 20px;
 z-index: -1;
-opacity: 0.4;
+opacity: 0.65;
 `;
 
 export const SeriesScoreDynamicUndertone = styled.div`
 position: absolute;
 top: 140px;
-right: 805px;
+right: 370px;
 width: 300px;
 height: 20px;
 z-index: -1;
