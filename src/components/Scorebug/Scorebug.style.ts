@@ -268,7 +268,7 @@ opacity: 0.4;
 export const SeriesScoreDynamicUndertone = styled.div`
 position: absolute;
 top: 140px;
-right: 695px;
+right: 805px;
 width: 300px;
 height: 20px;
 z-index: -1;
