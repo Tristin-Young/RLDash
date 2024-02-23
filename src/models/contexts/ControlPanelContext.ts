@@ -5,14 +5,16 @@ export interface ControlPanelContext{
     orangeTeamName: string;
     BlueTeamPhoto: string;
     OrangeTeamPhoto: string;
+    useTeamColorsForFlipColors: boolean;
     blueTeamColor: string;
     orangeTeamColor: string;
+    blueTeamFlipColor: string;
+    orangeTeamFlipColor: string;
+    flipUnavailableColor: string;
     blueWins: number;
     orangeWins: number;
     NumberOfGames: number;
     SeriesScoreWinPercent: string;
-    // showWinProb: boolean;
-    // showSeriesScore: boolean;
     showFlipResets: boolean;
     showPlayerSpeed: boolean;
     metricOrImperial: string;

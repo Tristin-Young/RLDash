@@ -17,14 +17,23 @@ async function loadSettings() {
   try {
     return await fs.readJson(settingsFilePath);
   } catch (error) {
+    if (error.code === 'ENOENT') {
+      console.log('Settings file not found, creating a new one');
+      await saveSettings({});
+      return {};
+    }
     console.log('Error loading settings:', error);
     return {
       blueTeamName: "GMU",
       orangeTeamName: "CANA",
       blueWins: 0,
       orangeWins: 0,
-      blueTeamColor: "#00E8F4",
-      orangeTeamColor: "#F59323",
+      useTeamColorsForFlipColors: true,
+      blueTeamColor: "#305DFF",
+      orangeTeamColor: "#FF7900",
+      blueTeamFlipColor: "#305DFF",
+      orangeTeamFlipColor: "#FF7900",
+      flipUnavailableColor: "#A3A3A3",
       NumberOfGames: 5,
       SeriesScoreWinPercent: "SeriesScore",
       showFlipResets: false,

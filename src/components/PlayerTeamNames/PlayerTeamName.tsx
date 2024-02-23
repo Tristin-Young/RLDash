@@ -16,6 +16,7 @@ import {
   GreyBoostBarOrange,
   OrangeBoostBar,
   OrangeBoostBarContainer,
+  OrangeFlipIconSvgWrapper,
   OrangePlayerAndFlipIconContainer,
   OrangePlayerBoost,
   OrangePlayerContainer,
@@ -36,6 +37,8 @@ import FlipIconMirroredPNG from "../../assets/flipIconMirrored.png";
 import { transformGameUpdate } from "../../contexts/transformGameUpdate";
 import { USPlayer } from "../../models/USPlayer";
 import { ControlPanelSettingsContext } from "../../contexts/ControlPanelSettingsContext";
+import { FlipIconSVG, MirroredFlipIconSVG } from './FlipIconSVG';
+
 
 interface PlayerData {
   [key: string]: {
@@ -66,6 +69,7 @@ export const PlayerTeamName = () => {
   const { subscribe } = useContext(WebsocketContext);
   const [playerData, setPlayerData] = useState<PlayerData>({});
   const { controlPanelSettings, setControlPanelSettings } = useContext(ControlPanelSettingsContext);
+  const [gameData, setGameData] = useState([]);
 
 
   useEffect(() => {
@@ -79,8 +83,7 @@ export const PlayerTeamName = () => {
 
     // Listen for messages
     ws.addEventListener('message', (event) => {
-      const receivedData = JSON.parse(event.data); // Assuming receivedData is structured as described
-
+      const receivedData: ReceivedData = JSON.parse(event.data); // Assuming receivedData is structured as described
       const newData: PlayerData = {}; // Add type annotation for newData
       Object.entries(receivedData.teams).forEach(([teamKey, teamPlayers]: [string, any]) => {
         // Note: Now iterating over an object of players directly under each team
@@ -90,6 +93,7 @@ export const PlayerTeamName = () => {
       });
     
       setPlayerData(newData); 
+      // setGameData(receivedData);
       });
 
     return () => {
@@ -125,21 +129,22 @@ export const PlayerTeamName = () => {
     const numWheelsOnGround = playerData[player.name]?.numWheelsOnGround;
     const timeOffGround = playerData[player.name]?.timeOffGround;
     const isDodging = playerData[player.name]?.isDodging;
-    // const hasFlip = playerData[player.name]?.hasFlip;
-    //console.log(player.name, numWheelsOnGround, timeOffGround, isDodging);
-    
     if (isOnGround || isOnWall || numWheelsOnGround === 4){
       return player.team === 0
-        ? "invert(77%) sepia(75%) saturate(3420%) hue-rotate(133deg) brightness(104%) contrast(104%)"
-        : "invert(55%) sepia(72%) saturate(560%) hue-rotate(347deg) brightness(105%) contrast(92%)";
+        ? controlPanelSettings.blueTeamFlipColor
+        : controlPanelSettings.orangeTeamFlipColor;
     } else if(!isDodging && timeOffGround < 1.45){
       return player.team === 0
-      ? "invert(77%) sepia(75%) saturate(3420%) hue-rotate(133deg) brightness(104%) contrast(104%)"
-      : "invert(55%) sepia(72%) saturate(560%) hue-rotate(347deg) brightness(105%) contrast(92%)";
-    }
+      ? controlPanelSettings.blueTeamFlipColor
+        : controlPanelSettings.orangeTeamFlipColor;}
     else {
-      return "invert(51%) sepia(1%) saturate(0%) hue-rotate(353deg) brightness(99%) contrast(87%)";
+      return controlPanelSettings.flipUnavailableColor;
     }
+  };
+
+  //function to remove trailing numbers from player names
+  const removeTrailingNumbers = (name: string) => {
+    return name.replace(/\d+$/, '');
   };
 
   useEffect(() => {
@@ -156,6 +161,8 @@ export const PlayerTeamName = () => {
     };
   }, [subscribe, setGameInfo]);
 
+
+
   return (
     <>
       <BlueSvgWrapper>
@@ -169,44 +176,37 @@ export const PlayerTeamName = () => {
           <PlayerAndFlipIconContainer key={index}>
             <PlayerContainer >
               <PlayerNameAndBoostContainer>
-                <PlayerName>{player.name}</PlayerName>
+                
+                <PlayerName>{removeTrailingNumbers(player.name)}</PlayerName>
                 <PlayerBoost>{player.boost}</PlayerBoost>
               </PlayerNameAndBoostContainer>
               <BoostBarContainer>
-              <BlueBoostBar boost={Number(player.boost)} index={index} />
+              <BlueBoostBar boost={Number(player.boost)} index={index} color={controlPanelSettings.blueTeamColor}/>
 
               </BoostBarContainer>
             </PlayerContainer>
             <FlipIconSvgWrapper>
             {controlPanelSettings.showFlipResets === true && (
-              <img
-                src={FlipIconPNG}
-                alt="Flip Indicator"
-                style={{ filter: getFilter(player) }}
-              />)}
-            </FlipIconSvgWrapper>
+              <FlipIconSVG color={getFilter(player)} />
+             )} </FlipIconSvgWrapper>
           </PlayerAndFlipIconContainer>
         ))}
       </BlueTeamNamesWrapper>
       <OrangeTeamNamesWrapper>
         {gameInfo.players.filter((p) => p.team === 1).map((player, index) => (
           <OrangePlayerAndFlipIconContainer key={index}>
-            
-            <FlipIconSvgWrapper>
+            <OrangeFlipIconSvgWrapper>
             {controlPanelSettings.showFlipResets === true && (
-              <img
-                src={FlipIconMirroredPNG}
-                alt="Flip Indicator"
-                style={{ filter: getFilter(player) }}
-              />)}
-            </FlipIconSvgWrapper>
+              <MirroredFlipIconSVG color={getFilter(player)} />
+            )}
+            </OrangeFlipIconSvgWrapper>
             <OrangePlayerContainer >
               <OrangePlayerNameAndBoostContainer>
               <OrangePlayerBoost>{player.boost}</OrangePlayerBoost>
-                <OrangePlayerName>{player.name}</OrangePlayerName>
+                <OrangePlayerName>{removeTrailingNumbers(player.name)}</OrangePlayerName>
               </OrangePlayerNameAndBoostContainer>
               <OrangeBoostBarContainer>
-                <OrangeBoostBar boost={Number(player.boost)} index={index} />
+                <OrangeBoostBar boost={Number(player.boost)} index={index} color={controlPanelSettings.orangeTeamColor}/>
               </OrangeBoostBarContainer>
             </OrangePlayerContainer>
           </OrangePlayerAndFlipIconContainer>

@@ -84,6 +84,7 @@ export const PlayerName = styled.p`
   margin-left: 28px;
   position: relative;
   top: -5px;
+  overflow: hidden;
 `;
 
 export const PlayerBoost = styled.p`
@@ -103,6 +104,7 @@ margin: 0;
 margin-right: 28px;
 position: relative;
 top: -5px;
+overflow: hidden;
 `;
 
 export const OrangePlayerBoost = styled.p`
@@ -142,6 +144,7 @@ export const OrangeBoostBarContainer = styled.div`
 interface BlueBoostBarProps {
   boost: number;
   index: number;
+  color: string;
 }
 
 // create a dynamic boost bar that changes width as
@@ -150,46 +153,33 @@ interface BlueBoostBarProps {
 // fills with blue as boost increases
 export const BlueBoostBar = styled.div.attrs<BlueBoostBarProps>((props) => ({
   style: {
-    bottom: `${[6.5, 8.5, 13][props.index % 3]}px`, // Use props.index here
+    bottom: `${[6, 8.5, 12.5][props.index % 3]}px`, // Use props.index here
     width: `${props.boost * 2.14}px`, // Use props.boost here
+    backgroundColor: props.color, // Use props.color here
   },
 }))<BlueBoostBarProps>` // Apply the interface here as well
-  background-color: #00E8F4;
+  // background-color: #00E8F4;
   position: absolute;
-  height: 9.5px;
+  height: 10.5px;
   border-radius: 10px;
-  margin-left: 8px;
+  margin-left: 7.5px;
 `;
 
 
 interface OrangeBoostBarProps {
   boost: number;
   index: number;
+  color: string;
 }
-
-// create a dynamic boost bar that changes width as
-// the boost number changes
-// size is 265px wide by 10px tall
-// fills with orange as boost increases
-// fill is from right to left
-// export const OrangeBoostBar = styled.div.withConfig({
-//   shouldForwardProp: (prop) => prop !== 'boost',
-// })<{ boost: number }>` // Add type declaration for 'props' parameter
-//   background-color: #F59323;
-//   position: absolute;
-//   height: 7px;
-//   width: ${(props) => props.boost * 2.3}px;
-//   right: 5px;
-//   border-radius: 5px;
-// `;
 
 export const OrangeBoostBar = styled.div.attrs<OrangeBoostBarProps>((props) => ({
   style: {
     bottom: `${[6.5, 8.5, 12.5][props.index % 3]}px`, // Use props.index here
     width: `${props.boost * 2.14}px`, // Use props.boost here
+    backgroundColor: props.color, // Use props.color here
   },
 }))<OrangeBoostBarProps>` // Apply the interface here as well
-background-color: #F59323;
+// background-color: #F59323;
 
 
   position: absolute;
@@ -252,7 +242,7 @@ export const FlipIconSvgWrapper = styled.div`
   position: relative;
   z-index: 3;
   //top: 0px; // Adjust these values as needed
-  //left: 1540px; // Adjust these values as needed
+  left: 10px; // Adjust these values as needed
   width: 50px;
   height: auto; /* Adjust if you know the exact height of your image or prefer a specific height */
   
@@ -262,6 +252,20 @@ export const FlipIconSvgWrapper = styled.div`
   }
 `;
 
+export const OrangeFlipIconSvgWrapper = styled.div`
+
+  position: relative;
+  z-index: 3;
+  //top: 0px; // Adjust these values as needed
+  right: 40px; // Adjust these values as needed
+  width: 50px;
+  height: auto; /* Adjust if you know the exact height of your image or prefer a specific height */
+  
+  img {
+    width: 100%; /* This will make the image fill the div's width */
+    height: auto; /* Adjust the height automatically to maintain aspect ratio */
+  }
+`;
 export const PlayerAndFlipIconContainer = styled.div`
   
   display: flex;

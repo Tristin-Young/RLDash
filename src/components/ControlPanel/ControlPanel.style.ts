@@ -128,3 +128,17 @@ export const SubmitButton = styled.button`
   }
 `;
 
+export const ColorPickerInput = styled(Input)`
+  cursor: pointer;
+  -webkit-appearance: none;
+  margin: 0;
+  width: auto;
+  height: auto;
+  &::-webkit-color-swatch-wrapper {
+    padding: 0;
+  }
+  &::-webkit-color-swatch {
+    border: none;
+    border-radius: 8px;
+  }
+`;

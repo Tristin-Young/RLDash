@@ -211,23 +211,21 @@ export const ScorebugSvgWrapper = styled.div`
   }
 `;
 export const OrangeUndertone = styled.div`
-  position: absolute;
-  top: 125px;
-  left: 1100px;
-  width: 175px;
-  height: 20px;
-  background-color: #443630;
-  opacity: 1;
-  z-index: -1;
+position: absolute;
+top: 30px;
+left: 1040px;
+width: 30px;
+height: 100px;
+opacity: 1;
+z-index: -1;
 `;
 
 export const BlueUndertone = styled.div`
   position: absolute;
-  top: 125px;
-  left: 645px;
-  width: 175px;
-  height: 20px;
-  background-color: #2d373f;
+  top: 30px;
+  left: 850px;
+  width: 30px;
+  height: 100px;
   opacity: 1;
   z-index: -1;
 `;
@@ -245,4 +243,46 @@ img {
   width: 100%; /* This will make the image fill the div's width */
   height: auto; /* Adjust the height automatically to maintain aspect ratio */
 }
+`;
+
+export const SeriesScoreUndertone = styled.div`
+position: absolute;
+top: 140px;
+left: 525px;
+width: 300px;
+height: 20px;
+z-index: -1;
+opacity: 0.4;
+`;
+
+export const OrangeSeriesScoreUndertone = styled.div`
+position: absolute;
+top: 140px;
+left: 1095px;
+width: 300px;
+height: 20px;
+z-index: -1;
+opacity: 0.4;
+`;
+
+export const SeriesScoreDynamicUndertone = styled.div`
+position: absolute;
+top: 140px;
+right: 695px;
+width: 300px;
+height: 20px;
+z-index: -1;
+opacity: 1;
+max-width: 300px;
+`;
+
+export const OrangeSeriesScoreDynamicUndertone = styled.div`
+position: absolute;
+top: 140px;
+left: 1095px;
+width: 300px;
+height: 20px;
+z-index: -1;
+opacity: 1;
+max-width: 300px;
 `;

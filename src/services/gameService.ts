@@ -31,7 +31,7 @@ const getClockFromSeconds = (seconds: number, isOT: boolean): string => {
   const remainingSeconds = seconds % 60;
 
   if (isOT) {
-    return `${minutes}:${
+    return `+ ${minutes}:${
       remainingSeconds < 10 ? `0${remainingSeconds}` : remainingSeconds
     }`;
   }

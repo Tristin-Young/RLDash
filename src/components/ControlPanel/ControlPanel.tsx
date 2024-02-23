@@ -15,6 +15,7 @@ import {
   ImagePreview,
   LogoFormGroup,
   FileInputContainer2,
+  ColorPickerInput,
 } from "./ControlPanel.style";
 import { ControlPanelContext } from "../../models/contexts/ControlPanelContext";
 import { useWebSocketService } from "../../services/UseWebSocketService";
@@ -27,12 +28,10 @@ export const ControlPanel = () => {
   const [ws, setWs] = useState<WebSocket | null>(null);
 
   useEffect(() => {
-
     const webSocket = new WebSocket("ws://localhost:42000"); // Connect to your WebSocket server
 
     webSocket.onopen = () => {
       console.log("WebSocket connection established");
-      
     };
 
     webSocket.onclose = () => {
@@ -63,12 +62,7 @@ export const ControlPanel = () => {
   const [NumberOfGames, setNumberOfGames] = useState(
     controlPanelSettings.NumberOfGames
   );
-  // const [showWinProb, setShowWinProb] = useState(
-  //   controlPanelSettings.showWinProb
-  // );
-  // const [showSeriesScore, setShowSeriesScore] = useState(
-  //   controlPanelSettings.showSeriesScore
-  // );
+
   const [metricOrImperial, setMetricOrImperial] = useState(
     controlPanelSettings.metricOrImperial
   );
@@ -77,14 +71,33 @@ export const ControlPanel = () => {
     controlPanelSettings.serverPortNumber
   );
 
-  const [SeriesScoreWinPercent, setSeriesScoreWinPercent] = useState(controlPanelSettings.SeriesScoreWinPercent);
-  const [showPlayerSpeed, setShowPlayerSpeed] = useState(controlPanelSettings.showPlayerSpeed);
+  const [SeriesScoreWinPercent, setSeriesScoreWinPercent] = useState(
+    controlPanelSettings.SeriesScoreWinPercent
+  );
+  const [showPlayerSpeed, setShowPlayerSpeed] = useState(
+    controlPanelSettings.showPlayerSpeed
+  );
 
   const [blueTeamLogo, setBlueTeamLogo] = useState("");
   const [orangeTeamLogo, setOrangeTeamLogo] = useState("");
   const [blueTeamLogoPreview, setBlueTeamLogoPreview] = useState("");
   const [orangeTeamLogoPreview, setOrangeTeamLogoPreview] = useState("");
-  const [showFlipResets, setShowFlipResets] = useState(controlPanelSettings.showFlipResets);
+  const [showFlipResets, setShowFlipResets] = useState(
+    controlPanelSettings.showFlipResets
+  );
+  const [orangeTeamFlipColor, setOrangeTeamFlipColor] = useState(
+    controlPanelSettings.orangeTeamFlipColor
+  );
+  const [blueTeamFlipColor, setBlueTeamFlipColor] = useState(
+    controlPanelSettings.blueTeamFlipColor
+  );
+  const [flipUnavailableColor, setFlipUnavailableColor] = useState(
+    controlPanelSettings.flipUnavailableColor
+  );
+
+  const [useTeamColorsForFlipColors, setUseTeamColorsForFlipColors] = useState(
+    controlPanelSettings.useTeamColorsForFlipColors
+  );
   // Add a new state for feedback message
   const [feedbackMessage, setFeedbackMessage] = useState("");
 
@@ -113,13 +126,15 @@ export const ControlPanel = () => {
     [orangeTeamLogoPreview]
   );
 
-  const handleSeriesScoreWinPercentChange = (
-    e: React.ChangeEvent<HTMLSelectElement>
+  const handleUseTeamColorsForFlipColorsChange = (
+    e: React.ChangeEvent<HTMLInputElement>
   ) => {
-    setSeriesScoreWinPercent(e.target.value);
-  };
-  
-  const handleBlueTeamColorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUseTeamColorsForFlipColors(e.target.checked);
+  }
+
+  const handleBlueTeamColorChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
     setBlueTeamColor(e.target.value);
   };
 
@@ -127,6 +142,24 @@ export const ControlPanel = () => {
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     setOrangeTeamColor(e.target.value);
+  };
+
+  const handleBlueTeamFlipColorChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setBlueTeamFlipColor(e.target.value);
+  };
+
+  const handleOrangeTeamFlipColorChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setOrangeTeamFlipColor(e.target.value);
+  };
+
+  const handleFlipUnavailableColorChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setFlipUnavailableColor(e.target.value);
   };
 
   const handleBlueWinsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -155,46 +188,53 @@ export const ControlPanel = () => {
     setShowFlipResets(e.target.checked);
   };
 
+  const handleSeriesScoreWinPercentChange = (
+    e: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    setSeriesScoreWinPercent(e.target.value);
+  };
+
   const handleMetricOrImperialChange = (
     e: React.ChangeEvent<HTMLSelectElement>
   ) => {
     setMetricOrImperial(e.target.value);
   };
 
+
+
   const handleSaveDataChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSaveData(e.target.checked);
   };
 
-  const handleServerPortNumberChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setServerPortNumber(Number(e.target.value));
-  };
 
   function convertToBase64(file: Blob) {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.onload = () => resolve(reader.result);
-      reader.onerror = error => reject(error);
+      reader.onerror = (error) => reject(error);
       reader.readAsDataURL(file);
     });
   }
-  
 
-  async function handleImageChange(e: React.ChangeEvent<HTMLInputElement>, teamKey: string) {
+  async function handleImageChange(
+    e: React.ChangeEvent<HTMLInputElement>,
+    teamKey: string
+  ) {
     const file = e.target.files?.[0];
     if (file) {
       const base64 = await convertToBase64(file);
       // Assuming setControlPanelSettings is a function that updates the local state
       // and `controlPanelSettings` is your current settings state
-      setControlPanelSettings(prevSettings => ({
+      setControlPanelSettings((prevSettings) => ({
         ...prevSettings,
-        [teamKey]: base64 // teamKey might be "BlueTeamPhoto" or "OrangeTeamPhoto"
+        [teamKey]: base64, // teamKey might be "BlueTeamPhoto" or "OrangeTeamPhoto"
       }));
     }
   }
 
   const handleSubmit = (e: React.FormEvent) => {
+
+    
     e.preventDefault();
     const newSettings = {
       ...controlPanelSettings,
@@ -202,25 +242,34 @@ export const ControlPanel = () => {
       orangeTeamName,
       blueTeamLogo,
       orangeTeamLogo,
+      useTeamColorsForFlipColors,
+      blueTeamColor,
+      orangeTeamColor,
+      blueTeamFlipColor,
+      orangeTeamFlipColor,
+      flipUnavailableColor,
       blueTeamLogoPreview,
       orangeTeamLogoPreview,
       blueWins,
       orangeWins,
       NumberOfGames,
       SeriesScoreWinPercent,
-      // showWinProb,
-      // showSeriesScore,
       showFlipResets,
       showPlayerSpeed,
       metricOrImperial,
       savedata,
       serverPortNumber,
     };
+    if (newSettings.useTeamColorsForFlipColors) {
+      newSettings.blueTeamFlipColor = newSettings.blueTeamColor; // Use the team color for flip color
+      newSettings.orangeTeamFlipColor = newSettings.orangeTeamColor; // Use the team color for flip color
+    }
     setControlPanelSettings(newSettings);
     localStorage.setItem("controlPanelSettings", JSON.stringify(newSettings));
     console.log("newControlPanelSettings:", newSettings);
     if (ws && ws.readyState === WebSocket.OPEN) {
-      ws.send(JSON.stringify({ type: 'updateSettings', data: newSettings }));
+      ws.send(JSON.stringify({ type: "updateSettings", data: newSettings }));
+      console.log(newSettings);
     }
     setFeedbackMessage("Settings updated successfully!");
     setTimeout(() => {
@@ -283,24 +332,67 @@ export const ControlPanel = () => {
             )}
           </FileInputContainer2>
         </LogoFormGroup>
-        {/* <FormGroup>
+        <RowInput>
+  <Label htmlFor="useTeamColorsForFlip">Use Team Colors for Flip</Label>
+  <CheckboxContainer>
+    <Input
+      id="useTeamColorsForFlip"
+      type="checkbox"
+      checked={useTeamColorsForFlipColors}
+      onChange={handleUseTeamColorsForFlipColorsChange}
+    />
+  </CheckboxContainer>
+</RowInput>
+        <FormGroup>
           <Label htmlFor="blueColor">Blue Team Color:</Label>
-          <Input
+          <ColorPickerInput
             id="blueColor"
-            type="text"
-            value={blueTeamColor}
+            type="color"
+            value={controlPanelSettings.blueTeamColor}
             onChange={handleBlueTeamColorChange}
+            style={{ backgroundColor: controlPanelSettings.blueTeamColor }}
           />
         </FormGroup>
         <FormGroup>
           <Label htmlFor="orangeColor">Orange Team Color:</Label>
-          <Input
+          <ColorPickerInput
             id="orangeColor"
-            type="text"
-            value={orangeTeamColor}
+            type="color"
+            value={controlPanelSettings.orangeTeamColor}
             onChange={handleOrangeTeamColorChange}
+            style={{ backgroundColor: controlPanelSettings.orangeTeamColor }}
           />
-        </FormGroup> */}
+        </FormGroup>
+        <FormGroup>
+          <Label htmlFor="blueFlipColor">Blue Team Flip Color:</Label>
+          <ColorPickerInput
+            id="blueFlipColor"
+            type="color"
+            value={controlPanelSettings.blueTeamFlipColor}
+            onChange={handleBlueTeamFlipColorChange}
+            style={{ backgroundColor: controlPanelSettings.blueTeamFlipColor }}
+          />
+        </FormGroup>
+        <FormGroup>
+          <Label htmlFor="orangeFlipColor">Orange Team Flip Color:</Label>
+          <ColorPickerInput
+            id="orangeFlipColor"
+            type="color"
+            value={controlPanelSettings.orangeTeamFlipColor}
+            onChange={handleOrangeTeamFlipColorChange}
+            style={{ backgroundColor: controlPanelSettings.orangeTeamFlipColor }}
+          />
+        </FormGroup>
+        <FormGroup>
+          <Label htmlFor="flipUnavailableColor">Flip Unavailable Color:</Label>
+          <ColorPickerInput
+            id="flipUnavailableColor"
+            type="color"
+            value={controlPanelSettings.flipUnavailableColor}
+            onChange={handleFlipUnavailableColorChange}
+            style={{ backgroundColor: controlPanelSettings.flipUnavailableColor }}
+          />
+        </FormGroup>
         <FormGroup>
           <Label htmlFor="blueWinCount">Blue Win Count:</Label>
           <Input
@@ -331,7 +423,6 @@ export const ControlPanel = () => {
             <option value="5">5</option>
             <option value="7">7</option>
             <option value="9">9</option>
-            <option value="11">11</option>
           </Select>
         </RowInput>
         <RowInput>
@@ -346,7 +437,9 @@ export const ControlPanel = () => {
           </Select>
         </RowInput>
         <RowInput>
-          <Label htmlFor="SeriesScoreWinPercent">Series Score / Win Percent:</Label>
+          <Label htmlFor="SeriesScoreWinPercent">
+            Series Score / Win Percent:
+          </Label>
           <Select
             id="SeriesScoreWinPercent"
             value={SeriesScoreWinPercent}
@@ -369,7 +462,7 @@ export const ControlPanel = () => {
             />
           </CheckboxContainer>
         </RowInput>
-        
+
         <RowInput>
           <Label htmlFor="showFlipResets">Show Flip Resets</Label>
           <CheckboxContainer>
@@ -381,8 +474,7 @@ export const ControlPanel = () => {
             />
           </CheckboxContainer>
         </RowInput>
-        {/* Save Data and Server Port Number inputs */}
-        {/* <RowInput>
+        <RowInput>
         <Label htmlFor="savedata">Save Data</Label>
           <CheckboxContainer>
             <Input
@@ -393,7 +485,7 @@ export const ControlPanel = () => {
             />
           </CheckboxContainer>
         </RowInput>
-         */}
+
         <SubmitButton type="submit">Update Settings</SubmitButton>
         {feedbackMessage && (
           <div style={{ marginTop: "20px", color: "green" }}>
@@ -404,5 +496,3 @@ export const ControlPanel = () => {
     </FormWrapper>
   );
 };
-
-

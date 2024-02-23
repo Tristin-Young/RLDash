@@ -75,7 +75,7 @@ export const PlayerBoostMeter = () => {
       {/* Circle SVG */}
       <svg height={121 * 2} width={121 * 2} style={{position: 'absolute', zIndex: 0}}>
         <BoostMeterRing
-          stroke={PlayerTeam === "blue" ?  "#00E8F4" : "#F59323"}
+          stroke={PlayerTeam === "blue" ?  controlPanelSettings.blueTeamColor : controlPanelSettings.orangeTeamColor}
           strokeDasharray={`${circumference} ${circumference}`}
           $dashOffset={boostService.getBoostBarCircumference(
             spectatedPlayer.boost * 0.75,
