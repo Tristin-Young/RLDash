@@ -14,6 +14,7 @@ export interface ControlPanelContext{
     blueWins: number;
     orangeWins: number;
     NumberOfGames: number;
+    showTeamWins: boolean;
     SeriesScoreWinPercent: string;
     showFlipResets: boolean;
     showPlayerSpeed: boolean;

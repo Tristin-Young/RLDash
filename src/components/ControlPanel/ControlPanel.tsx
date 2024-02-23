@@ -98,8 +98,16 @@ export const ControlPanel = () => {
   const [useTeamColorsForFlipColors, setUseTeamColorsForFlipColors] = useState(
     controlPanelSettings.useTeamColorsForFlipColors
   );
+
+  const [showTeamWins, setShowTeamWins] = useState(
+    controlPanelSettings.showTeamWins
+  );
   // Add a new state for feedback message
   const [feedbackMessage, setFeedbackMessage] = useState("");
+
+  const handleShowTeamWinsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setShowTeamWins(e.target.checked);
+  };
 
   const handleBlueTeamNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setBlueTeamName(e.target.value);
@@ -253,6 +261,7 @@ export const ControlPanel = () => {
       blueWins,
       orangeWins,
       NumberOfGames,
+      showTeamWins,
       SeriesScoreWinPercent,
       showFlipResets,
       showPlayerSpeed,
@@ -424,6 +433,17 @@ export const ControlPanel = () => {
             <option value="7">7</option>
             <option value="9">9</option>
           </Select>
+        </RowInput>
+        <RowInput>
+          <Label htmlFor="showTeamWins">Show Team Wins</Label>
+          <CheckboxContainer>
+            <Input
+              id="showTeamWins"
+              type="checkbox"
+              checked={showTeamWins}
+              onChange={handleShowTeamWinsChange}
+            />
+          </CheckboxContainer>
         </RowInput>
         <RowInput>
           <Label htmlFor="metricOrImperial">MPH/KPH:</Label>

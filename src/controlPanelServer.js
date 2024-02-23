@@ -35,6 +35,7 @@ async function loadSettings() {
       orangeTeamFlipColor: "#FF7900",
       flipUnavailableColor: "#A3A3A3",
       NumberOfGames: 5,
+      showTeamWins: true,
       SeriesScoreWinPercent: "SeriesScore",
       showFlipResets: false,
       metricOrImperial: "KPH",
