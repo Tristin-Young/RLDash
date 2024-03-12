@@ -22,7 +22,7 @@ const getPlayerFromTarget = (
   target: string
 ): USPlayer | undefined => {
   if (Array.isArray(players)) {
-  return players.find((player) => target.includes(player.name));
+    return players.find((player) => target.includes(player.name));
   }
 };
 
@@ -31,7 +31,7 @@ const getClockFromSeconds = (seconds: number, isOT: boolean): string => {
   const remainingSeconds = seconds % 60;
 
   if (isOT) {
-    return `+ ${minutes}:${
+    return `+${minutes}:${
       remainingSeconds < 10 ? `0${remainingSeconds}` : remainingSeconds
     }`;
   }

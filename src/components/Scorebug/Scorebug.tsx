@@ -28,15 +28,17 @@ import {
 import { gameService } from "../../services/gameService";
 import { transformGameUpdate } from "../../contexts/transformGameUpdate";
 import { calculateWinProbability } from "../../services/winPercentage";
-import ScoreBoardBO1 from "../../assets/GMUScorebugBO1.png";
-import ScoreBoardBO3 from "../../assets/GMUScorebugBO3.png";
-import ScoreBoardBO5 from "../../assets/GMUScorebugBO5.png";
-import ScoreBoardBO7 from "../../assets/GMUScorebugBO7.png";
-import ScoreBoardBO9 from "../../assets/GMUScorebugBO9.png";
+import ScoreBoardBO1 from "../../assets/ScorecardBO1.png";
+import ScoreBoardBO3 from "../../assets/ScorecardBO3.png";
+import ScoreBoardBO5 from "../../assets/ScorecardBO5.png";
+import ScoreBoardBO7 from "../../assets/ScorecardBO7.png";
+import ScoreBoardBO9 from "../../assets/ScorecardBO9.png";
 import CanaLogo from "../../assets/CANAesportsLogo.png";
 export const Scorebug = () => {
   const { gameInfo, setGameInfo } = useContext(GameInfoContext);
-  const { controlPanelSettings, setControlPanelSettings } = useContext(ControlPanelSettingsContext);
+  const { controlPanelSettings, setControlPanelSettings } = useContext(
+    ControlPanelSettingsContext
+  );
   const { subscribe } = useContext(WebsocketContext); // Changed to useContext
   const [data, setData] = useState({});
 
@@ -62,20 +64,22 @@ export const Scorebug = () => {
   }, [controlPanelSettings]);
 
   useEffect(() => {
-    const webSocket = new WebSocket('ws://localhost:42000');
+    const webSocket = new WebSocket("ws://localhost:42000");
 
     webSocket.onmessage = (event) => {
-        const message = JSON.parse(event.data);
-        if (message.type === 'loadSettings' || message.type === 'updateSettings') {
-          setControlPanelSettings(message.data); // Update local state with new settings
-        }
-      };
+      const message = JSON.parse(event.data);
+      if (
+        message.type === "loadSettings" ||
+        message.type === "updateSettings"
+      ) {
+        setControlPanelSettings(message.data); // Update local state with new settings
+      }
+    };
 
     return () => {
       if (webSocket.readyState === WebSocket.OPEN) webSocket.close();
     };
-}, []);
-
+  }, []);
 
   if (!gameInfo) {
     console.log("No gameInfo");
@@ -96,64 +100,117 @@ export const Scorebug = () => {
       ? "50"
       : (winPred.Win_Probability * 100).toFixed(2);
 
-  const currentGame = controlPanelSettings.blueWins + controlPanelSettings.orangeWins + 1;
+  const currentGame =
+    controlPanelSettings.blueWins + controlPanelSettings.orangeWins + 1;
   //console.log(controlPanelSettings.BlueTeamPhoto, controlPanelSettings.OrangeTeamPhoto);
   return (
     <>
-    <CanaSVGwrapper><img src={CanaLogo} alt="Cana Logo" /></CanaSVGwrapper>
-    <SeriesScoreUndertone style={{ backgroundColor: controlPanelSettings.blueTeamColor }}/>
-    <OrangeSeriesScoreUndertone style={{ backgroundColor: controlPanelSettings.orangeTeamColor }}/>
-    <DarkSeriesScoreUndertone />
-    <OrangeSeriesScoreDynamicUndertone style={{ backgroundColor: controlPanelSettings.orangeTeamColor, width: (300 / Math.round(controlPanelSettings.NumberOfGames / 2 )) * controlPanelSettings.orangeWins}}/>
-    <SeriesScoreDynamicUndertone style={{ backgroundColor: controlPanelSettings.blueTeamColor, width: (300 / Math.round(controlPanelSettings.NumberOfGames / 2 )) * controlPanelSettings.blueWins}}/>
-    
-    <OrangeUndertone style={{ backgroundColor: controlPanelSettings.orangeTeamColor }}/>
-    <BlueUndertone style={{ backgroundColor: controlPanelSettings.blueTeamColor}}/>
+      {/* <CanaSVGwrapper>
+        <img src={CanaLogo} alt="Cana Logo" />
+      </CanaSVGwrapper> */}
+      <SeriesScoreUndertone
+        style={{ backgroundColor: controlPanelSettings.blueTeamColor }}
+      />
+      <OrangeSeriesScoreUndertone
+        style={{ backgroundColor: controlPanelSettings.orangeTeamColor }}
+      />
+      <DarkSeriesScoreUndertone />
+      <OrangeSeriesScoreDynamicUndertone
+        style={{
+          backgroundColor: controlPanelSettings.orangeTeamColor,
+          width:
+            (238 / Math.round(controlPanelSettings.NumberOfGames / 2)) *
+            controlPanelSettings.orangeWins,
+        }}
+      />
+      <SeriesScoreDynamicUndertone
+        style={{
+          backgroundColor: controlPanelSettings.blueTeamColor,
+          width:
+            (238 / Math.round(controlPanelSettings.NumberOfGames / 2)) *
+            controlPanelSettings.blueWins,
+        }}
+      />
+
+      <OrangeUndertone
+        style={{ backgroundColor: controlPanelSettings.orangeTeamColor }}
+      />
+      <BlueUndertone
+        style={{ backgroundColor: controlPanelSettings.blueTeamColor }}
+      />
       <ScorebugSvgWrapper>
-        {controlPanelSettings.showTeamWins && controlPanelSettings.NumberOfGames === 1 && <img src={ScoreBoardBO1} alt="ScoreBoard" />}
-        {controlPanelSettings.showTeamWins && controlPanelSettings.NumberOfGames === 3 && <img src={ScoreBoardBO3} alt="ScoreBoard" />}
-        {controlPanelSettings.showTeamWins && controlPanelSettings.NumberOfGames === 5 && <img src={ScoreBoardBO5} alt="ScoreBoard" />}
-        {controlPanelSettings.showTeamWins && controlPanelSettings.NumberOfGames === 7 && <img src={ScoreBoardBO7} alt="ScoreBoard" />}
-        {controlPanelSettings.showTeamWins && controlPanelSettings.NumberOfGames === 9 && <img src={ScoreBoardBO9} alt="ScoreBoard" />}
-        {!controlPanelSettings.showTeamWins && <img src={ScoreBoardBO1} alt="ScoreBoard" />}
+        {controlPanelSettings.showTeamWins &&
+          controlPanelSettings.NumberOfGames === 1 && (
+            <img src={ScoreBoardBO1} alt="ScoreBoard" />
+          )}
+        {controlPanelSettings.showTeamWins &&
+          controlPanelSettings.NumberOfGames === 3 && (
+            <img src={ScoreBoardBO3} alt="ScoreBoard" />
+          )}
+        {controlPanelSettings.showTeamWins &&
+          controlPanelSettings.NumberOfGames === 5 && (
+            <img src={ScoreBoardBO5} alt="ScoreBoard" />
+          )}
+        {controlPanelSettings.showTeamWins &&
+          controlPanelSettings.NumberOfGames === 7 && (
+            <img src={ScoreBoardBO7} alt="ScoreBoard" />
+          )}
+        {controlPanelSettings.showTeamWins &&
+          controlPanelSettings.NumberOfGames === 9 && (
+            <img src={ScoreBoardBO9} alt="ScoreBoard" />
+          )}
+        {!controlPanelSettings.showTeamWins && (
+          <img src={ScoreBoardBO1} alt="ScoreBoard" />
+        )}
       </ScorebugSvgWrapper>
       <ScorebugWrapper>
         {controlPanelSettings.SeriesScoreWinPercent === "WinPercent" && (
           <ScorebugWinPercentage>
-            {winProb === "50" ? "TIED" : (winnerPred === "team1" ? controlPanelSettings.blueTeamName : controlPanelSettings.orangeTeamName)}
+            {winProb === "50"
+              ? "TIED"
+              : winnerPred === "team1"
+              ? controlPanelSettings.blueTeamName
+              : controlPanelSettings.orangeTeamName}
             : {winProb}%
           </ScorebugWinPercentage>
         )}
-          {controlPanelSettings.SeriesScoreWinPercent === "Both" &&
-            <ScorebugSeriesScoreAndWinPercentage>
-              <div>
-              <span>Game&nbsp;</span>{currentGame}<span>&nbsp;|&nbsp;</span>
+        {controlPanelSettings.SeriesScoreWinPercent === "Both" && (
+          <ScorebugSeriesScoreAndWinPercentage>
+            <div>
+              <span>Game&nbsp;</span>
+              {currentGame}
+              <span>&nbsp;|&nbsp;</span>
               {controlPanelSettings.NumberOfGames === 1 && <span>BO1</span>}
               {controlPanelSettings.NumberOfGames === 3 && <span>BO3</span>}
               {controlPanelSettings.NumberOfGames === 5 && <span>BO5</span>}
               {controlPanelSettings.NumberOfGames === 7 && <span>BO7</span>}
               {controlPanelSettings.NumberOfGames === 9 && <span>BO9</span>}
               {controlPanelSettings.NumberOfGames === 11 && <span>BO11</span>}
-              </div>
-              <div>
-              {winProb === "50" ? "TIED" : (winnerPred === "team1" ? controlPanelSettings.blueTeamName : controlPanelSettings.orangeTeamName)}
-            : {winProb}%
-              </div>
-            </ScorebugSeriesScoreAndWinPercentage>
-          }
-          {controlPanelSettings.SeriesScoreWinPercent === "SeriesScore" &&
-            <ScorebugSeriesScore>
-              <span>Game&nbsp;</span>{currentGame}<span>&nbsp;|&nbsp;</span>
-              {controlPanelSettings.NumberOfGames === 1 && <span>BO1</span>}
-              {controlPanelSettings.NumberOfGames === 3 && <span>BO3</span>}
-              {controlPanelSettings.NumberOfGames === 5 && <span>BO5</span>}
-              {controlPanelSettings.NumberOfGames === 7 && <span>BO7</span>}
-              {controlPanelSettings.NumberOfGames === 9 && <span>BO9</span>}
-              {controlPanelSettings.NumberOfGames === 11 && <span>BO11</span>}
-              
-            </ScorebugSeriesScore>
-          }
-        
+            </div>
+            <div>
+              {winProb === "50"
+                ? "TIED"
+                : winnerPred === "team1"
+                ? controlPanelSettings.blueTeamName
+                : controlPanelSettings.orangeTeamName}
+              : {winProb}%
+            </div>
+          </ScorebugSeriesScoreAndWinPercentage>
+        )}
+        {controlPanelSettings.SeriesScoreWinPercent === "SeriesScore" && (
+          <ScorebugSeriesScore>
+            <span>Game&nbsp;</span>
+            {currentGame}
+            <span>&nbsp;|&nbsp;</span>
+            {controlPanelSettings.NumberOfGames === 1 && <span>BO1</span>}
+            {controlPanelSettings.NumberOfGames === 3 && <span>BO3</span>}
+            {controlPanelSettings.NumberOfGames === 5 && <span>BO5</span>}
+            {controlPanelSettings.NumberOfGames === 7 && <span>BO7</span>}
+            {controlPanelSettings.NumberOfGames === 9 && <span>BO9</span>}
+            {controlPanelSettings.NumberOfGames === 11 && <span>BO11</span>}
+          </ScorebugSeriesScore>
+        )}
+
         <ScorebugBlueLogo>
           <img src={controlPanelSettings.BlueTeamPhoto} alt="" />
         </ScorebugBlueLogo>

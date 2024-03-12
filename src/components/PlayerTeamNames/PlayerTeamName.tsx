@@ -1,8 +1,9 @@
-import { useContext, 
+import {
+  useContext,
   useEffect,
-  useState, 
+  useState,
   // useState,
- } from "react";
+} from "react";
 import { GameInfoContext } from "../../contexts/GameInfoContext";
 import { WebsocketContext } from "../../contexts/WebsocketContext";
 // import { Player as WebSocketPlayer } from "../../models/UpdateState/PluginPlayer";
@@ -30,15 +31,14 @@ import {
   PlayerName,
   PlayerNameAndBoostContainer,
 } from "./PlayerTeamName.style";
-import BlueTeamPNG from "../../assets/GMULeftTeamNames.png";
-import OrangeTeamPNG from "../../assets/GMURightTeamNames.png";
+import BlueTeamPNG from "../../assets/BlueTeam.png";
+import OrangeTeamPNG from "../../assets/OrangeTeam.png";
 import FlipIconPNG from "../../assets/flipIcon.png";
 import FlipIconMirroredPNG from "../../assets/flipIconMirrored.png";
 import { transformGameUpdate } from "../../contexts/transformGameUpdate";
 import { USPlayer } from "../../models/USPlayer";
 import { ControlPanelSettingsContext } from "../../contexts/ControlPanelSettingsContext";
-import { FlipIconSVG, MirroredFlipIconSVG } from './FlipIconSVG';
-
+import { FlipIconSVG, MirroredFlipIconSVG } from "./FlipIconSVG";
 
 interface PlayerData {
   [key: string]: {
@@ -68,33 +68,42 @@ export const PlayerTeamName = () => {
   const { gameInfo, setGameInfo } = useContext(GameInfoContext);
   const { subscribe } = useContext(WebsocketContext);
   const [playerData, setPlayerData] = useState<PlayerData>({});
-  const { controlPanelSettings, setControlPanelSettings } = useContext(ControlPanelSettingsContext);
+  const { controlPanelSettings, setControlPanelSettings } = useContext(
+    ControlPanelSettingsContext
+  );
   const [gameData, setGameData] = useState([]);
-
 
   useEffect(() => {
     // Create WebSocket connection.
-    const ws = new WebSocket('ws://localhost:43003');
+    const ws = new WebSocket("ws://localhost:43003");
 
     // Connection opened
-    ws.addEventListener('open', (event) => {
-        console.log('Connected to Flip Plugin server');
+    ws.addEventListener("open", (event) => {
+      console.log("Connected to Flip Plugin server");
     });
 
     // Listen for messages
-    ws.addEventListener('message', (event) => {
+    ws.addEventListener("message", (event) => {
       const receivedData: ReceivedData = JSON.parse(event.data); // Assuming receivedData is structured as described
       const newData: PlayerData = {}; // Add type annotation for newData
-      Object.entries(receivedData.teams).forEach(([teamKey, teamPlayers]: [string, any]) => {
-        // Note: Now iterating over an object of players directly under each team
-        Object.values(teamPlayers).forEach((player: any) => {
-          newData[player.name] = { ...player, hasFlip: player.hasFlip, numWheelsOnGround: player.numWheelsOnGround, timeOffGround: player.timeOffGround, isDodging: player.isDodging};
-        });
-      });
-    
-      setPlayerData(newData); 
+      Object.entries(receivedData.teams).forEach(
+        ([teamKey, teamPlayers]: [string, any]) => {
+          // Note: Now iterating over an object of players directly under each team
+          Object.values(teamPlayers).forEach((player: any) => {
+            newData[player.name] = {
+              ...player,
+              hasFlip: player.hasFlip,
+              numWheelsOnGround: player.numWheelsOnGround,
+              timeOffGround: player.timeOffGround,
+              isDodging: player.isDodging,
+            };
+          });
+        }
+      );
+
+      setPlayerData(newData);
       // setGameData(receivedData);
-      });
+    });
 
     return () => {
       if (ws.readyState === WebSocket.OPEN) ws.close();
@@ -107,20 +116,22 @@ export const PlayerTeamName = () => {
   }, [controlPanelSettings]);
 
   useEffect(() => {
-    const webSocket = new WebSocket('ws://localhost:42000');
+    const webSocket = new WebSocket("ws://localhost:42000");
 
     webSocket.onmessage = (event) => {
-        const message = JSON.parse(event.data);
-        if (message.type === 'loadSettings' || message.type === 'updateSettings') {
-          setControlPanelSettings(message.data); // Update local state with new settings
-        }
-      };
+      const message = JSON.parse(event.data);
+      if (
+        message.type === "loadSettings" ||
+        message.type === "updateSettings"
+      ) {
+        setControlPanelSettings(message.data); // Update local state with new settings
+      }
+    };
 
     return () => {
       if (webSocket.readyState === WebSocket.OPEN) webSocket.close();
     };
-}, []);
-
+  }, []);
 
   //Function to determine the correct filter for the flip icon
   const getFilter = (player: USPlayer) => {
@@ -129,22 +140,22 @@ export const PlayerTeamName = () => {
     const numWheelsOnGround = playerData[player.name]?.numWheelsOnGround;
     const timeOffGround = playerData[player.name]?.timeOffGround;
     const isDodging = playerData[player.name]?.isDodging;
-    if (isOnGround || isOnWall || numWheelsOnGround === 4){
+    if (isOnGround || isOnWall || numWheelsOnGround === 4) {
       return player.team === 0
         ? controlPanelSettings.blueTeamFlipColor
         : controlPanelSettings.orangeTeamFlipColor;
-    } else if(!isDodging && timeOffGround < 1.45){
+    } else if (!isDodging && timeOffGround < 1.45) {
       return player.team === 0
-      ? controlPanelSettings.blueTeamFlipColor
-        : controlPanelSettings.orangeTeamFlipColor;}
-    else {
+        ? controlPanelSettings.blueTeamFlipColor
+        : controlPanelSettings.orangeTeamFlipColor;
+    } else {
       return controlPanelSettings.flipUnavailableColor;
     }
   };
 
   //function to remove trailing numbers from player names
   const removeTrailingNumbers = (name: string) => {
-    return name.replace(/\d+$/, '');
+    return name.replace(/\d+$/, "");
   };
 
   useEffect(() => {
@@ -161,8 +172,6 @@ export const PlayerTeamName = () => {
     };
   }, [subscribe, setGameInfo]);
 
-
-
   return (
     <>
       <BlueSvgWrapper>
@@ -172,45 +181,60 @@ export const PlayerTeamName = () => {
         <img src={OrangeTeamPNG} alt="Orange Players" />
       </OrangeSvgWrapper>
       <BlueTeamNamesWrapper>
-        {gameInfo.players.filter((p) => p.team === 0).map((player, index) => (
-          <PlayerAndFlipIconContainer key={index}>
-            <PlayerContainer >
-              <PlayerNameAndBoostContainer>
-                
-                <PlayerName>{removeTrailingNumbers(player.name)}</PlayerName>
-                <PlayerBoost>{player.boost}</PlayerBoost>
-              </PlayerNameAndBoostContainer>
-              <BoostBarContainer>
-              <BlueBoostBar boost={Number(player.boost)} index={index} color={controlPanelSettings.blueTeamColor}/>
-
-              </BoostBarContainer>
-            </PlayerContainer>
-            <FlipIconSvgWrapper>
-            {controlPanelSettings.showFlipResets === true && (
-              <FlipIconSVG color={getFilter(player)} />
-             )} </FlipIconSvgWrapper>
-          </PlayerAndFlipIconContainer>
-        ))}
+        {gameInfo.players
+          .filter((p) => p.team === 0)
+          .map((player, index) => (
+            <PlayerAndFlipIconContainer key={index}>
+              <PlayerContainer>
+                <PlayerNameAndBoostContainer>
+                  <PlayerName>{removeTrailingNumbers(player.name)}</PlayerName>
+                  <PlayerBoost>{player.boost}</PlayerBoost>
+                </PlayerNameAndBoostContainer>
+                <BoostBarContainer>
+                  <GreyBoostBar />
+                  <BlueBoostBar
+                    boost={Number(player.boost)}
+                    index={index}
+                    color={controlPanelSettings.blueTeamColor}
+                  />
+                </BoostBarContainer>
+              </PlayerContainer>
+              <FlipIconSvgWrapper>
+                {controlPanelSettings.showFlipResets === true && (
+                  <FlipIconSVG color={getFilter(player)} />
+                )}{" "}
+              </FlipIconSvgWrapper>
+            </PlayerAndFlipIconContainer>
+          ))}
       </BlueTeamNamesWrapper>
       <OrangeTeamNamesWrapper>
-        {gameInfo.players.filter((p) => p.team === 1).map((player, index) => (
-          <OrangePlayerAndFlipIconContainer key={index}>
-            <OrangeFlipIconSvgWrapper>
-            {controlPanelSettings.showFlipResets === true && (
-              <MirroredFlipIconSVG color={getFilter(player)} />
-            )}
-            </OrangeFlipIconSvgWrapper>
-            <OrangePlayerContainer >
-              <OrangePlayerNameAndBoostContainer>
-              <OrangePlayerBoost>{player.boost}</OrangePlayerBoost>
-                <OrangePlayerName>{removeTrailingNumbers(player.name)}</OrangePlayerName>
-              </OrangePlayerNameAndBoostContainer>
-              <OrangeBoostBarContainer>
-                <OrangeBoostBar boost={Number(player.boost)} index={index} color={controlPanelSettings.orangeTeamColor}/>
-              </OrangeBoostBarContainer>
-            </OrangePlayerContainer>
-          </OrangePlayerAndFlipIconContainer>
-        ))}
+        {gameInfo.players
+          .filter((p) => p.team === 1)
+          .map((player, index) => (
+            <OrangePlayerAndFlipIconContainer key={index}>
+              <OrangeFlipIconSvgWrapper>
+                {controlPanelSettings.showFlipResets === true && (
+                  <MirroredFlipIconSVG color={getFilter(player)} />
+                )}
+              </OrangeFlipIconSvgWrapper>
+              <OrangePlayerContainer>
+                <OrangePlayerNameAndBoostContainer>
+                  <OrangePlayerBoost>{player.boost}</OrangePlayerBoost>
+                  <OrangePlayerName>
+                    {removeTrailingNumbers(player.name)}
+                  </OrangePlayerName>
+                </OrangePlayerNameAndBoostContainer>
+                <OrangeBoostBarContainer>
+                  <GreyBoostBarOrange />
+                  <OrangeBoostBar
+                    boost={Number(player.boost)}
+                    index={index}
+                    color={controlPanelSettings.orangeTeamColor}
+                  />
+                </OrangeBoostBarContainer>
+              </OrangePlayerContainer>
+            </OrangePlayerAndFlipIconContainer>
+          ))}
       </OrangeTeamNamesWrapper>
     </>
   );
