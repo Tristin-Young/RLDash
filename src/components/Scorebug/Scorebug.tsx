@@ -2,6 +2,7 @@
 import { useContext, useEffect, useState } from "react";
 import { ControlPanelSettingsContext } from "../../contexts/ControlPanelSettingsContext";
 import { GameInfoContext } from "../../contexts/GameInfoContext";
+import { UpdateStateContext } from "../../contexts/UpdateStateContext";
 import { WebsocketContext } from "../../contexts/WebsocketContext";
 import {
   ScorebugBlueLogo,
@@ -35,7 +36,7 @@ import ScoreBoardBO7 from "../../assets/ScorecardBO7.png";
 import ScoreBoardBO9 from "../../assets/ScorecardBO9.png";
 import CanaLogo from "../../assets/CANAesportsLogo.png";
 export const Scorebug = () => {
-  const { gameInfo, setGameInfo } = useContext(GameInfoContext);
+  const { updateState, setUpdateState } = useContext(UpdateStateContext);
   const { controlPanelSettings, setControlPanelSettings } = useContext(
     ControlPanelSettingsContext
   );
@@ -45,53 +46,42 @@ export const Scorebug = () => {
   useEffect(() => {
     const handleGameUpdate = (innerMessage: any) => {
       //console.log("innerMessage:", innerMessage);
-      const gameContext = transformGameUpdate(innerMessage);
-      //console.log("gameContext:", gameContext);
-      setGameInfo(gameContext);
+      if (innerMessage.event === "gamestate") {
+        if (innerMessage.players.length > 0) {
+          const gameContext = transformGameUpdate(innerMessage);
+          // console.log("gameContext:", gameContext);
+          // console.log("innerMessage:", innerMessage);
+          setUpdateState(innerMessage);
+        }
+        // Update the type of setUpdateState to accept void as a valid argument
+      }
     };
-
+    //console.log("UpdateState:", UpdateState);
     // Subscribe and get the unsubscribe function
     const unsubscribe = subscribe("gamestate", handleGameUpdate);
 
     return () => {
       unsubscribe(); // Call the unsubscribe function on cleanup
     };
-  }, [subscribe, setGameInfo]);
+  }, [subscribe, setUpdateState]);
 
   useEffect(() => {
     // Logic that should run when controlPanelSettings changes
     //console.log("Updated settings:", controlPanelSettings);
   }, [controlPanelSettings]);
 
-  useEffect(() => {
-    const webSocket = new WebSocket("ws://localhost:42000");
-
-    webSocket.onmessage = (event) => {
-      const message = JSON.parse(event.data);
-      if (
-        message.type === "loadSettings" ||
-        message.type === "updateSettings"
-      ) {
-        setControlPanelSettings(message.data); // Update local state with new settings
-      }
-    };
-
-    return () => {
-      if (webSocket.readyState === WebSocket.OPEN) webSocket.close();
-    };
-  }, []);
-
-  if (!gameInfo) {
+  if (!updateState) {
     console.log("No gameInfo");
     return <div>Loading game info...</div>;
   }
   //console.log("gameInfo:", gameInfo);
-  const blueScore = gameInfo.score.blue;
-  const orangeScore = gameInfo.score.orange;
+  //console.log("UpdateState:", UpdateState);
+  const blueScore = updateState.game.teams[0].score;
+  const orangeScore = updateState.game.teams[1].score;
   const winPred = calculateWinProbability(
     blueScore,
     orangeScore,
-    gameInfo.timeRemaining
+    updateState.game.time_seconds
   );
   const winnerPred = winPred.Predicted_Winner;
   //create winprob, which is the predicted win percentage * 100, and truncate to 2 decimal places
@@ -99,10 +89,11 @@ export const Scorebug = () => {
     (winPred.Win_Probability * 100).toFixed(2) === "0.00"
       ? "50"
       : (winPred.Win_Probability * 100).toFixed(2);
-
+  //console.log("Predicted Winner:", winnerPred);
   const currentGame =
     controlPanelSettings.blueWins + controlPanelSettings.orangeWins + 1;
   //console.log(controlPanelSettings.BlueTeamPhoto, controlPanelSettings.OrangeTeamPhoto);
+
   return (
     <>
       {/* <CanaSVGwrapper>
@@ -119,7 +110,7 @@ export const Scorebug = () => {
         style={{
           backgroundColor: controlPanelSettings.orangeTeamColor,
           width:
-            (238 / Math.round(controlPanelSettings.NumberOfGames / 2)) *
+            (225 / Math.round(controlPanelSettings.NumberOfGames / 2)) *
             controlPanelSettings.orangeWins,
         }}
       />
@@ -127,7 +118,7 @@ export const Scorebug = () => {
         style={{
           backgroundColor: controlPanelSettings.blueTeamColor,
           width:
-            (238 / Math.round(controlPanelSettings.NumberOfGames / 2)) *
+            (225 / Math.round(controlPanelSettings.NumberOfGames / 2)) *
             controlPanelSettings.blueWins,
         }}
       />
@@ -168,7 +159,7 @@ export const Scorebug = () => {
           <ScorebugWinPercentage>
             {winProb === "50"
               ? "TIED"
-              : winnerPred === "team1"
+              : winnerPred === "TEAM1"
               ? controlPanelSettings.blueTeamName
               : controlPanelSettings.orangeTeamName}
             : {winProb}%
@@ -190,7 +181,7 @@ export const Scorebug = () => {
             <div>
               {winProb === "50"
                 ? "TIED"
-                : winnerPred === "team1"
+                : winnerPred === "TEAM1"
                 ? controlPanelSettings.blueTeamName
                 : controlPanelSettings.orangeTeamName}
               : {winProb}%
@@ -215,18 +206,20 @@ export const Scorebug = () => {
           <img src={controlPanelSettings.BlueTeamPhoto} alt="" />
         </ScorebugBlueLogo>
         <ScorebugBlueName>{controlPanelSettings.blueTeamName}</ScorebugBlueName>
-        <ScorebugBlueScore>{gameInfo.score.blue}</ScorebugBlueScore>
+        <ScorebugBlueScore>{updateState.game.teams[0].score}</ScorebugBlueScore>
         <ScorebugOrangeName>
           {controlPanelSettings.orangeTeamName}
         </ScorebugOrangeName>
-        <ScorebugOrangeScore>{gameInfo.score.orange}</ScorebugOrangeScore>
+        <ScorebugOrangeScore>
+          {updateState.game.teams[1].score}
+        </ScorebugOrangeScore>
         <ScorebugOrangeLogo>
           <img src={controlPanelSettings.OrangeTeamPhoto} alt="" />
         </ScorebugOrangeLogo>
         <ScorebugClock>
           {gameService.getClockFromSeconds(
-            gameInfo.timeRemaining,
-            gameInfo.isOT
+            updateState.game.time_seconds,
+            updateState.game.isOT
           )}
         </ScorebugClock>
         <ScorebugOrangeLogo />

@@ -17,34 +17,27 @@ import {
   FileInputContainer2,
   ColorPickerInput,
 } from "./ControlPanel.style";
-import { ControlPanelContext } from "../../models/contexts/ControlPanelContext";
-import { useWebSocketService } from "../../services/UseWebSocketService";
+
+import { transformGameUpdate } from "../../contexts/transformGameUpdate";
+import { UpdateStateContext } from "../../contexts/UpdateStateContext";
+import { WebsocketContext } from "../../contexts/WebsocketContext";
+import { transformStatfeedEvent } from "../../contexts/transformStatfeedEvent";
+import { StatfeedEventContext } from "../../contexts/StatfeedEventContext";
+import { stat } from "fs";
 
 export const ControlPanel = () => {
   const { controlPanelSettings, setControlPanelSettings } = useContext(
     ControlPanelSettingsContext
   );
-  // const { sendControlPanelUpdate } = useWebSocketService();
+  const { subscribe } = useContext(WebsocketContext);
   const [ws, setWs] = useState<WebSocket | null>(null);
 
-  useEffect(() => {
-    const webSocket = new WebSocket("ws://localhost:42000"); // Connect to your WebSocket server
-
-    webSocket.onopen = () => {
-      console.log("WebSocket connection established");
-    };
-
-    webSocket.onclose = () => {
-      console.log("WebSocket connection closed");
-    };
-
-    setWs(webSocket);
-
-    return () => {
-      if (webSocket.readyState === WebSocket.OPEN) webSocket.close();
-    };
-  }, []);
-
+  const [winProcessed, setWinProcessed] = useState(
+    controlPanelSettings.winProcessed
+  );
+  const [showOverlayBE, setShowOverlayBE] = useState(
+    controlPanelSettings.showOverlayBE
+  );
   const [blueTeamName, setBlueTeamName] = useState(
     controlPanelSettings.blueTeamName
   );
@@ -138,7 +131,7 @@ export const ControlPanel = () => {
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     setUseTeamColorsForFlipColors(e.target.checked);
-  }
+  };
 
   const handleBlueTeamColorChange = (
     e: React.ChangeEvent<HTMLInputElement>
@@ -171,11 +164,20 @@ export const ControlPanel = () => {
   };
 
   const handleBlueWinsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setBlueWins(Number(e.target.value));
+    let winsNecessary = Math.floor(NumberOfGames / 2) + 1;
+    if (Number(e.target.value) - 1 >= winsNecessary) {
+      setBlueWins(0);
+    } else {
+      setBlueWins(Number(e.target.value));
+    }
   };
 
   const handleOrangeWinsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setOrangeWins(Number(e.target.value));
+    if (Number(e.target.value) - 1 >= NumberOfGames / 2 + 1) {
+      setOrangeWins(0);
+    } else {
+      setOrangeWins(Number(e.target.value));
+    }
   };
 
   const handleNumberOfGamesChange = (
@@ -208,12 +210,9 @@ export const ControlPanel = () => {
     setMetricOrImperial(e.target.value);
   };
 
-
-
   const handleSaveDataChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSaveData(e.target.checked);
   };
-
 
   function convertToBase64(file: Blob) {
     return new Promise((resolve, reject) => {
@@ -239,11 +238,12 @@ export const ControlPanel = () => {
       }));
     }
   }
-
+  function handleWinProcessedChange() {
+    setWinProcessed((winProcessed) => !winProcessed);
+  }
   const handleSubmit = (e: React.FormEvent) => {
-
-    
     e.preventDefault();
+    winProcessed ?? setWinProcessed(false);
     const newSettings = {
       ...controlPanelSettings,
       blueTeamName,
@@ -268,6 +268,8 @@ export const ControlPanel = () => {
       metricOrImperial,
       savedata,
       serverPortNumber,
+      showOverlayBE,
+      winProcessed: false,
     };
     if (newSettings.useTeamColorsForFlipColors) {
       newSettings.blueTeamFlipColor = newSettings.blueTeamColor; // Use the team color for flip color
@@ -275,16 +277,182 @@ export const ControlPanel = () => {
     }
     setControlPanelSettings(newSettings);
     localStorage.setItem("controlPanelSettings", JSON.stringify(newSettings));
-    console.log("newControlPanelSettings:", newSettings);
+    console.log("New Control Panel Settings:", newSettings);
     if (ws && ws.readyState === WebSocket.OPEN) {
       ws.send(JSON.stringify({ type: "updateSettings", data: newSettings }));
-      console.log(newSettings);
+      //console.log(newSettings);
     }
     setFeedbackMessage("Settings updated successfully!");
     setTimeout(() => {
       setFeedbackMessage("");
     }, 3000);
   };
+
+  //function to handle submit without a form
+  const handleUpdateSettings = (
+    blueWinsVar: number,
+    orangeWinsVar: number,
+    winProcessedVar: boolean
+  ) => {
+    winProcessed ?? setWinProcessed(false);
+    const newSettings = {
+      ...controlPanelSettings,
+      blueTeamName,
+      orangeTeamName,
+      blueTeamLogo,
+      orangeTeamLogo,
+      useTeamColorsForFlipColors,
+      blueTeamColor,
+      orangeTeamColor,
+      blueTeamFlipColor,
+      orangeTeamFlipColor,
+      flipUnavailableColor,
+      blueTeamLogoPreview,
+      orangeTeamLogoPreview,
+      blueWins: blueWinsVar,
+      orangeWins: orangeWinsVar,
+      NumberOfGames,
+      showTeamWins,
+      SeriesScoreWinPercent,
+      showFlipResets,
+      showPlayerSpeed,
+      metricOrImperial,
+      savedata,
+      serverPortNumber,
+      showOverlayBE,
+      winProcessed: winProcessedVar,
+    };
+    if (newSettings.useTeamColorsForFlipColors) {
+      newSettings.blueTeamFlipColor = newSettings.blueTeamColor; // Use the team color for flip color
+      newSettings.orangeTeamFlipColor = newSettings.orangeTeamColor; // Use the team color for flip color
+    }
+    setControlPanelSettings(newSettings);
+    localStorage.setItem("controlPanelSettings", JSON.stringify(newSettings));
+    console.log("HU New Control Panel Settings:", newSettings);
+    if (ws && ws.readyState === WebSocket.OPEN) {
+      ws.send(JSON.stringify({ type: "updateSettings", data: newSettings }));
+      //console.log(newSettings);
+    }
+  };
+
+  useEffect(() => {
+    const handleStatfeedUpdate = (innerMessage: any) => {
+      if (innerMessage.event === "game:statfeed_event") {
+        if (innerMessage.data.event_name === "MVP") {
+          const statfeedData = transformStatfeedEvent(innerMessage);
+          const winsNecessary =
+            Math.floor(controlPanelSettings.NumberOfGames / 2) + 1;
+          let orangeWinsVar = orangeWins;
+          let blueWinsVar = blueWins;
+          let orangeWinsVarPadded = orangeWins + 1;
+          let blueWinsVarPadded = blueWins + 1;
+          console.log("Received Statfeed Event Data:", statfeedData);
+          if (controlPanelSettings.winProcessed === false) {
+            if (statfeedData.main_target.team_num === 0) {
+              if (blueWinsVarPadded < winsNecessary) {
+                blueWinsVar++;
+                console.log("Blue Team Wins:", blueWins);
+                console.log("Setting Blue Wins:", blueWinsVar);
+                setBlueWins(blueWinsVar);
+                console.log("Setting Win Processed to true");
+                setWinProcessed(true);
+                //console.log("Settings being sent as update:", controlPanelSettings);
+                handleUpdateSettings(blueWinsVar, orangeWinsVar, true);
+              } else {
+                console.log("Blue Team Wins:", blueWins);
+                console.log("Setting Blue Wins:", blueWinsVar);
+                setBlueWins(0);
+                setOrangeWins(0);
+                console.log("Setting Win Processed to true");
+                setWinProcessed(true);
+                //console.log("Settings being sent as update:", controlPanelSettings);
+                handleUpdateSettings(0, 0, true);
+              }
+            } else if (statfeedData.main_target.team_num === 1) {
+              if (orangeWinsVarPadded < winsNecessary) {
+                orangeWinsVar++;
+                console.log("Orange Team Wins:", orangeWins);
+                console.log("Setting Orange Wins:", orangeWinsVar);
+                setOrangeWins(orangeWinsVar);
+                console.log("Setting Win Processed to true");
+                setWinProcessed(true);
+                //console.log("Settings being sent as update:", controlPanelSettings);
+                handleUpdateSettings(blueWinsVar, orangeWinsVar, true);
+              } else {
+                console.log("Orange Team Wins:", orangeWins);
+                console.log("Setting Orange Wins:", orangeWinsVar);
+                setOrangeWins(0);
+                setBlueWins(0);
+                console.log("Setting Win Processed to true");
+                setWinProcessed(true);
+                //console.log("Settings being sent as update:", controlPanelSettings);
+                handleUpdateSettings(0, 0, true);
+              }
+            }
+
+            console.log("Settings update attempted");
+            // Consider moving handleUpdateSettings call here, ensure it's the logic you want.
+          } else {
+            console.log("Statfeed event already processed");
+          }
+        }
+      }
+    };
+
+    // Subscribe to the specific event
+    const unsubscribe = subscribe(
+      "game:statfeed_event_MVP",
+      handleStatfeedUpdate
+    );
+
+    // Cleanup function to unsubscribe
+    return () => unsubscribe();
+  }, [subscribe, winProcessed, blueWins, orangeWins]);
+
+  // useEffect(() => {
+  //   console.log("Win Processed:", winProcessed);
+
+  //   handleUpdateSettings();
+  // }, [winProcessed]);
+
+  useEffect(() => {
+    const handleGameStarted = (innerMessage: any) => {
+      //console.log("handleGameStarted useEffect touched");
+      if (innerMessage.event === "gamestate") {
+        if (
+          innerMessage.event === "game:post_countdown_begin" ||
+          (innerMessage.event === "gamestate" &&
+            innerMessage.game.hasWinner === false)
+        ) {
+          if (controlPanelSettings.winProcessed === true) {
+            console.log("Setting winProcessed to false (handleGameStarted)");
+            handleUpdateSettings(blueWins, orangeWins, false);
+          }
+        }
+      }
+    };
+
+    const unsubscribe = subscribe("gamestate", handleGameStarted);
+    const unsubscribePostCountdownBegin = subscribe(
+      "game:post_countdown_begin",
+      handleGameStarted
+    );
+
+    return () => {
+      unsubscribe();
+      unsubscribePostCountdownBegin();
+    };
+  }, [subscribe, winProcessed]);
+  //function to print current settings to console
+  const printSettings = () => {
+    console.log(controlPanelSettings);
+    setFeedbackMessage("Settings printed to console!");
+    setTimeout(() => {
+      setFeedbackMessage("");
+    }, 3000);
+  };
+
+  // Rest of the code...
 
   return (
     <FormWrapper>
@@ -342,16 +510,16 @@ export const ControlPanel = () => {
           </FileInputContainer2>
         </LogoFormGroup>
         <RowInput>
-  <Label htmlFor="useTeamColorsForFlip">Use Team Colors for Flip</Label>
-  <CheckboxContainer>
-    <Input
-      id="useTeamColorsForFlip"
-      type="checkbox"
-      checked={useTeamColorsForFlipColors}
-      onChange={handleUseTeamColorsForFlipColorsChange}
-    />
-  </CheckboxContainer>
-</RowInput>
+          <Label htmlFor="useTeamColorsForFlip">Use Team Colors for Flip</Label>
+          <CheckboxContainer>
+            <Input
+              id="useTeamColorsForFlip"
+              type="checkbox"
+              checked={useTeamColorsForFlipColors}
+              onChange={handleUseTeamColorsForFlipColorsChange}
+            />
+          </CheckboxContainer>
+        </RowInput>
         <FormGroup>
           <Label htmlFor="blueColor">Blue Team Color:</Label>
           <ColorPickerInput
@@ -389,7 +557,9 @@ export const ControlPanel = () => {
             type="color"
             value={controlPanelSettings.orangeTeamFlipColor}
             onChange={handleOrangeTeamFlipColorChange}
-            style={{ backgroundColor: controlPanelSettings.orangeTeamFlipColor }}
+            style={{
+              backgroundColor: controlPanelSettings.orangeTeamFlipColor,
+            }}
           />
         </FormGroup>
         <FormGroup>
@@ -399,7 +569,9 @@ export const ControlPanel = () => {
             type="color"
             value={controlPanelSettings.flipUnavailableColor}
             onChange={handleFlipUnavailableColorChange}
-            style={{ backgroundColor: controlPanelSettings.flipUnavailableColor }}
+            style={{
+              backgroundColor: controlPanelSettings.flipUnavailableColor,
+            }}
           />
         </FormGroup>
         <FormGroup>
@@ -495,7 +667,7 @@ export const ControlPanel = () => {
           </CheckboxContainer>
         </RowInput>
         <RowInput>
-        <Label htmlFor="savedata">Save Data</Label>
+          <Label htmlFor="savedata">Save Data</Label>
           <CheckboxContainer>
             <Input
               id="savedata"
@@ -507,6 +679,16 @@ export const ControlPanel = () => {
         </RowInput>
 
         <SubmitButton type="submit">Update Settings</SubmitButton>
+        {feedbackMessage && (
+          <div style={{ marginTop: "20px", color: "green" }}>
+            {feedbackMessage}
+          </div>
+        )}
+        <h1>DEVELOPER SETTINGS **HIDE LATER**</h1>
+        <SubmitButton type="button" onClick={printSettings}>
+          {" "}
+          Print Settings
+        </SubmitButton>
         {feedbackMessage && (
           <div style={{ marginTop: "20px", color: "green" }}>
             {feedbackMessage}

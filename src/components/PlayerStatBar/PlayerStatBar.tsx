@@ -1,5 +1,5 @@
+//PlayerStatBar.tsx
 import { useContext, useEffect } from "react";
-import { GameInfoContext } from "../../contexts/GameInfoContext";
 import { gameService } from "../../services/gameService";
 import {
   // Divider,
@@ -13,17 +13,19 @@ import {
 import { WebsocketContext } from "../../contexts/WebsocketContext";
 import { transformGameUpdate } from "../../contexts/transformGameUpdate";
 import PlayerStatBarPNG from "../../assets/PlayerStats.png";
+import { UpdateStateContext } from "../../contexts/UpdateStateContext";
+import { USPlayer } from "../../models/USPlayer";
 
 export const PlayerStatBar = () => {
-  const { gameInfo, setGameInfo } = useContext(GameInfoContext);
+  const { updateState, setUpdateState } = useContext(UpdateStateContext);
   const { subscribe } = useContext(WebsocketContext); // Changed to useContext
 
   useEffect(() => {
     const handleGameUpdate = (innerMessage: any) => {
-      //console.log("innerMessage:", innerMessage);
-      const gameContext = transformGameUpdate(innerMessage);
-      //console.log("gameContext:", gameContext);
-      setGameInfo(gameContext);
+      if (innerMessage.event === "gamestate") {
+        const gameContext = transformGameUpdate(innerMessage);
+        setUpdateState(gameContext);
+      }
     };
 
     // Subscribe and get the unsubscribe function
@@ -32,10 +34,10 @@ export const PlayerStatBar = () => {
     return () => {
       unsubscribe(); // Call the unsubscribe function on cleanup
     };
-  }, [subscribe, setGameInfo]);
+  }, [subscribe, setUpdateState]);
   const spectatedPlayer = gameService.getPlayerFromTarget(
-    gameInfo.players,
-    gameInfo.target
+    updateState.players as USPlayer[],
+    updateState.game.target
   );
   return (
     <>

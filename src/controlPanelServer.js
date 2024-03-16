@@ -55,20 +55,19 @@ wss.on('connection', async (ws) => {
   ws.send(JSON.stringify({ type: 'loadSettings', data: currentSettings }));
 
   ws.on('message', async (data) => {
-    console.log('Received message:', data);
+    //console.log('Received message:', data);
     const message = JSON.parse(data);
 
     switch (message.type) {
       case 'updateSettings':
-        // Save the updated settings and broadcast them
         await saveSettings(message.data);
-        broadcast(JSON.stringify({ type: 'updateSettings', data: message.data }), ws);
+        broadcast(JSON.stringify({ type: 'updateSettings', data: message }), ws);
         break;
       case 'requestSettings':
         // Optionally handle a direct request for current settings
         break;
       default:
-        console.log('Unknown message type:', message.type);
+        console.log('Unknown message type:', message);
     }
   });
 

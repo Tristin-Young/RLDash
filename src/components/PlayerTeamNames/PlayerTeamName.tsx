@@ -4,7 +4,6 @@ import {
   useState,
   // useState,
 } from "react";
-import { GameInfoContext } from "../../contexts/GameInfoContext";
 import { WebsocketContext } from "../../contexts/WebsocketContext";
 // import { Player as WebSocketPlayer } from "../../models/UpdateState/PluginPlayer";
 import {
@@ -39,6 +38,7 @@ import { transformGameUpdate } from "../../contexts/transformGameUpdate";
 import { USPlayer } from "../../models/USPlayer";
 import { ControlPanelSettingsContext } from "../../contexts/ControlPanelSettingsContext";
 import { FlipIconSVG, MirroredFlipIconSVG } from "./FlipIconSVG";
+import { UpdateStateContext } from "../../contexts/UpdateStateContext";
 
 interface PlayerData {
   [key: string]: {
@@ -65,7 +65,7 @@ interface ReceivedData {
 }
 
 export const PlayerTeamName = () => {
-  const { gameInfo, setGameInfo } = useContext(GameInfoContext);
+  const { updateState, setUpdateState } = useContext(UpdateStateContext);
   const { subscribe } = useContext(WebsocketContext);
   const [playerData, setPlayerData] = useState<PlayerData>({});
   const { controlPanelSettings, setControlPanelSettings } = useContext(
@@ -115,24 +115,6 @@ export const PlayerTeamName = () => {
     //console.log("Updated settings:", controlPanelSettings);
   }, [controlPanelSettings]);
 
-  useEffect(() => {
-    const webSocket = new WebSocket("ws://localhost:42000");
-
-    webSocket.onmessage = (event) => {
-      const message = JSON.parse(event.data);
-      if (
-        message.type === "loadSettings" ||
-        message.type === "updateSettings"
-      ) {
-        setControlPanelSettings(message.data); // Update local state with new settings
-      }
-    };
-
-    return () => {
-      if (webSocket.readyState === WebSocket.OPEN) webSocket.close();
-    };
-  }, []);
-
   //Function to determine the correct filter for the flip icon
   const getFilter = (player: USPlayer) => {
     const isOnGround = player.onGround;
@@ -160,18 +142,20 @@ export const PlayerTeamName = () => {
 
   useEffect(() => {
     const handleGameUpdate = (innerMessage: any) => {
-      const gameContext = transformGameUpdate(innerMessage);
-      setGameInfo(gameContext);
+      if (innerMessage.event === "gamestate") {
+        const gameContext = transformGameUpdate(innerMessage);
+        setUpdateState(gameContext);
+      }
     };
 
+    // Subscribe and get the unsubscribe function
     const unsubscribe = subscribe("gamestate", handleGameUpdate);
 
     return () => {
-      unsubscribe();
-      // ws.close();
+      unsubscribe(); // Call the unsubscribe function on cleanup
     };
-  }, [subscribe, setGameInfo]);
-
+  }, [subscribe, setUpdateState]);
+  //console.log(updateState.players);
   return (
     <>
       <BlueSvgWrapper>
@@ -181,7 +165,7 @@ export const PlayerTeamName = () => {
         <img src={OrangeTeamPNG} alt="Orange Players" />
       </OrangeSvgWrapper>
       <BlueTeamNamesWrapper>
-        {gameInfo.players
+        {updateState.players
           .filter((p) => p.team === 0)
           .map((player, index) => (
             <PlayerAndFlipIconContainer key={index}>
@@ -208,7 +192,7 @@ export const PlayerTeamName = () => {
           ))}
       </BlueTeamNamesWrapper>
       <OrangeTeamNamesWrapper>
-        {gameInfo.players
+        {updateState.players
           .filter((p) => p.team === 1)
           .map((player, index) => (
             <OrangePlayerAndFlipIconContainer key={index}>

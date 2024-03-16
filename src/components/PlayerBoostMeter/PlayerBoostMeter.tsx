@@ -1,5 +1,4 @@
 import { useContext, useEffect } from "react";
-import { GameInfoContext } from "../../contexts/GameInfoContext";
 import { gameService } from "../../services/gameService";
 import {
   BoostMeterAmount,
@@ -12,8 +11,10 @@ import { WebsocketContext } from "../../contexts/WebsocketContext";
 import { transformGameUpdate } from "../../contexts/transformGameUpdate";
 import BoostPNG from "../../assets/Boost_wCANA.png";
 import { ControlPanelSettingsContext } from "../../contexts/ControlPanelSettingsContext";
+import { UpdateStateContext } from "../../contexts/UpdateStateContext";
+import { USPlayer } from "../../models/USPlayer";
 export const PlayerBoostMeter = () => {
-  const { gameInfo, setGameInfo } = useContext(GameInfoContext);
+  const { updateState, setUpdateState } = useContext(UpdateStateContext);
   const { subscribe } = useContext(WebsocketContext); // Changed to useContext
   const { controlPanelSettings, setControlPanelSettings } = useContext(
     ControlPanelSettingsContext
@@ -25,29 +26,11 @@ export const PlayerBoostMeter = () => {
   }, [controlPanelSettings]);
 
   useEffect(() => {
-    const webSocket = new WebSocket("ws://localhost:42000");
-
-    webSocket.onmessage = (event) => {
-      const message = JSON.parse(event.data);
-      if (
-        message.type === "loadSettings" ||
-        message.type === "updateSettings"
-      ) {
-        setControlPanelSettings(message.data); // Update local state with new settings
-      }
-    };
-
-    return () => {
-      if (webSocket.readyState === WebSocket.OPEN) webSocket.close();
-    };
-  }, []);
-
-  useEffect(() => {
     const handleGameUpdate = (innerMessage: any) => {
-      //console.log("innerMessage:", innerMessage);
-      const gameContext = transformGameUpdate(innerMessage);
-      //console.log("gameContext:", gameContext);
-      setGameInfo(gameContext);
+      if (innerMessage.event === "gamestate") {
+        const gameContext = transformGameUpdate(innerMessage);
+        setUpdateState(gameContext);
+      }
     };
 
     // Subscribe and get the unsubscribe function
@@ -56,16 +39,11 @@ export const PlayerBoostMeter = () => {
     return () => {
       unsubscribe(); // Call the unsubscribe function on cleanup
     };
-  }, [subscribe, setGameInfo]);
-
-  useEffect(() => {
-    // Logic that should run when controlPanelSettings changes
-    //console.log("Updated settings:", controlPanelSettings);
-  }, [controlPanelSettings]);
+  }, [subscribe, setUpdateState]);
 
   const spectatedPlayer = gameService.getPlayerFromTarget(
-    gameInfo.players,
-    gameInfo.target
+    updateState.players as USPlayer[],
+    updateState.game.target
   );
 
   const normalizedRadius = 120 - 20 * 2; //inner radius - thickness of ring * 2
