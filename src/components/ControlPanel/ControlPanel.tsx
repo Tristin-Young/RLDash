@@ -138,7 +138,7 @@ export const ControlPanel = () => {
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     setUseTeamColorsForFlipColors(e.target.checked);
-  }
+  };
 
   const handleBlueTeamColorChange = (
     e: React.ChangeEvent<HTMLInputElement>
@@ -208,12 +208,9 @@ export const ControlPanel = () => {
     setMetricOrImperial(e.target.value);
   };
 
-
-
   const handleSaveDataChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSaveData(e.target.checked);
   };
-
 
   function convertToBase64(file: Blob) {
     return new Promise((resolve, reject) => {
@@ -241,8 +238,6 @@ export const ControlPanel = () => {
   }
 
   const handleSubmit = (e: React.FormEvent) => {
-
-    
     e.preventDefault();
     const newSettings = {
       ...controlPanelSettings,
@@ -342,16 +337,16 @@ export const ControlPanel = () => {
           </FileInputContainer2>
         </LogoFormGroup>
         <RowInput>
-  <Label htmlFor="useTeamColorsForFlip">Use Team Colors for Flip</Label>
-  <CheckboxContainer>
-    <Input
-      id="useTeamColorsForFlip"
-      type="checkbox"
-      checked={useTeamColorsForFlipColors}
-      onChange={handleUseTeamColorsForFlipColorsChange}
-    />
-  </CheckboxContainer>
-</RowInput>
+          <Label htmlFor="useTeamColorsForFlip">Use Team Colors for Flip</Label>
+          <CheckboxContainer>
+            <Input
+              id="useTeamColorsForFlip"
+              type="checkbox"
+              checked={useTeamColorsForFlipColors}
+              onChange={handleUseTeamColorsForFlipColorsChange}
+            />
+          </CheckboxContainer>
+        </RowInput>
         <FormGroup>
           <Label htmlFor="blueColor">Blue Team Color:</Label>
           <ColorPickerInput
@@ -389,7 +384,9 @@ export const ControlPanel = () => {
             type="color"
             value={controlPanelSettings.orangeTeamFlipColor}
             onChange={handleOrangeTeamFlipColorChange}
-            style={{ backgroundColor: controlPanelSettings.orangeTeamFlipColor }}
+            style={{
+              backgroundColor: controlPanelSettings.orangeTeamFlipColor,
+            }}
           />
         </FormGroup>
         <FormGroup>
@@ -399,7 +396,9 @@ export const ControlPanel = () => {
             type="color"
             value={controlPanelSettings.flipUnavailableColor}
             onChange={handleFlipUnavailableColorChange}
-            style={{ backgroundColor: controlPanelSettings.flipUnavailableColor }}
+            style={{
+              backgroundColor: controlPanelSettings.flipUnavailableColor,
+            }}
           />
         </FormGroup>
         <FormGroup>
@@ -431,7 +430,6 @@ export const ControlPanel = () => {
             <option value="3">3</option>
             <option value="5">5</option>
             <option value="7">7</option>
-            <option value="9">9</option>
           </Select>
         </RowInput>
         <RowInput>
@@ -494,8 +492,8 @@ export const ControlPanel = () => {
             />
           </CheckboxContainer>
         </RowInput>
-        <RowInput>
-        <Label htmlFor="savedata">Save Data</Label>
+        {/* <RowInput>
+          <Label htmlFor="savedata">Save Data</Label>
           <CheckboxContainer>
             <Input
               id="savedata"
@@ -504,7 +502,7 @@ export const ControlPanel = () => {
               onChange={handleSaveDataChange}
             />
           </CheckboxContainer>
-        </RowInput>
+        </RowInput> */}
 
         <SubmitButton type="submit">Update Settings</SubmitButton>
         {feedbackMessage && (

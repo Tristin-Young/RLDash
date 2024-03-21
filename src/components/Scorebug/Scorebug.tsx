@@ -28,11 +28,10 @@ import {
 import { gameService } from "../../services/gameService";
 import { transformGameUpdate } from "../../contexts/transformGameUpdate";
 import { calculateWinProbability } from "../../services/winPercentage";
-import ScoreBoardBO1 from "../../assets/ScorecardBO1.png";
-import ScoreBoardBO3 from "../../assets/ScorecardBO3.png";
-import ScoreBoardBO5 from "../../assets/ScorecardBO5.png";
-import ScoreBoardBO7 from "../../assets/ScorecardBO7.png";
-import ScoreBoardBO9 from "../../assets/ScorecardBO9.png";
+import ScoreBoardBO1 from "../../assets/ScoreCardBO1-BigSouth.png";
+import ScoreBoardBO3 from "../../assets/ScoreCardBO3-BigSouth.png";
+import ScoreBoardBO5 from "../../assets/ScoreCardBO5-BigSouth.png";
+import ScoreBoardBO7 from "../../assets/ScoreCardBO7-BigSouth.png";
 import CanaLogo from "../../assets/CANAesportsLogo.png";
 export const Scorebug = () => {
   const { gameInfo, setGameInfo } = useContext(GameInfoContext);
@@ -119,7 +118,7 @@ export const Scorebug = () => {
         style={{
           backgroundColor: controlPanelSettings.orangeTeamColor,
           width:
-            (238 / Math.round(controlPanelSettings.NumberOfGames / 2)) *
+            (215 / Math.round(controlPanelSettings.NumberOfGames / 2)) *
             controlPanelSettings.orangeWins,
         }}
       />
@@ -127,7 +126,7 @@ export const Scorebug = () => {
         style={{
           backgroundColor: controlPanelSettings.blueTeamColor,
           width:
-            (238 / Math.round(controlPanelSettings.NumberOfGames / 2)) *
+            (215 / Math.round(controlPanelSettings.NumberOfGames / 2)) *
             controlPanelSettings.blueWins,
         }}
       />
@@ -154,10 +153,6 @@ export const Scorebug = () => {
         {controlPanelSettings.showTeamWins &&
           controlPanelSettings.NumberOfGames === 7 && (
             <img src={ScoreBoardBO7} alt="ScoreBoard" />
-          )}
-        {controlPanelSettings.showTeamWins &&
-          controlPanelSettings.NumberOfGames === 9 && (
-            <img src={ScoreBoardBO9} alt="ScoreBoard" />
           )}
         {!controlPanelSettings.showTeamWins && (
           <img src={ScoreBoardBO1} alt="ScoreBoard" />

@@ -283,21 +283,21 @@ export const DarkSeriesScoreUndertone = styled.div`
 export const SeriesScoreDynamicUndertone = styled.div`
   position: absolute;
   top: 95px;
-  right: 1095px;
-  width: 225px;
+  right: 1100px;
+  width: 215px;
   height: 20px;
   z-index: -1;
   opacity: 1;
-  max-width: 225px;
+  max-width: 215px;
 `;
 
 export const OrangeSeriesScoreDynamicUndertone = styled.div`
   position: absolute;
   top: 95px;
-  left: 1095px;
-  width: 225px;
+  left: 1100px;
+  width: 215px;
   height: 20px;
   z-index: -1;
   opacity: 1;
-  max-width: 225px;
+  max-width: 215px;
 `;
