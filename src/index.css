@@ -1,16 +1,14 @@
-@import url('./fonts/fonts.css');
+@import url("./fonts/fonts.css");
 
 body {
   margin: 0;
   height: 1080px;
   width: 1920px;
-  font-family: 'Quan Rounded Regular', 'Quan Rounded Bold', sans-serif;
+  font-family: "Quan Rounded Regular", "Quan Rounded Bold", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
-
 }
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
