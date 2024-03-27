@@ -3,12 +3,15 @@
 # Date: 3/27/2024
 
 # Navigate to the RLDash directory
-Set-Location -Path RLDash
+# Set-Location -Path RLDash
 
 # Attempt to pull the latest changes from the repository
 try {
     git pull
     Write-Host "Update successful"
+    #close when user presses any key
+    Read-Host -Prompt "Press Enter to exit"
+    exit
 }
 catch {
     # If there are errors, prompt the user
@@ -21,15 +24,21 @@ catch {
                 try {
                     git pull
                     Write-Host "Update successful"
+                    #close when user presses any key
+                    Read-Host -Prompt "Press Enter to exit"
                     break
                 }
                 catch {
                     Write-Host "Failed to update after discarding changes."
+                    #close when user presses any key
+                    Read-Host -Prompt "Press Enter to exit"
                     exit
                 }
             }
             "n" {
                 Write-Host "Update canceled."
+                #close when user presses any key
+                Read-Host -Prompt "Press Enter to exit"
                 exit
             }
             default {
