@@ -465,7 +465,7 @@ export const ControlPanel = () => {
           >
             <option value="SeriesScore">Series Score</option>
             <option value="WinPercent">Win Percent</option>
-            <option value="Both">Both</option>
+            {/* <option value="Both">Both</option> */}
             <option value="None">None</option>
           </Select>
         </RowInput>

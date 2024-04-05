@@ -4,12 +4,13 @@ import styled from "styled-components";
 // size is 320px wide by 160px tall
 // positioned at X=0, Y=0
 export const BlueTeamNamesWrapper = styled.div`
+  // background-color: rgba(0, 0, 0, 0.5);
   color: white;
   position: absolute;
   top: 16px;
   left: 7px;
   height: 130px;
-  width: 253px;
+  width: 290px;
   text-align: center;
 `;
 
@@ -17,42 +18,46 @@ export const BlueTeamNamesWrapper = styled.div`
 // size is 320px wide by 160px tall
 // positioned at X=1600, Y=0
 export const OrangeTeamNamesWrapper = styled.div`
+  //background-color: rgba(0, 0, 0, 0.5);
   color: white;
   position: absolute;
   height: 130px;
-  width: 253px;
+  width: 290px;
   top: 16px;
-  left: 1660px;
+  left: 1630px;
   text-align: center;
 `;
 
 // create a container for a single player's name
 // size is 300px wide by 80px tall
 export const PlayerNameAndBoostContainer = styled.div`
+  //background-color: rgba(255, 255, 255, 0.5);
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
   align-items: center;
   height: 45px;
-  width: 253px;
+  width: 300px;
 `;
 
 export const OrangePlayerNameAndBoostContainer = styled.div`
+  //background-color: rgba(255, 255, 255, 0.5);
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
   align-items: center;
   height: 45px;
-  width: 253px;
+  width: 300px;
 `;
 
 export const PlayerContainer = styled.div`
+  //background-color: rgba(255, 255, 255, 0.5);
   display: flex;
   flex-flow: column;
   justify-content: space-between;
   align-items: center;
   height: 45px;
-  width: 253px;
+  width: 290px;
   margin-bottom: 1px;
 `;
 
@@ -62,7 +67,7 @@ export const OrangePlayerContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   height: 45px;
-  width: 253px;
+  width: 290px;
   position: relative;
   right: 46px;
   margin-bottom: 1px;
@@ -74,7 +79,7 @@ export const OrangePlayerContainer = styled.div`
 export const PlayerName = styled.p`
   font-size: 24px;
   margin: 0;
-  margin-left: 28px;
+  margin-left: 7px;
   position: relative;
   top: -5px;
   overflow: hidden;
@@ -83,7 +88,7 @@ export const PlayerName = styled.p`
 export const PlayerBoost = styled.p`
   font-size: 24px;
   margin: 0;
-  margin-right: 20px;
+  margin-right: 7px;
   position: relative;
   top: -5px;
 `;
@@ -94,7 +99,7 @@ export const PlayerBoost = styled.p`
 export const OrangePlayerName = styled.p`
   font-size: 24px;
   margin: 0;
-  margin-right: 28px;
+  margin-right: 14px;
   position: relative;
   top: -5px;
   overflow: hidden;
@@ -103,7 +108,7 @@ export const OrangePlayerName = styled.p`
 export const OrangePlayerBoost = styled.p`
   font-size: 24px;
   margin: 0;
-  margin-left: 20px;
+  margin-left: 2px;
   position: relative;
   top: -5px;
 `;
@@ -123,14 +128,13 @@ export const BoostNumber = styled.p`
 export const BoostBarContainer = styled.div`
   position: relative;
   height: 7px;
-  width: 230px;
-  padding-left: 10px;
+  width: 284px;
 `;
 
 export const OrangeBoostBarContainer = styled.div`
   position: relative;
   height: 7px;
-  width: 230px;
+  width: 284px;
   padding-right: 10px;
 `;
 
@@ -147,7 +151,7 @@ interface BlueBoostBarProps {
 export const BlueBoostBar = styled.div.attrs<BlueBoostBarProps>((props) => ({
   style: {
     bottom: `${[12, 12, 12][props.index % 3]}px`, // Use props.index here
-    width: `${props.boost * 2.14}px`, // Use props.boost here
+    width: `${props.boost * 2.84}px`, // Use props.boost here
     backgroundColor: props.color, // Use props.color here
   },
 }))<BlueBoostBarProps>`
@@ -156,7 +160,7 @@ export const BlueBoostBar = styled.div.attrs<BlueBoostBarProps>((props) => ({
   position: absolute;
   height: 7px;
   border-radius: 10px;
-  margin-left: 7.5px;
+  // margin-left: 7.5px;
 `;
 
 interface OrangeBoostBarProps {
@@ -169,7 +173,7 @@ export const OrangeBoostBar = styled.div.attrs<OrangeBoostBarProps>(
   (props) => ({
     style: {
       bottom: `${[12, 12, 12][props.index % 3]}px`, // Use props.index here
-      width: `${props.boost * 2.14}px`, // Use props.boost here
+      width: `${props.boost * 2.84}px`, // Use props.boost here
       backgroundColor: props.color, // Use props.color here
     },
   })
@@ -180,7 +184,7 @@ export const OrangeBoostBar = styled.div.attrs<OrangeBoostBarProps>(
   position: absolute;
   height: 7px;
   border-radius: 10px;
-  right: 18px;
+  right: 10px;
 `;
 // create background grey bar to show max boost
 // size is 265px wide by 10px tall
@@ -188,9 +192,9 @@ export const GreyBoostBar = styled.div`
   background-color: grey;
   position: absolute;
   height: 7px;
-  width: 214px;
+  width: 284px;
   border-radius: 5px;
-  margin-left: 7.5px;
+  // margin-left: 7.5px;
   top: -13px;
 `;
 
@@ -198,8 +202,8 @@ export const GreyBoostBarOrange = styled.div`
   background-color: grey;
   position: absolute;
   height: 7px;
-  width: 214px;
-  right: 18px;
+  width: 284px;
+  //right: 18px;
   border-radius: 5px;
   top: -13px;
 `;
@@ -208,9 +212,9 @@ export const GreyBoostBarOrange = styled.div`
 export const BlueSvgWrapper = styled.div`
   position: absolute;
   z-index: -1;
-  top: 0px;
+  top: 14px;
   left: 0px;
-  width: 320px;
+  width: 306px;
   height: auto; /* Adjust if you know the exact height of your image or prefer a specific height */
 
   img {
@@ -222,9 +226,9 @@ export const BlueSvgWrapper = styled.div`
 export const OrangeSvgWrapper = styled.div`
   position: absolute;
   z-index: -1;
-  top: 0px; // Adjust these values as needed
-  left: 1600px; // Adjust these values as needed
-  width: 320px;
+  top: 14px; // Adjust these values as needed
+  left: 1614px; // Adjust these values as needed
+  width: 306px;
   height: auto; /* Adjust if you know the exact height of your image or prefer a specific height */
 
   img {
@@ -237,7 +241,7 @@ export const FlipIconSvgWrapper = styled.div`
   position: relative;
   z-index: 3;
   top: 0px; // Adjust these values as needed
-  left: 55px; // Adjust these values as needed
+  left: 16px; // Adjust these values as needed
   width: 45px;
   height: 38px; /* Adjust if you know the exact height of your image or prefer a specific height */
 
@@ -251,7 +255,7 @@ export const OrangeFlipIconSvgWrapper = styled.div`
   position: relative;
   z-index: 3;
   top: 0px; // Adjust these values as needed
-  right: 98px; // Adjust these values as needed
+  right: 68px; // Adjust these values as needed
   width: 45px;
   height: 38px; /* Adjust if you know the exact height of your image or prefer a specific height */
 

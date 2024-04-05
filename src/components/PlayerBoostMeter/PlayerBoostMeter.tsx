@@ -10,7 +10,8 @@ import {
 import { boostService } from "../../services/boostService";
 import { WebsocketContext } from "../../contexts/WebsocketContext";
 import { transformGameUpdate } from "../../contexts/transformGameUpdate";
-import BoostPNG from "../../assets/Boost_wCANA.png";
+import BlueBoostPNG from "../../assets/BlueBoostMeter.png";
+import OrangeBoostPNG from "../../assets/OrangeBoostMeterpng.png";
 import { ControlPanelSettingsContext } from "../../contexts/ControlPanelSettingsContext";
 export const PlayerBoostMeter = () => {
   const { gameInfo, setGameInfo } = useContext(GameInfoContext);
@@ -79,10 +80,20 @@ export const PlayerBoostMeter = () => {
         <>
           {/* Circle SVG */}
           <svg
-            height={120 * 2}
-            width={120 * 2}
+            height={110 * 2}
+            width={110 * 2}
             style={{ position: "absolute", zIndex: 0 }}
           >
+            {/* Grey background circle */}
+            <circle
+              stroke="#303030" // A grey color for the unused boost space
+              strokeDasharray={`${circumference} ${circumference}`}
+              strokeWidth={40}
+              fill="transparent"
+              r={normalizedRadius}
+              cx={110}
+              cy={110}
+            />
             <BoostMeterRing
               stroke={
                 PlayerTeam === "blue"
@@ -94,32 +105,36 @@ export const PlayerBoostMeter = () => {
                 spectatedPlayer.boost * 1,
                 circumference
               )}
-              strokeWidth={28}
+              strokeWidth={40}
               fill="transparent"
               r={normalizedRadius}
-              cx={89}
-              cy={115}
+              cx={110}
+              cy={110}
             />
           </svg>
 
           {/* PNG Image */}
-          <img src={BoostPNG} alt="BoostCircle" style={{ zIndex: 0 }} />
+          {PlayerTeam === "blue" ? (
+            <img src={BlueBoostPNG} alt="BoostCircle" style={{ zIndex: 0 }} />
+          ) : (
+            <img src={OrangeBoostPNG} alt="BoostCircle" style={{ zIndex: 0 }} />
+          )}
 
           {/* Text SVG */}
 
           {controlPanelSettings.showPlayerSpeed === false && (
             <svg
-              height={121 * 2}
-              width={121 * 2}
+              height={110 * 2}
+              width={110 * 2}
               style={{ position: "absolute", zIndex: 2 }}
             >
               <BoostMeterAmount
                 fill="white"
-                x="60%"
-                y="38%"
+                x="50%"
+                y="50%"
                 textAnchor="middle"
                 dy=".3em"
-                fontSize="86px"
+                fontSize="62px"
                 // fontWeight="bold"
                 color="white"
               >
@@ -129,17 +144,17 @@ export const PlayerBoostMeter = () => {
           )}
           {controlPanelSettings.showPlayerSpeed === true && (
             <svg
-              height={121 * 2}
-              width={121 * 2}
+              height={110 * 2}
+              width={110 * 2}
               style={{ position: "absolute", zIndex: 2 }}
             >
               <BoostMeterAmount
                 fill="white"
-                x="60%"
-                y="38%"
+                x="50%"
+                y="45%"
                 textAnchor="middle"
                 dy=".3em"
-                fontSize="86px"
+                fontSize="62px"
                 // fontWeight="bold"
                 color="white"
               >
@@ -147,11 +162,11 @@ export const PlayerBoostMeter = () => {
               </BoostMeterAmount>
               <BoostMeterSpeed
                 fill="white"
-                x="60%"
-                y="57%"
+                x="50%"
+                y="65%"
                 textAnchor="middle"
                 dy=".3em"
-                fontSize="26px"
+                fontSize="24px"
                 // fontWeight="bold"
               >
                 {controlPanelSettings.metricOrImperial === "KPH"

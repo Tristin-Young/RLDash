@@ -31,8 +31,8 @@ import {
   PlayerName,
   PlayerNameAndBoostContainer,
 } from "./PlayerTeamName.style";
-import BlueTeamPNG from "../../assets/BlueTeam.png";
-import OrangeTeamPNG from "../../assets/OrangeTeam.png";
+import BlueTeamPNG from "../../assets/BlueTeamNames.png";
+import OrangeTeamPNG from "../../assets/OrangeTeamNames.png";
 import FlipIconPNG from "../../assets/flipIcon.png";
 import FlipIconMirroredPNG from "../../assets/flipIconMirrored.png";
 import { transformGameUpdate } from "../../contexts/transformGameUpdate";

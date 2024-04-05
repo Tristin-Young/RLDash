@@ -24,15 +24,16 @@ import {
   SeriesScoreDynamicUndertone,
   OrangeSeriesScoreDynamicUndertone,
   DarkSeriesScoreUndertone,
+  ScorebugCreatorBanner,
 } from "./Scorebug.style";
 import { gameService } from "../../services/gameService";
 import { transformGameUpdate } from "../../contexts/transformGameUpdate";
 import { calculateWinProbability } from "../../services/winPercentage";
-import ScoreBoardBO1 from "../../assets/ScoreCardBO1-BigSouth.png";
-import ScoreBoardBO3 from "../../assets/ScoreCardBO3-BigSouth.png";
-import ScoreBoardBO5 from "../../assets/ScoreCardBO5-BigSouth.png";
-import ScoreBoardBO7 from "../../assets/ScoreCardBO7-BigSouth.png";
-import CanaLogo from "../../assets/CANAesportsLogo.png";
+import ScoreBoardBO1 from "../../assets/Scoreboard.png";
+import ScoreBoardBO3 from "../../assets/ScoreboardBO3.png";
+import ScoreBoardBO5 from "../../assets/ScoreboardBO5.png";
+import ScoreBoardBO7 from "../../assets/ScoreboardBO7.png";
+import CanaLogo from "../../assets/CANA_esports.svg";
 export const Scorebug = () => {
   const { gameInfo, setGameInfo } = useContext(GameInfoContext);
   const { controlPanelSettings, setControlPanelSettings } = useContext(
@@ -104,21 +105,31 @@ export const Scorebug = () => {
   //console.log(controlPanelSettings.BlueTeamPhoto, controlPanelSettings.OrangeTeamPhoto);
   return (
     <>
-      {/* <CanaSVGwrapper>
+      <CanaSVGwrapper>
         <img src={CanaLogo} alt="Cana Logo" />
-      </CanaSVGwrapper> */}
+      </CanaSVGwrapper>
       <SeriesScoreUndertone
         style={{ backgroundColor: controlPanelSettings.blueTeamColor }}
       />
       <OrangeSeriesScoreUndertone
         style={{ backgroundColor: controlPanelSettings.orangeTeamColor }}
       />
+      <ScorebugCreatorBanner>
+        <span>GAME GYM'S SPRING SUMMIT 2024</span>
+        <span>|</span>
+        <span> MAEC CHAMPIONSHIP</span>
+        <span>|</span>
+        <span>
+          GAME {currentGame} ({controlPanelSettings.blueWins}-
+          {controlPanelSettings.orangeWins})
+        </span>
+      </ScorebugCreatorBanner>
       <DarkSeriesScoreUndertone />
       <OrangeSeriesScoreDynamicUndertone
         style={{
           backgroundColor: controlPanelSettings.orangeTeamColor,
           width:
-            (215 / Math.round(controlPanelSettings.NumberOfGames / 2)) *
+            (190 / Math.round(controlPanelSettings.NumberOfGames / 2)) *
             controlPanelSettings.orangeWins,
         }}
       />
@@ -126,7 +137,7 @@ export const Scorebug = () => {
         style={{
           backgroundColor: controlPanelSettings.blueTeamColor,
           width:
-            (215 / Math.round(controlPanelSettings.NumberOfGames / 2)) *
+            (190 / Math.round(controlPanelSettings.NumberOfGames / 2)) *
             controlPanelSettings.blueWins,
         }}
       />
@@ -161,12 +172,22 @@ export const Scorebug = () => {
       <ScorebugWrapper>
         {controlPanelSettings.SeriesScoreWinPercent === "WinPercent" && (
           <ScorebugWinPercentage>
-            {winProb === "50"
-              ? "TIED"
-              : winnerPred === "team1"
-              ? controlPanelSettings.blueTeamName
-              : controlPanelSettings.orangeTeamName}
-            : {winProb}%
+            <div>
+              {winProb === "50"
+                ? "TIED"
+                : winnerPred === "team1"
+                ? controlPanelSettings.blueTeamName
+                : controlPanelSettings.orangeTeamName}
+              : {winProb}%
+            </div>
+            <div>
+              {controlPanelSettings.NumberOfGames === 1 && <span>Bo1</span>}
+              {controlPanelSettings.NumberOfGames === 3 && <span>Bo3</span>}
+              {controlPanelSettings.NumberOfGames === 5 && <span>Bo5</span>}
+              {controlPanelSettings.NumberOfGames === 7 && <span>Bo7</span>}
+              {controlPanelSettings.NumberOfGames === 9 && <span>Bo9</span>}
+              {controlPanelSettings.NumberOfGames === 11 && <span>Bo11</span>}
+            </div>
           </ScorebugWinPercentage>
         )}
         {controlPanelSettings.SeriesScoreWinPercent === "Both" && (
@@ -194,15 +215,13 @@ export const Scorebug = () => {
         )}
         {controlPanelSettings.SeriesScoreWinPercent === "SeriesScore" && (
           <ScorebugSeriesScore>
-            <span>Game&nbsp;</span>
-            {currentGame}
-            <span>&nbsp;|&nbsp;</span>
-            {controlPanelSettings.NumberOfGames === 1 && <span>BO1</span>}
-            {controlPanelSettings.NumberOfGames === 3 && <span>BO3</span>}
-            {controlPanelSettings.NumberOfGames === 5 && <span>BO5</span>}
-            {controlPanelSettings.NumberOfGames === 7 && <span>BO7</span>}
-            {controlPanelSettings.NumberOfGames === 9 && <span>BO9</span>}
-            {controlPanelSettings.NumberOfGames === 11 && <span>BO11</span>}
+            <span>Game&nbsp;{currentGame}</span>
+            {controlPanelSettings.NumberOfGames === 1 && <span>Bo1</span>}
+            {controlPanelSettings.NumberOfGames === 3 && <span>Bo3</span>}
+            {controlPanelSettings.NumberOfGames === 5 && <span>Bo5</span>}
+            {controlPanelSettings.NumberOfGames === 7 && <span>Bo7</span>}
+            {controlPanelSettings.NumberOfGames === 9 && <span>Bo9</span>}
+            {controlPanelSettings.NumberOfGames === 11 && <span>Bo11</span>}
           </ScorebugSeriesScore>
         )}
 

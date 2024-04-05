@@ -25,17 +25,17 @@ export const BoostMeterInfo = styled.div`
 `;
 export const BoostMeterWrapper = styled.div`
   position: absolute;
-  top: 850px;
-  left: 1610px;
+  top: 838px;
+  left: 1626px;
   height: 220px;
-  width: 300px;
-  margin: 0p auto;
+  width: 220px;
+  margin: 0px auto;
   overflow: hidden;
   transform-origin: 0 0;
 
   svg > circle {
     transform: rotate(90deg);
-    transform-origin: 50.5% 57.5%;
+    transform-origin: 50% 50%;
     z-index: 2;
   }
 
