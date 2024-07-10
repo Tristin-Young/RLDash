@@ -8,36 +8,35 @@ export const useControlPanelWebSocketService = () => {
     DEFAULT_CONTROL_PANEL_SETTINGS
   );
   const subscribers = useRef<{ [key: string]: CallbackFunction[] }>({}).current;
+
   useEffect(() => {
     const ws = new WebSocket("ws://localhost:42000");
 
     ws.onmessage = (event) => {
-      const message = event;
-      if (message.type === "loadSettings") {
-        subscribers["loadSettings"]?.forEach((callback) => callback(message)); // Update local state with new settings
-      } else if (message.type === "updateSettings") {
-        subscribers["updateSettings"]?.forEach((callback) => callback(message)); // Update local state with new settings
+      const message = JSON.parse(event.data);
+      console.log("WebSocket message received:", message);
+      if (message.event in subscribers) {
+        console.log(
+          "Notifying subscribers for event:",
+          message.event,
+          "with data:",
+          message.data
+        );
+        subscribers[message.event].forEach((callback) =>
+          callback(message.data)
+        );
       }
     };
 
     ws.onopen = () => {
-      // Subscribe to multiple events after connecting
-      ws.send(
-        JSON.stringify({
-          event: "wsControlPanel:register",
-          data: "loadSettings",
-        })
-      );
-      ws.send(
-        JSON.stringify({
-          event: "wsControlPanel:register",
-          data: "updateSettings",
-        })
-      );
+      console.log("WebSocket connection established");
+      ws.send(JSON.stringify({ event: "loadSettings" }));
     };
+
     ws.onclose = () => console.log("WebSocket disconnected(CLOSED)");
     ws.onerror = (error) => console.log("WebSocket error(ERROR):", error);
-    setWebSocket(webSocket);
+    setWebSocket(ws);
+
     return () => {
       if (ws.readyState === WebSocket.OPEN) {
         ws.close();
@@ -54,15 +53,23 @@ export const useControlPanelWebSocketService = () => {
     }
     subscribers[type].push(callback);
 
-    // Return a function for unsubscribing
     return () => {
       subscribers[type] = subscribers[type].filter((cb) => cb !== callback);
     };
+  };
+
+  const updateSettings = (newSettings: any) => {
+    if (webSocket && webSocket.readyState === WebSocket.OPEN) {
+      webSocket.send(
+        JSON.stringify({ event: "updateSettings", data: newSettings })
+      );
+    }
   };
 
   return {
     subscribe,
     controlPanelSettings,
     setControlPanelSettings,
+    updateSettings,
   };
 };

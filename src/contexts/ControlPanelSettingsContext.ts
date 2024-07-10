@@ -1,10 +1,18 @@
-//ControlPanelSettingsContext.ts
-import { Dispatch, SetStateAction, createContext } from "react";
+//ControlPanelSettingsContext.tsx
+import {
+  createContext,
+  Dispatch,
+  SetStateAction,
+  useState,
+  useEffect,
+} from "react";
 import { ControlPanelContext } from "../models/contexts/ControlPanelContext";
 
 type ControlPanelService = {
   controlPanelSettings: ControlPanelContext;
   setControlPanelSettings: Dispatch<SetStateAction<ControlPanelContext>>;
+  subscribe: (type: string, callback: (data: any) => void) => () => void;
+  updateSettings: (newSettings: ControlPanelContext) => void;
 };
 
 export const DEFAULT_CONTROL_PANEL_SETTINGS: ControlPanelContext = {
@@ -33,12 +41,14 @@ export const DEFAULT_CONTROL_PANEL_SETTINGS: ControlPanelContext = {
   showOverlayBE: false,
   winProcessed: false,
 };
+
 const defaultControlPanelContext: ControlPanelService = {
   controlPanelSettings: DEFAULT_CONTROL_PANEL_SETTINGS,
   setControlPanelSettings: () => {},
+  subscribe: () => () => {},
+  updateSettings: () => {},
 };
 
-export const ControlPanelSettingsContext = createContext<ControlPanelService>({
-  controlPanelSettings: DEFAULT_CONTROL_PANEL_SETTINGS,
-  setControlPanelSettings: () => {},
-});
+export const ControlPanelSettingsContext = createContext<ControlPanelService>(
+  defaultControlPanelContext
+);

@@ -50,7 +50,7 @@ function sendRelayMessage(senderConnectionId, message) {
   let json = JSON.parse(message);
   //log.wb(senderConnectionId + "> Sent " + json.event);
   if (json.event === "game:statfeed_event") {
-    log.wb(senderConnectionId + ">>>>> Sent " + message)
+    //log.wb(senderConnectionId + ">>>>> Sent " + message)
   }
   //log.wb(message);
   let channelEvent = json["event"].split(":");

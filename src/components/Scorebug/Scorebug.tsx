@@ -44,6 +44,10 @@ export const Scorebug = () => {
   const [data, setData] = useState({});
 
   useEffect(() => {
+    console.log("Scorebug settings updated:", controlPanelSettings);
+  }, [controlPanelSettings]);
+
+  useEffect(() => {
     const handleGameUpdate = (innerMessage: any) => {
       //console.log("innerMessage:", innerMessage);
       if (innerMessage.event === "gamestate") {

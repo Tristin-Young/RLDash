@@ -358,7 +358,7 @@ export const usePlayerWebSocketService = () => {
       setTeam1Players(teams.team1);
     };
 
-    ws.onopen = () => console.log("Connected to Player WebSocket[43003]");
+    //ws.onopen = () => console.log("Connected to Player WebSocket[43003]");
     ws.onerror = (error) => console.log("WebSocket error:", error);
     ws.onclose = () => console.log("WebSocket disconnected");
 

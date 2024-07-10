@@ -1,5 +1,4 @@
-//App.tsx
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { WebsocketContext } from "./contexts/WebsocketContext";
 import { ControlPanelSettingsContext } from "./contexts/ControlPanelSettingsContext";
@@ -7,7 +6,6 @@ import { useWebSocketService } from "./services/UseWebSocketService";
 import { useControlPanelWebSocketService } from "./services/useControlPanelWebsSocketService";
 import { Overlay } from "./scenes/Overlay";
 import { ControlPanel } from "./components/ControlPanel/ControlPanel";
-
 import {
   DEFAULT_UPDATESTATE,
   UpdateStateContext,

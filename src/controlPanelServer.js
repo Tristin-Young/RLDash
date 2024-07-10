@@ -15,15 +15,14 @@ async function saveSettings(settings) {
 // Function to load settings
 async function loadSettings() {
   try {
-    return await fs.readJson(settingsFilePath);
-  } catch (error) {
-    if (error.code === 'ENOENT') {
-      console.log('Settings file not found, creating a new one');
-      await saveSettings({});
-      return {};
+    const fileContent = await fs.readFile(settingsFilePath, 'utf8');
+    if (!fileContent) {
+      throw new Error('Settings file is empty');
     }
-    console.log('Error loading settings:', error);
-    return {
+    return JSON.parse(fileContent);
+  } catch (error) {
+    console.log('Error loading settings:', error.message);
+    const defaultSettings = {
       blueTeamName: "GMU",
       orangeTeamName: "CANA",
       blueWins: 0,
@@ -44,30 +43,38 @@ async function loadSettings() {
       BlueTeamPhoto: "",
       OrangeTeamPhoto: ""
     };
+    await saveSettings(defaultSettings);
+    return defaultSettings;
   }
 }
 
 wss.on('connection', async (ws) => {
   console.log('Client connected');
 
-  // Send current settings to newly connected client
   const currentSettings = await loadSettings();
-  ws.send(JSON.stringify({ type: 'loadSettings', data: currentSettings }));
+  console.log('Sending current settings on connection:', currentSettings);
+  ws.send(JSON.stringify({ event: 'loadSettings', data: currentSettings }));
 
   ws.on('message', async (data) => {
-    //console.log('Received message:', data);
     const message = JSON.parse(data);
+    console.log("Processing message:", message);
 
-    switch (message.type) {
+    switch (message.event) {
       case 'updateSettings':
+        console.log('Updating settings with data:', message.data);
         await saveSettings(message.data);
-        broadcast(JSON.stringify({ type: 'updateSettings', data: message }), ws);
+        const updatedSettings = await loadSettings();
+        console.log('Broadcasting updated settings:', updatedSettings);
+        broadcast(JSON.stringify({ event: 'updateSettings', data: updatedSettings }), ws);
         break;
-      case 'requestSettings':
-        // Optionally handle a direct request for current settings
+      case 'loadSettings':
+        console.log('Loading settings');
+        const settings = await loadSettings();
+        console.log('Sending loaded settings:', settings);
+        ws.send(JSON.stringify({ event: 'loadSettings', data: settings }));
         break;
       default:
-        console.log('Unknown message type:', message);
+        console.log('Unknown message type:', message.event);
     }
   });
 
@@ -78,6 +85,7 @@ wss.on('connection', async (ws) => {
 function broadcast(data, senderWs) {
   wss.clients.forEach((client) => {
     if (client !== senderWs && client.readyState === OPEN) {
+      console.log('Broadcasting data to client:', data);
       client.send(data);
     }
   });
