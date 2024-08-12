@@ -1,11 +1,5 @@
 //ControlPanelSettingsContext.tsx
-import {
-  createContext,
-  Dispatch,
-  SetStateAction,
-  useState,
-  useEffect,
-} from "react";
+import { createContext, Dispatch, SetStateAction } from "react";
 import { ControlPanelContext } from "../models/contexts/ControlPanelContext";
 
 type ControlPanelService = {
@@ -42,13 +36,9 @@ export const DEFAULT_CONTROL_PANEL_SETTINGS: ControlPanelContext = {
   winProcessed: false,
 };
 
-const defaultControlPanelContext: ControlPanelService = {
+export const ControlPanelSettingsContext = createContext<ControlPanelService>({
   controlPanelSettings: DEFAULT_CONTROL_PANEL_SETTINGS,
   setControlPanelSettings: () => {},
   subscribe: () => () => {},
   updateSettings: () => {},
-};
-
-export const ControlPanelSettingsContext = createContext<ControlPanelService>(
-  defaultControlPanelContext
-);
+});

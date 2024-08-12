@@ -100,7 +100,7 @@ interface TeamData {
 }
 
 export const SaveData = () => {
-  //console.log("SaveData.tsx touched - save beginning");
+  // console.log("SaveData.tsx touched - save beginning");
   const { updateState, setUpdateState } = useContext(UpdateStateContext);
   const { controlPanelSettings, setControlPanelSettings } = useContext(
     ControlPanelSettingsContext
@@ -120,6 +120,7 @@ export const SaveData = () => {
 
   useEffect(() => {
     // This effect is for handling game updates
+    // console.log("Adding to data to save");
     const handleGameUpdate = (innerMessage: any) => {
       if (
         innerMessage.event === "game:round_started_go" ||

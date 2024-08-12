@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { WebsocketContext } from "./contexts/WebsocketContext";
 import { ControlPanelSettingsContext } from "./contexts/ControlPanelSettingsContext";
 import { useWebSocketService } from "./services/UseWebSocketService";
-import { useControlPanelWebSocketService } from "./services/useControlPanelWebsSocketService";
+import { useControlPanelWebSocketService } from "./services/useControlPanelWebSocketService";
 import { Overlay } from "./scenes/Overlay";
 import { ControlPanel } from "./components/ControlPanel/ControlPanel";
 import {

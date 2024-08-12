@@ -1,18 +1,16 @@
 import React, { useContext, useEffect } from "react";
 import { ControlPanelSettingsContext } from "../contexts/ControlPanelSettingsContext";
-import { WebsocketContext } from "../contexts/WebsocketContext";
 import { UpdateStateContext } from "../contexts/UpdateStateContext";
 import { Scorebug } from "../components/Scorebug/Scorebug";
 import { PlayerStatBar } from "../components/PlayerStatBar/PlayerStatBar";
 import { PlayerBoostMeter } from "../components/PlayerBoostMeter/PlayerBoostMeter";
 import { PlayerTeamName } from "../components/PlayerTeamNames/PlayerTeamName";
 import { transformGameUpdate } from "../contexts/transformGameUpdate";
+import { SaveData } from "../components/SaveData/SaveData";
 
 export const Overlay = () => {
-  const { controlPanelSettings, setControlPanelSettings } = useContext(
-    ControlPanelSettingsContext
-  );
-  const { subscribe } = useContext(WebsocketContext);
+  const { controlPanelSettings, setControlPanelSettings, subscribe } =
+    useContext(ControlPanelSettingsContext);
   const { setUpdateState } = useContext(UpdateStateContext);
 
   useEffect(() => {
@@ -50,6 +48,7 @@ export const Overlay = () => {
       <PlayerStatBar />
       <PlayerBoostMeter />
       <PlayerTeamName />
+      <SaveData />
     </>
   );
 };
