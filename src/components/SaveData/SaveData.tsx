@@ -173,11 +173,16 @@ export const SaveData = () => {
       if (item.event === "gamestate") {
         // Assuming gamestate events contain the data you're interested in
         const { match_guid, game } = item;
-        const ballData = game.ball
-          ? `${game.ball.location.X},${game.ball.location.Y},${game.ball.location.Z},${game.ball.speed},${game.ball.team}`
-          : "0,0,92.75,0,N/A";
-        if (ballData === "0,0,92.75,0,N/A" || game.ball.team === 255) {
-          console.log("No ball data found");
+        const ballData =
+          game.ball && game.ball.location && game.ball.team !== undefined
+            ? `${game.ball.location.X},${game.ball.location.Y},${game.ball.location.Z},${game.ball.speed},${game.ball.team}`
+            : "0,0,92.75,0,N/A";
+
+        if (
+          ballData === "0,0,92.75,0,N/A" ||
+          (game.ball && game.ball.team === 255)
+        ) {
+          //console.log("No ball data found");
           return;
         } else {
           let winProbObj = calculateWinProbability(
