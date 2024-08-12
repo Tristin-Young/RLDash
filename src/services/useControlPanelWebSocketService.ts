@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { DEFAULT_CONTROL_PANEL_SETTINGS } from "../contexts/ControlPanelSettingsContext";
 
-export const useControlPanelWebSocketService = () => {
-  type CallbackFunction = (data: any) => void;
+type CallbackFunction = (data: any) => void; // Define the CallbackFunction type
 
-  const [webSocket, setWebSocket] = useState<WebSocket | null>(null);
+let websocketInstance: WebSocket | null = null; // Ensuring single instance across the app
+
+export const useControlPanelWebSocketService = () => {
   const [controlPanelSettings, setControlPanelSettings] = useState(
     DEFAULT_CONTROL_PANEL_SETTINGS
   );
@@ -20,36 +21,35 @@ export const useControlPanelWebSocketService = () => {
 
   // Setup WebSocket connection and message handling
   useEffect(() => {
-    const ws = new WebSocket("ws://localhost:42000");
+    if (!websocketInstance) {
+      // Ensure we only create one instance
+      websocketInstance = new WebSocket("ws://localhost:42000");
 
-    ws.onopen = () => {
-      console.log("Control Panel WebSocket connection established");
-      ws.send(JSON.stringify({ event: "loadSettings" }));
-    };
+      websocketInstance.onopen = () => {
+        console.log("Control Panel WebSocket connection established");
+        websocketInstance?.send(JSON.stringify({ event: "loadSettings" }));
+      };
 
-    ws.onmessage = (event) => {
-      const message = JSON.parse(event.data);
-      console.log("Control Panel WebSocket message received:", message);
+      websocketInstance.onmessage = (event) => {
+        const message = JSON.parse(event.data);
+        console.log("Control Panel WebSocket message received:", message);
 
-      // Notify subscribers for the specific event
-      if (message.event) {
-        notifySubscribers(message.event, message.data);
-      }
-    };
+        // Notify subscribers for the specific event
+        if (message.event) {
+          notifySubscribers(message.event, message.data);
+        }
+      };
 
-    ws.onclose = () =>
-      console.log("Control Panel WebSocket disconnected (CLOSED)");
-    ws.onerror = (error) =>
-      console.log("Control Panel WebSocket error (ERROR):", error);
-
-    setWebSocket(ws);
+      websocketInstance.onclose = () =>
+        console.log("Control Panel WebSocket disconnected (CLOSED)");
+      websocketInstance.onerror = (error) =>
+        console.log("Control Panel WebSocket error (ERROR):", error);
+    }
 
     return () => {
-      if (ws.readyState === WebSocket.OPEN) {
-        ws.close();
-      }
+      // Do not close the WebSocket connection here to maintain the single instance
     };
-  }, []);
+  }, []); // Empty dependency array ensures this effect runs only once
 
   // Subscribe function to allow components to subscribe to specific events
   const subscribe = (
@@ -68,8 +68,8 @@ export const useControlPanelWebSocketService = () => {
 
   // Update settings and send them to the server via WebSocket
   const updateSettings = (newSettings: any) => {
-    if (webSocket && webSocket.readyState === WebSocket.OPEN) {
-      webSocket.send(
+    if (websocketInstance && websocketInstance.readyState === WebSocket.OPEN) {
+      websocketInstance.send(
         JSON.stringify({ event: "updateSettings", data: newSettings })
       );
     } else {
