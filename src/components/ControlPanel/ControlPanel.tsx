@@ -232,7 +232,7 @@ export const ControlPanel = () => {
     setControlPanelSettings(newSettings);
     updateSettings(newSettings);
     localStorage.setItem("controlPanelSettings", JSON.stringify(newSettings));
-    console.log("New Control Panel Settings:", newSettings);
+    // console.log("New Control Panel Settings:", newSettings);
     setFeedbackMessage("Settings updated successfully!");
     setTimeout(() => {
       setFeedbackMessage("");
@@ -241,7 +241,7 @@ export const ControlPanel = () => {
 
   useEffect(() => {
     const unsubscribe = subscribe("loadSettings", (data) => {
-      console.log("Control panel settings received:", data); // Debug log
+      //console.log("Control panel settings received:", data); // Debug log
       setControlPanelSettings(data);
     });
     return () => unsubscribe();

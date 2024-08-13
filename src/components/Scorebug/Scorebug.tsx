@@ -42,7 +42,7 @@ export const Scorebug = () => {
   const [data, setData] = useState({});
 
   useEffect(() => {
-    console.log("Scorebug settings updated:", controlPanelSettings);
+    //console.log("Scorebug settings updated:", controlPanelSettings);
   }, [controlPanelSettings]);
 
   useEffect(() => {
@@ -73,7 +73,7 @@ export const Scorebug = () => {
   }, [controlPanelSettings]);
 
   if (!updateState) {
-    console.log("No gameInfo");
+    //console.log("No gameInfo");
     return <div>Loading game info...</div>;
   }
   //console.log("gameInfo:", gameInfo);

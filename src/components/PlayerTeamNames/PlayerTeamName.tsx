@@ -79,7 +79,7 @@ export const PlayerTeamName = () => {
 
     // Connection opened
     ws.addEventListener("open", (event) => {
-      console.log("Connected to Flip Plugin server");
+      //console.log("Connected to Flip Plugin server");
     });
 
     // Listen for messages

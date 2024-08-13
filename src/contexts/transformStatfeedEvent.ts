@@ -2,7 +2,7 @@ import { updateState } from "../models/UpdateState/UpdateState";
 import { StatfeedEvent } from "../models/StatfeedEvent/StatfeedEvent";
 
 export const transformStatfeedEvent = (innerMessage: any) => {
-  console.log("TransformStateFeedEvent - data: ", innerMessage);
+  //console.log("TransformStateFeedEvent - data: ", innerMessage);
   const data = innerMessage.data;
   return {
     event_name: data.event_name,

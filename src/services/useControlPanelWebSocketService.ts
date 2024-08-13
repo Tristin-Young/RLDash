@@ -26,13 +26,13 @@ export const useControlPanelWebSocketService = () => {
       websocketInstance = new WebSocket("ws://localhost:42000");
 
       websocketInstance.onopen = () => {
-        console.log("Control Panel WebSocket connection established");
+        //console.log("Control Panel WebSocket connection established");
         websocketInstance?.send(JSON.stringify({ event: "loadSettings" }));
       };
 
       websocketInstance.onmessage = (event) => {
         const message = JSON.parse(event.data);
-        console.log("Control Panel WebSocket message received:", message);
+        //console.log("Control Panel WebSocket message received:", message);
 
         // Notify subscribers for the specific event
         if (message.event) {
@@ -40,10 +40,10 @@ export const useControlPanelWebSocketService = () => {
         }
       };
 
-      websocketInstance.onclose = () =>
-        console.log("Control Panel WebSocket disconnected (CLOSED)");
-      websocketInstance.onerror = (error) =>
-        console.log("Control Panel WebSocket error (ERROR):", error);
+      // websocketInstance.onclose = () =>
+      //   console.log("Control Panel WebSocket disconnected (CLOSED)");
+      // websocketInstance.onerror = (error) =>
+      //   console.log("Control Panel WebSocket error (ERROR):", error);
     }
 
     return () => {

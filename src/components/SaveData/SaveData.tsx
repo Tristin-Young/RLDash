@@ -152,7 +152,7 @@ export const SaveData = () => {
         data.event === "game:statfeed_event" &&
         data.data.event_name === "MVP"
       ) {
-        console.log("Game over, processing and saving data");
+        //console.log("Game over, processing and saving data");
         processAndSaveGameData(captureData);
         processAndSaveStatfeedData(statfeedEvent);
       }
@@ -384,7 +384,7 @@ export const SaveData = () => {
     const newWs = new WebSocket(newWebsocketURL);
 
     newWs.addEventListener("open", () => {
-      console.log("Connected to the new player data source");
+      //console.log("Connected to the new player data source");
     });
 
     newWs.addEventListener("message", (event) => {

@@ -3,7 +3,7 @@ const fs = require('fs-extra');
 const PORT = 42000;
 const settingsFilePath = './controlPanelSettings.json';
 
-console.log(`WebSocket server started on ws://localhost:${PORT}`);
+//console.log(`WebSocket server started on ws://localhost:${PORT}`);
 
 const wss = new Server({ port: PORT });
 
@@ -21,7 +21,7 @@ async function loadSettings() {
     }
     return JSON.parse(fileContent);
   } catch (error) {
-    console.log('Error loading settings:', error.message);
+    //console.log('Error loading settings:', error.message);
     const defaultSettings = {
       blueTeamName: "GMU",
       orangeTeamName: "CANA",
@@ -49,43 +49,43 @@ async function loadSettings() {
 }
 
 wss.on('connection', async (ws) => {
-  console.log('Client connected');
+  //console.log('Client connected');
 
   const currentSettings = await loadSettings();
-  console.log('Sending current settings on connection:', currentSettings);
+  //console.log('Sending current settings on connection:', currentSettings);
   ws.send(JSON.stringify({ event: 'loadSettings', data: currentSettings }));
 
   ws.on('message', async (data) => {
     const message = JSON.parse(data);
-    console.log("Processing message:", message);
+    //console.log("Processing message:", message);
 
     switch (message.event) {
       case 'updateSettings':
-        console.log('Updating settings with data:', message.data);
+        //console.log('Updating settings with data:', message.data);
         await saveSettings(message.data);
         const updatedSettings = await loadSettings();
-        console.log('Broadcasting updated settings:', updatedSettings);
+        //console.log('Broadcasting updated settings:', updatedSettings);
         broadcast(JSON.stringify({ event: 'updateSettings', data: updatedSettings }), ws);
         break;
       case 'loadSettings':
-        console.log('Loading settings');
+        //console.log('Loading settings');
         const settings = await loadSettings();
-        console.log('Sending loaded settings:', settings);
+        //console.log('Sending loaded settings:', settings);
         ws.send(JSON.stringify({ event: 'loadSettings', data: settings }));
         break;
       default:
-        console.log('Unknown message type:', message.event);
+      //console.log('Unknown message type:', message.event);
     }
   });
 
-  ws.on('close', () => console.log('Client disconnected'));
+  //ws.on('close', () => console.log('Client disconnected'));
 });
 
 // Broadcast message to all clients except the sender
 function broadcast(data, senderWs) {
   wss.clients.forEach((client) => {
     if (client !== senderWs && client.readyState === OPEN) {
-      console.log('Broadcasting data to client:', data);
+      //console.log('Broadcasting data to client:', data);
       client.send(data);
     }
   });

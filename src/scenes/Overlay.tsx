@@ -16,7 +16,7 @@ export const Overlay = () => {
   const { setUpdateState } = useContext(UpdateStateContext);
 
   useEffect(() => {
-    console.log("Overlay settings updated:", controlPanelSettings);
+    //console.log("Overlay settings updated:", controlPanelSettings);
   }, [controlPanelSettings]);
 
   useEffect(() => {
@@ -28,7 +28,7 @@ export const Overlay = () => {
     };
 
     const handleUpdateSettings = (data: any) => {
-      console.log("Overlay updateSettings received:", data);
+      //console.log("Overlay updateSettings received:", data);
       setControlPanelSettings(data);
     };
 

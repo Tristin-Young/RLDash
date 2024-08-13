@@ -149,7 +149,7 @@ export const useWebSocketService = () => {
               callback(innerMessage)
             );
           } else if (innerMessage.data.type === "MVP") {
-            console.log("game:statfeed_event_MVP message recieved");
+            //console.log("game:statfeed_event_MVP message recieved");
             subscribers["game:statfeed_event_MVP"]?.forEach((callback) =>
               callback(innerMessage)
             );
@@ -286,8 +286,8 @@ export const useWebSocketService = () => {
       );
     };
 
-    ws.onclose = () => console.log("WebSocket disconnected(CLOSED)");
-    ws.onerror = (error) => console.log("WebSocket error(ERROR):", error);
+    // ws.onclose = () => console.log("WebSocket disconnected(CLOSED)");
+    // ws.onerror = (error) => console.log("WebSocket error(ERROR):", error);
 
     setWebSocket(ws);
 
@@ -348,7 +348,7 @@ export const usePlayerWebSocketService = () => {
     const ws = new WebSocket("ws://localhost:43003");
 
     ws.onmessage = (event) => {
-      console.log("WebSocket message received:", event.data);
+      //console.log("WebSocket message received:", event.data);
       const data = JSON.parse(event.data);
       // Parse the team data using our function
       const teams = parseTeamData(data);
@@ -359,8 +359,8 @@ export const usePlayerWebSocketService = () => {
     };
 
     //ws.onopen = () => console.log("Connected to Player WebSocket[43003]");
-    ws.onerror = (error) => console.log("WebSocket error:", error);
-    ws.onclose = () => console.log("WebSocket disconnected");
+    // ws.onerror = (error) => console.log("WebSocket error:", error);
+    // ws.onclose = () => console.log("WebSocket disconnected");
 
     return () => {
       if (ws.readyState === WebSocket.OPEN) {
