@@ -11,33 +11,71 @@ export const UpdateSeriesScore = () => {
 
   useEffect(() => {
     const handleMVPEvent = () => {
-      //console.log("MVP event received. Updating series score...");
+      console.log(
+        "UPDATESERIESSCORE>> MVP event received. Updating series score..."
+      );
 
       const blueScore = updateState.game.teams[0].score;
       const orangeScore = updateState.game.teams[1].score;
-      if (
-        controlPanelSettings.blueWins + controlPanelSettings.orangeWins + 1 >=
-        controlPanelSettings.NumberOfGames
-      ) {
-        // This was the last game of the series
-        setControlPanelSettings((prevSettings) => ({
-          ...prevSettings,
-          blueWins: 0,
-          orangeWins: 0,
-        }));
-        //updateSettings(controlPanelSettings);
-      } else if (blueScore > orangeScore) {
+
+      if (blueScore > orangeScore) {
         // Blue team wins the game
-        setControlPanelSettings((prevSettings) => ({
-          ...prevSettings,
-          blueWins: prevSettings.blueWins + 1,
-        }));
+        setControlPanelSettings((prevSettings) => {
+          const updatedSettings = { ...prevSettings };
+
+          if (
+            prevSettings.blueWins >=
+            Math.floor(prevSettings.NumberOfGames / 2) + 1
+          ) {
+            // This was the last game of the series
+            console.log(
+              "UPDATESERIESSCORE>> Blue team wins the series!",
+              prevSettings.blueWins
+            );
+            updatedSettings.blueWins = 0;
+            updatedSettings.orangeWins = 0;
+          } else {
+            // This was not the last game of the series
+            console.log(
+              "UPDATESERIESSCORE>> Blue team wins the game!",
+              prevSettings.blueWins
+            );
+            updatedSettings.blueWins += 1;
+          }
+
+          // Call updateSettings with the updated settings
+          updateSettings(updatedSettings);
+          return updatedSettings;
+        });
       } else if (orangeScore > blueScore) {
         // Orange team wins the game
-        setControlPanelSettings((prevSettings) => ({
-          ...prevSettings,
-          orangeWins: prevSettings.orangeWins + 1,
-        }));
+        setControlPanelSettings((prevSettings) => {
+          const updatedSettings = { ...prevSettings };
+
+          if (
+            prevSettings.orangeWins >=
+            Math.floor(prevSettings.NumberOfGames / 2) + 1
+          ) {
+            // This was the last game of the series
+            console.log(
+              "UPDATESERIESSCORE>> Orange team wins the series!",
+              prevSettings.orangeWins
+            );
+            updatedSettings.blueWins = 0;
+            updatedSettings.orangeWins = 0;
+          } else {
+            // This was not the last game of the series
+            console.log(
+              "UPDATESERIESSCORE>> Orange team wins the game!",
+              prevSettings.orangeWins
+            );
+            updatedSettings.orangeWins += 1;
+          }
+
+          // Call updateSettings with the updated settings
+          updateSettings(updatedSettings);
+          return updatedSettings;
+        });
       }
     };
 
@@ -46,7 +84,7 @@ export const UpdateSeriesScore = () => {
     return () => {
       unsubscribe();
     };
-  }, [subscribe]);
+  }, [subscribe, setControlPanelSettings]);
 
   return null; // This component doesn't render anything
 };

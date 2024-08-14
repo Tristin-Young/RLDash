@@ -28,12 +28,14 @@ export const Overlay = () => {
     };
 
     const handleLoadSettings = (data: any) => {
-      console.log("OVERLAY.TSX>>Loaded Control Panel Settings");
+      console.log("OVERLAY.TSX>>Loaded Control Panel Settings From WS");
       setControlPanelSettings(data);
     };
 
     const handleUpdateSettings = (data: any) => {
-      console.log("OVERLAY.TSX>>Updating Control Panel Settings");
+      console.log(
+        "OVERLAY.TSX>>Updating Control Panel Settings (External component)"
+      );
       setControlPanelSettings(data);
       //updateSettings(data);
     };

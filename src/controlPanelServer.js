@@ -5,6 +5,7 @@ const settingsFilePath = './controlPanelSettings.json';
 
 const wss = new Server({ port: PORT });
 console.log(`WebSocket server started on ws://localhost:${PORT}`);
+console.log(`WebSocket server started on ws://localhost:${PORT}`);
 
 // Function to save settings
 async function saveSettings(settings) {
@@ -77,7 +78,7 @@ wss.on('connection', async (ws) => {
       case 'loadSettings':
         console.log('Loading settings');
         const settings = await loadSettings();
-        broadcast(JSON.stringify({ event: 'loadSettings', data: settings }));
+        ws.send(JSON.stringify({ event: 'loadSettings', data: settings }));
         break;
       default:
         console.log('Unknown message type:', message.event);

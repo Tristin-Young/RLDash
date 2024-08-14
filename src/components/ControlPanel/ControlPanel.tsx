@@ -257,7 +257,7 @@ export const ControlPanel = () => {
       newSettings.orangeTeamFlipColor = newSettings.orangeTeamColor;
     }
     setControlPanelSettings(newSettings);
-    console.log("CONTROLPANEL.TSX>>Updating Control Panel Settings");
+    console.log("CONTROLPANEL.TSX>>Updating Control Panel Settings From Form");
     updateSettings(newSettings);
     localStorage.setItem("controlPanelSettings", JSON.stringify(newSettings));
     // console.log("New Control Panel Settings:", newSettings);
@@ -269,12 +269,14 @@ export const ControlPanel = () => {
 
   useEffect(() => {
     const handleLoadSettings = (data: any) => {
-      console.log("OVERLAY.TSX>>Loaded Control Panel Settings");
+      console.log("CONTROLPANEL.TSX>>Loaded Control Panel Settings From WS");
       setControlPanelSettings(data);
     };
 
     const handleUpdateSettings = (data: any) => {
-      console.log("OVERLAY.TSX>>Updating Control Panel Settings");
+      console.log(
+        "CONTROLPANEL.TSX>>Updating Control Panel Settings (External component)"
+      );
       setControlPanelSettings(data);
       //updateSettings(data);
     };
@@ -295,6 +297,12 @@ export const ControlPanel = () => {
     };
   }, [subscribe, setControlPanelSettings]);
 
+  useEffect(() => {
+    const unsubscribe = subscribe("updateSettings", () => {
+      console.log("Settings updated");
+    });
+    return () => unsubscribe();
+  }, [subscribe]);
   return (
     <FormWrapper>
       <Form onSubmit={handleSubmit}>
