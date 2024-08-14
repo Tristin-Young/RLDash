@@ -8,7 +8,7 @@ import { PlayerBoostMeter } from "../components/PlayerBoostMeter/PlayerBoostMete
 import { PlayerTeamName } from "../components/PlayerTeamNames/PlayerTeamName";
 import { transformGameUpdate } from "../contexts/transformGameUpdate";
 import { SaveData } from "../components/SaveData/SaveData";
-import { UpdateSeriesScore } from "../components/SeriesScore/UpdateSeriesScore";
+// import { UpdateSeriesScore } from "../components/SeriesScore/UpdateSeriesScore";
 
 export const Overlay = () => {
   const { controlPanelSettings, setControlPanelSettings, subscribe } =
@@ -51,7 +51,7 @@ export const Overlay = () => {
       <PlayerBoostMeter />
       <PlayerTeamName />
       <SaveData />
-      <UpdateSeriesScore />
+      {/* <UpdateSeriesScore /> */}
     </>
   );
 };

@@ -71,7 +71,7 @@ wss.on('connection', async (ws) => {
         //console.log('Loading settings');
         const settings = await loadSettings();
         //console.log('Sending loaded settings:', settings);
-        ws.send(JSON.stringify({ event: 'loadSettings', data: settings }));
+        broadcast(JSON.stringify({ event: 'loadSettings', data: settings }));
         break;
       default:
       //console.log('Unknown message type:', message.event);

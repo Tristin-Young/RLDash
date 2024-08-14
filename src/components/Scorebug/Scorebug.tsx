@@ -42,10 +42,6 @@ export const Scorebug = () => {
   const [data, setData] = useState({});
 
   useEffect(() => {
-    //console.log("Scorebug settings updated:", controlPanelSettings);
-  }, [controlPanelSettings]);
-
-  useEffect(() => {
     const handleGameUpdate = (innerMessage: any) => {
       //console.log("innerMessage:", innerMessage);
       if (innerMessage.event === "gamestate") {
@@ -67,10 +63,10 @@ export const Scorebug = () => {
     };
   }, [subscribe, setUpdateState]);
 
-  useEffect(() => {
-    // Logic that should run when controlPanelSettings changes
-    //console.log("Updated settings:", controlPanelSettings);
-  }, [controlPanelSettings]);
+  // useEffect(() => {
+  //   // Logic that should run when controlPanelSettings changes
+  //   //console.log("Updated settings:", controlPanelSettings);
+  // }, [controlPanelSettings]);
 
   if (!updateState) {
     //console.log("No gameInfo");

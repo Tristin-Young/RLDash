@@ -152,7 +152,7 @@ export const SaveData = () => {
         data.event === "game:statfeed_event" &&
         data.data.event_name === "MVP"
       ) {
-        //console.log("Game over, processing and saving data");
+        console.log("Game over, processing and saving data");
         processAndSaveGameData(captureData);
         processAndSaveStatfeedData(statfeedEvent);
       }

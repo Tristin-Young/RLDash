@@ -13,7 +13,7 @@ export const UpdateSeriesScore = () => {
   useEffect(() => {
     const handleMVPEvent = (innerMessage: any) => {
       if (innerMessage.data.type === "MVP") {
-        //console.log("MVP event received. Updating series score...");
+        console.log("MVP event received. Updating series score...");
 
         const blueScore = updateState.game.teams[0].score;
         const orangeScore = updateState.game.teams[1].score;
@@ -39,7 +39,7 @@ export const UpdateSeriesScore = () => {
     return () => {
       unsubscribe();
     };
-  }, [subscribe, updateState, setControlPanelSettings]);
+  }, [subscribe]);
 
   return null; // This component doesn't render anything
 };

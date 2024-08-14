@@ -239,13 +239,13 @@ export const ControlPanel = () => {
     }, 3000);
   };
 
-  useEffect(() => {
-    const unsubscribe = subscribe("loadSettings", (data) => {
-      //console.log("Control panel settings received:", data); // Debug log
-      setControlPanelSettings(data);
-    });
-    return () => unsubscribe();
-  }, [subscribe, setControlPanelSettings]);
+  // useEffect(() => {
+  //   const unsubscribe = subscribe("loadSettings", (data) => {
+  //     //console.log("Control panel settings received:", data); // Debug log
+  //     setControlPanelSettings(data);
+  //   });
+  //   return () => unsubscribe();
+  // }, [subscribe, setControlPanelSettings]);
 
   return (
     <FormWrapper>

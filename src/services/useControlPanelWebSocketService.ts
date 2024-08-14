@@ -27,7 +27,7 @@ export const useControlPanelWebSocketService = () => {
 
       websocketInstance.onopen = () => {
         //console.log("Control Panel WebSocket connection established");
-        websocketInstance?.send(JSON.stringify({ event: "loadSettings" }));
+        //websocketInstance?.send(JSON.stringify({ event: "loadSettings" }));
       };
 
       websocketInstance.onmessage = (event) => {
@@ -36,6 +36,10 @@ export const useControlPanelWebSocketService = () => {
 
         // Notify subscribers for the specific event
         if (message.event) {
+          console.log(
+            "UCWSS.NotifySubscribers: Notifying subscribers for event:",
+            message.event
+          );
           notifySubscribers(message.event, message.data);
         }
       };
