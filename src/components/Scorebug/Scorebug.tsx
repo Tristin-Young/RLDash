@@ -35,9 +35,13 @@ import ScoreBoardBO5 from "../../assets/ScorecardBO5.png";
 import ScoreBoardBO7 from "../../assets/ScorecardBO7.png";
 import ScoreBoardBO9 from "../../assets/ScorecardBO9.png";
 import CanaLogo from "../../assets/CANAesportsLogo.png";
+
 export const Scorebug = () => {
   const { updateState, setUpdateState } = useContext(UpdateStateContext);
-  const { controlPanelSettings } = useContext(ControlPanelSettingsContext);
+  const { controlPanelSettings, setControlPanelSettings } = useContext(
+    ControlPanelSettingsContext
+  );
+
   const { subscribe } = useContext(WebsocketContext); // Changed to useContext
   const [data, setData] = useState({});
 

@@ -5,9 +5,8 @@ import { WebsocketContext } from "../../contexts/WebsocketContext";
 
 export const UpdateSeriesScore = () => {
   const { updateState } = useContext(UpdateStateContext);
-  const { controlPanelSettings, setControlPanelSettings } = useContext(
-    ControlPanelSettingsContext
-  );
+  const { controlPanelSettings, setControlPanelSettings, updateSettings } =
+    useContext(ControlPanelSettingsContext);
   const { subscribe } = useContext(WebsocketContext);
 
   useEffect(() => {
@@ -26,6 +25,7 @@ export const UpdateSeriesScore = () => {
           blueWins: 0,
           orangeWins: 0,
         }));
+        //updateSettings(controlPanelSettings);
       } else if (blueScore > orangeScore) {
         // Blue team wins the game
         setControlPanelSettings((prevSettings) => ({

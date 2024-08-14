@@ -3,13 +3,17 @@ const fs = require('fs-extra');
 const PORT = 42000;
 const settingsFilePath = './controlPanelSettings.json';
 
-//console.log(`WebSocket server started on ws://localhost:${PORT}`);
-
 const wss = new Server({ port: PORT });
+console.log(`WebSocket server started on ws://localhost:${PORT}`);
 
 // Function to save settings
 async function saveSettings(settings) {
-  await fs.writeJson(settingsFilePath, settings);
+  try {
+    await fs.writeJson(settingsFilePath, settings);
+    console.log('Settings saved to local file');
+  } catch (error) {
+    console.error('Error saving settings:', error);
+  }
 }
 
 // Function to load settings
@@ -21,9 +25,9 @@ async function loadSettings() {
     }
     return JSON.parse(fileContent);
   } catch (error) {
-    //console.log('Error loading settings:', error.message);
+    console.error('Error loading settings:', error.message);
     const defaultSettings = {
-      blueTeamName: "GMU",
+      blueTeamName: "CANA",
       orangeTeamName: "CANA",
       blueWins: 0,
       orangeWins: 0,
@@ -33,13 +37,18 @@ async function loadSettings() {
       blueTeamFlipColor: "#305DFF",
       orangeTeamFlipColor: "#FF7900",
       flipUnavailableColor: "#A3A3A3",
+      blueWins: 0,
+      orangeWins: 0,
       NumberOfGames: 5,
       showTeamWins: true,
       SeriesScoreWinPercent: "SeriesScore",
-      showFlipResets: false,
+      showFlipResets: true,
+      showPlayerSpeed: true,
       metricOrImperial: "KPH",
-      savedata: false,
+      savedata: true,
       serverPortNumber: 3000,
+      showOverlayBE: false,
+      winProcessed: false,
       BlueTeamPhoto: "",
       OrangeTeamPhoto: ""
     };
@@ -49,44 +58,42 @@ async function loadSettings() {
 }
 
 wss.on('connection', async (ws) => {
-  //console.log('Client connected');
+  console.log('Client connected');
 
   const currentSettings = await loadSettings();
-  //console.log('Sending current settings on connection:', currentSettings);
   ws.send(JSON.stringify({ event: 'loadSettings', data: currentSettings }));
 
   ws.on('message', async (data) => {
     const message = JSON.parse(data);
-    //console.log("Processing message:", message);
+    console.log("Processing message:", message.event, message.data?.BlueTeamName, message.data?.OrangeTeamName);
 
     switch (message.event) {
       case 'updateSettings':
-        //console.log('Updating settings with data:', message.data);
+        console.log('Updating settings with data:', message.data?.BlueTeamName, message.data?.OrangeTeamName);
         await saveSettings(message.data);
         const updatedSettings = await loadSettings();
-        //console.log('Broadcasting updated settings:', updatedSettings);
-        broadcast(JSON.stringify({ event: 'updateSettings', data: updatedSettings }), ws);
+        broadcast(JSON.stringify({ event: 'updateSettings', data: updatedSettings }));
         break;
       case 'loadSettings':
-        //console.log('Loading settings');
+        console.log('Loading settings');
         const settings = await loadSettings();
-        //console.log('Sending loaded settings:', settings);
         broadcast(JSON.stringify({ event: 'loadSettings', data: settings }));
         break;
       default:
-      //console.log('Unknown message type:', message.event);
+        console.log('Unknown message type:', message.event);
     }
   });
 
-  //ws.on('close', () => console.log('Client disconnected'));
+  ws.on('close', () => console.log('Client disconnected'));
 });
 
-// Broadcast message to all clients except the sender
-function broadcast(data, senderWs) {
+// Broadcast message to all clients
+function broadcast(data, senderWs = null) {
   wss.clients.forEach((client) => {
-    if (client !== senderWs && client.readyState === OPEN) {
-      //console.log('Broadcasting data to client:', data);
+    if (client.readyState === OPEN) {
+      console.log('Broadcasting data to client:', JSON.parse(data).event);
       client.send(data);
     }
   });
 }
+

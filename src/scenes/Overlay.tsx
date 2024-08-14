@@ -11,14 +11,13 @@ import { UpdateSeriesScore } from "../components/SeriesScore/UpdateSeriesScore";
 import { UpdateShowOverlay } from "../components/ShowOverlay/UpdateShowOverlay";
 
 export const Overlay = () => {
-  const { controlPanelSettings, setControlPanelSettings, subscribe } =
-    useContext(ControlPanelSettingsContext);
+  const {
+    controlPanelSettings,
+    setControlPanelSettings,
+    subscribe,
+    updateSettings,
+  } = useContext(ControlPanelSettingsContext);
   const { setUpdateState } = useContext(UpdateStateContext);
-
-  // useEffect(() => {
-  //   // Console log to verify the settings are being updated
-  //   console.log("Overlay settings updated:", controlPanelSettings);
-  // }, [controlPanelSettings]);
 
   useEffect(() => {
     const handleGameUpdate = (innerMessage: any) => {
@@ -28,10 +27,22 @@ export const Overlay = () => {
       }
     };
 
-    const handleUpdateSettings = (data: any) => {
-      //console.log("Overlay updateSettings received:", data);
+    const handleLoadSettings = (data: any) => {
+      console.log("OVERLAY.TSX>>Loaded Control Panel Settings");
       setControlPanelSettings(data);
     };
+
+    const handleUpdateSettings = (data: any) => {
+      console.log("OVERLAY.TSX>>Updating Control Panel Settings");
+      setControlPanelSettings(data);
+      //updateSettings(data);
+    };
+
+    // Load initial settings when the overlay component mounts
+    const unsubscribeLoadSettings = subscribe(
+      "loadSettings",
+      handleLoadSettings
+    );
 
     // Subscribing to the "gamestate" event using the subscribe function provided by the context
     const unsubscribeGameUpdate = subscribe("gamestate", handleGameUpdate);
@@ -42,6 +53,7 @@ export const Overlay = () => {
 
     // Clean up subscriptions when the component unmounts
     return () => {
+      unsubscribeLoadSettings();
       unsubscribeGameUpdate();
       unsubscribeUpdateSettings();
     };

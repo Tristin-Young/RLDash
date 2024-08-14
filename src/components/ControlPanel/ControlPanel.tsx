@@ -79,6 +79,33 @@ export const ControlPanel = () => {
   );
   const [feedbackMessage, setFeedbackMessage] = useState("");
 
+  useEffect(() => {
+    setBlueTeamName(controlPanelSettings.blueTeamName);
+    setOrangeTeamName(controlPanelSettings.orangeTeamName);
+    setBlueTeamColor(controlPanelSettings.blueTeamColor);
+    setOrangeTeamColor(controlPanelSettings.orangeTeamColor);
+    setBlueWins(controlPanelSettings.blueWins);
+    setOrangeWins(controlPanelSettings.orangeWins);
+    setNumberOfGames(controlPanelSettings.NumberOfGames);
+    setMetricOrImperial(controlPanelSettings.metricOrImperial);
+    setSaveData(controlPanelSettings.savedata);
+    setServerPortNumber(controlPanelSettings.serverPortNumber);
+    setSeriesScoreWinPercent(controlPanelSettings.SeriesScoreWinPercent);
+    setShowPlayerSpeed(controlPanelSettings.showPlayerSpeed);
+    setShowFlipResets(controlPanelSettings.showFlipResets);
+    setOrangeTeamFlipColor(controlPanelSettings.orangeTeamFlipColor);
+    setBlueTeamFlipColor(controlPanelSettings.blueTeamFlipColor);
+    setFlipUnavailableColor(controlPanelSettings.flipUnavailableColor);
+    setUseTeamColorsForFlipColors(
+      controlPanelSettings.useTeamColorsForFlipColors
+    );
+    setShowTeamWins(controlPanelSettings.showTeamWins);
+    setBlueTeamLogo(controlPanelSettings.BlueTeamPhoto);
+    setOrangeTeamLogo(controlPanelSettings.OrangeTeamPhoto);
+    setBlueTeamLogoPreview(controlPanelSettings.BlueTeamPhoto);
+    setOrangeTeamLogoPreview(controlPanelSettings.OrangeTeamPhoto);
+  }, [controlPanelSettings]);
+
   const handleShowTeamWinsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setShowTeamWins(e.target.checked);
   };
@@ -230,6 +257,7 @@ export const ControlPanel = () => {
       newSettings.orangeTeamFlipColor = newSettings.orangeTeamColor;
     }
     setControlPanelSettings(newSettings);
+    console.log("CONTROLPANEL.TSX>>Updating Control Panel Settings");
     updateSettings(newSettings);
     localStorage.setItem("controlPanelSettings", JSON.stringify(newSettings));
     // console.log("New Control Panel Settings:", newSettings);
@@ -239,13 +267,33 @@ export const ControlPanel = () => {
     }, 3000);
   };
 
-  // useEffect(() => {
-  //   const unsubscribe = subscribe("loadSettings", (data) => {
-  //     //console.log("Control panel settings received:", data); // Debug log
-  //     setControlPanelSettings(data);
-  //   });
-  //   return () => unsubscribe();
-  // }, [subscribe, setControlPanelSettings]);
+  useEffect(() => {
+    const handleLoadSettings = (data: any) => {
+      console.log("OVERLAY.TSX>>Loaded Control Panel Settings");
+      setControlPanelSettings(data);
+    };
+
+    const handleUpdateSettings = (data: any) => {
+      console.log("OVERLAY.TSX>>Updating Control Panel Settings");
+      setControlPanelSettings(data);
+      //updateSettings(data);
+    };
+    const unsubscribeLoadSettings = subscribe(
+      "loadSettings",
+      handleLoadSettings
+    );
+
+    const unsubscribeUpdateSettings = subscribe(
+      "updateSettings",
+      handleUpdateSettings
+    );
+
+    // Clean up subscriptions when the component unmounts
+    return () => {
+      unsubscribeLoadSettings();
+      unsubscribeUpdateSettings();
+    };
+  }, [subscribe, setControlPanelSettings]);
 
   return (
     <FormWrapper>
@@ -318,9 +366,9 @@ export const ControlPanel = () => {
           <ColorPickerInput
             id="blueColor"
             type="color"
-            value={controlPanelSettings.blueTeamColor}
+            value={blueTeamColor}
             onChange={handleBlueTeamColorChange}
-            style={{ backgroundColor: controlPanelSettings.blueTeamColor }}
+            style={{ backgroundColor: blueTeamColor }}
           />
         </FormGroup>
         <FormGroup>
@@ -328,9 +376,9 @@ export const ControlPanel = () => {
           <ColorPickerInput
             id="orangeColor"
             type="color"
-            value={controlPanelSettings.orangeTeamColor}
+            value={orangeTeamColor}
             onChange={handleOrangeTeamColorChange}
-            style={{ backgroundColor: controlPanelSettings.orangeTeamColor }}
+            style={{ backgroundColor: orangeTeamColor }}
           />
         </FormGroup>
         <FormGroup>
@@ -338,9 +386,9 @@ export const ControlPanel = () => {
           <ColorPickerInput
             id="blueFlipColor"
             type="color"
-            value={controlPanelSettings.blueTeamFlipColor}
+            value={blueTeamFlipColor}
             onChange={handleBlueTeamFlipColorChange}
-            style={{ backgroundColor: controlPanelSettings.blueTeamFlipColor }}
+            style={{ backgroundColor: blueTeamFlipColor }}
           />
         </FormGroup>
         <FormGroup>
@@ -348,10 +396,10 @@ export const ControlPanel = () => {
           <ColorPickerInput
             id="orangeFlipColor"
             type="color"
-            value={controlPanelSettings.orangeTeamFlipColor}
+            value={orangeTeamFlipColor}
             onChange={handleOrangeTeamFlipColorChange}
             style={{
-              backgroundColor: controlPanelSettings.orangeTeamFlipColor,
+              backgroundColor: orangeTeamFlipColor,
             }}
           />
         </FormGroup>
@@ -360,10 +408,10 @@ export const ControlPanel = () => {
           <ColorPickerInput
             id="flipUnavailableColor"
             type="color"
-            value={controlPanelSettings.flipUnavailableColor}
+            value={flipUnavailableColor}
             onChange={handleFlipUnavailableColorChange}
             style={{
-              backgroundColor: controlPanelSettings.flipUnavailableColor,
+              backgroundColor: flipUnavailableColor,
             }}
           />
         </FormGroup>
