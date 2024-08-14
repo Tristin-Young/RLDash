@@ -36,10 +36,10 @@ export const useControlPanelWebSocketService = () => {
 
         // Notify subscribers for the specific event
         if (message.event) {
-          console.log(
-            "UCWSS.NotifySubscribers: Notifying subscribers for event:",
-            message.event
-          );
+          // console.log(
+          //   "UCWSS.NotifySubscribers: Notifying subscribers for event:",
+          //   message.event
+          // );
           notifySubscribers(message.event, message.data);
         }
       };

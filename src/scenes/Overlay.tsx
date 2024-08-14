@@ -1,4 +1,3 @@
-//Overlay.tsx
 import React, { useContext, useEffect } from "react";
 import { ControlPanelSettingsContext } from "../contexts/ControlPanelSettingsContext";
 import { UpdateStateContext } from "../contexts/UpdateStateContext";
@@ -8,16 +7,18 @@ import { PlayerBoostMeter } from "../components/PlayerBoostMeter/PlayerBoostMete
 import { PlayerTeamName } from "../components/PlayerTeamNames/PlayerTeamName";
 import { transformGameUpdate } from "../contexts/transformGameUpdate";
 import { SaveData } from "../components/SaveData/SaveData";
-// import { UpdateSeriesScore } from "../components/SeriesScore/UpdateSeriesScore";
+import { UpdateSeriesScore } from "../components/SeriesScore/UpdateSeriesScore";
+import { UpdateShowOverlay } from "../components/ShowOverlay/UpdateShowOverlay";
 
 export const Overlay = () => {
   const { controlPanelSettings, setControlPanelSettings, subscribe } =
     useContext(ControlPanelSettingsContext);
   const { setUpdateState } = useContext(UpdateStateContext);
 
-  useEffect(() => {
-    //console.log("Overlay settings updated:", controlPanelSettings);
-  }, [controlPanelSettings]);
+  // useEffect(() => {
+  //   // Console log to verify the settings are being updated
+  //   console.log("Overlay settings updated:", controlPanelSettings);
+  // }, [controlPanelSettings]);
 
   useEffect(() => {
     const handleGameUpdate = (innerMessage: any) => {
@@ -32,12 +33,14 @@ export const Overlay = () => {
       setControlPanelSettings(data);
     };
 
+    // Subscribing to the "gamestate" event using the subscribe function provided by the context
     const unsubscribeGameUpdate = subscribe("gamestate", handleGameUpdate);
     const unsubscribeUpdateSettings = subscribe(
       "updateSettings",
       handleUpdateSettings
     );
 
+    // Clean up subscriptions when the component unmounts
     return () => {
       unsubscribeGameUpdate();
       unsubscribeUpdateSettings();
@@ -51,7 +54,8 @@ export const Overlay = () => {
       <PlayerBoostMeter />
       <PlayerTeamName />
       <SaveData />
-      {/* <UpdateSeriesScore /> */}
+      <UpdateSeriesScore />
+      <UpdateShowOverlay />
     </>
   );
 };

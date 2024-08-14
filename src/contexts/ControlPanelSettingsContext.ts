@@ -8,7 +8,6 @@ type ControlPanelService = {
   subscribe: (type: string, callback: (data: any) => void) => () => void;
   updateSettings: (newSettings: ControlPanelContext) => void;
 };
-
 export const DEFAULT_CONTROL_PANEL_SETTINGS: ControlPanelContext = {
   blueTeamName: "Blue",
   orangeTeamName: "Orange",
@@ -27,10 +26,10 @@ export const DEFAULT_CONTROL_PANEL_SETTINGS: ControlPanelContext = {
   NumberOfGames: 5,
   showTeamWins: true,
   SeriesScoreWinPercent: "SeriesScore",
-  showFlipResets: false,
-  showPlayerSpeed: false,
+  showFlipResets: true,
+  showPlayerSpeed: true,
   metricOrImperial: "KPH",
-  savedata: false,
+  savedata: true,
   serverPortNumber: 3000,
   showOverlayBE: false,
   winProcessed: false,

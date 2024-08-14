@@ -11,26 +11,33 @@ export const UpdateSeriesScore = () => {
   const { subscribe } = useContext(WebsocketContext);
 
   useEffect(() => {
-    const handleMVPEvent = (innerMessage: any) => {
-      if (innerMessage.data.type === "MVP") {
-        console.log("MVP event received. Updating series score...");
+    const handleMVPEvent = () => {
+      //console.log("MVP event received. Updating series score...");
 
-        const blueScore = updateState.game.teams[0].score;
-        const orangeScore = updateState.game.teams[1].score;
-
-        if (blueScore > orangeScore) {
-          // Blue team wins the game
-          setControlPanelSettings((prevSettings) => ({
-            ...prevSettings,
-            blueWins: prevSettings.blueWins + 1,
-          }));
-        } else if (orangeScore > blueScore) {
-          // Orange team wins the game
-          setControlPanelSettings((prevSettings) => ({
-            ...prevSettings,
-            orangeWins: prevSettings.orangeWins + 1,
-          }));
-        }
+      const blueScore = updateState.game.teams[0].score;
+      const orangeScore = updateState.game.teams[1].score;
+      if (
+        controlPanelSettings.blueWins + controlPanelSettings.orangeWins + 1 >=
+        controlPanelSettings.NumberOfGames
+      ) {
+        // This was the last game of the series
+        setControlPanelSettings((prevSettings) => ({
+          ...prevSettings,
+          blueWins: 0,
+          orangeWins: 0,
+        }));
+      } else if (blueScore > orangeScore) {
+        // Blue team wins the game
+        setControlPanelSettings((prevSettings) => ({
+          ...prevSettings,
+          blueWins: prevSettings.blueWins + 1,
+        }));
+      } else if (orangeScore > blueScore) {
+        // Orange team wins the game
+        setControlPanelSettings((prevSettings) => ({
+          ...prevSettings,
+          orangeWins: prevSettings.orangeWins + 1,
+        }));
       }
     };
 

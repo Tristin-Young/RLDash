@@ -1,11 +1,5 @@
-import {
-  useContext,
-  useEffect,
-  useState,
-  // useState,
-} from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { WebsocketContext } from "../../contexts/WebsocketContext";
-// import { Player as WebSocketPlayer } from "../../models/UpdateState/PluginPlayer";
 import {
   BlueBoostBar,
   BlueSvgWrapper,
@@ -74,25 +68,15 @@ export const PlayerTeamName = () => {
   const [gameData, setGameData] = useState([]);
 
   useEffect(() => {
-    // Create WebSocket connection.
-    const ws = new WebSocket("ws://localhost:43003");
-
-    // Connection opened
-    ws.addEventListener("open", (event) => {
-      //console.log("Connected to Flip Plugin server");
-    });
-
-    // Listen for messages
-    ws.addEventListener("message", (event) => {
-      const receivedData: ReceivedData = JSON.parse(event.data); // Assuming receivedData is structured as described
-      const newData: PlayerData = {}; // Add type annotation for newData
+    const handlePlayerDataUpdate = (receivedData: ReceivedData) => {
+      console.log("Received data:", receivedData);
+      const newData: PlayerData = {};
       Object.entries(receivedData.teams).forEach(
-        ([teamKey, teamPlayers]: [string, any]) => {
-          // Note: Now iterating over an object of players directly under each team
-          Object.values(teamPlayers).forEach((player: any) => {
+        ([teamKey, teamData]: [string, TeamData]) => {
+          teamData.players.forEach((player) => {
+            console.log("Player:", player);
             newData[player.name] = {
-              ...player,
-              hasFlip: player.hasFlip,
+              name: player.name,
               numWheelsOnGround: player.numWheelsOnGround,
               timeOffGround: player.timeOffGround,
               isDodging: player.isDodging,
@@ -100,22 +84,20 @@ export const PlayerTeamName = () => {
           });
         }
       );
-
       setPlayerData(newData);
-      // setGameData(receivedData);
-    });
+    };
+
+    const unsubscribe = subscribe("game:update_state", handlePlayerDataUpdate);
 
     return () => {
-      if (ws.readyState === WebSocket.OPEN) ws.close();
+      unsubscribe();
     };
-  }, []);
+  }, [subscribe]);
 
   useEffect(() => {
-    // Logic that should run when controlPanelSettings changes
     //console.log("Updated settings:", controlPanelSettings);
   }, [controlPanelSettings]);
 
-  //Function to determine the correct filter for the flip icon
   const getFilter = (player: USPlayer) => {
     const isOnGround = player.onGround;
     const isOnWall = player.onWall;
@@ -135,7 +117,6 @@ export const PlayerTeamName = () => {
     }
   };
 
-  //function to remove trailing numbers from player names
   const removeTrailingNumbers = (name: string) => {
     return name.replace(/\d+$/, "");
   };
@@ -148,14 +129,13 @@ export const PlayerTeamName = () => {
       }
     };
 
-    // Subscribe and get the unsubscribe function
     const unsubscribe = subscribe("gamestate", handleGameUpdate);
 
     return () => {
-      unsubscribe(); // Call the unsubscribe function on cleanup
+      unsubscribe();
     };
   }, [subscribe, setUpdateState]);
-  //console.log(updateState.players);
+
   return (
     <>
       <BlueSvgWrapper>
