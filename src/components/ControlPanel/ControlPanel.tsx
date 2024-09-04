@@ -77,6 +77,9 @@ export const ControlPanel = () => {
   const [showTeamWins, setShowTeamWins] = useState(
     controlPanelSettings.showTeamWins
   );
+  const [showOverlayBE, setShowOverlayBE] = useState(
+    controlPanelSettings.showOverlayBE
+  );
   const [feedbackMessage, setFeedbackMessage] = useState("");
 
   useEffect(() => {
@@ -231,6 +234,7 @@ export const ControlPanel = () => {
   }
 
   const handleSubmit = (e: React.FormEvent) => {
+    setShowOverlayBE(false);
     e.preventDefault();
     const newSettings = {
       ...controlPanelSettings,
@@ -251,6 +255,7 @@ export const ControlPanel = () => {
       metricOrImperial,
       savedata,
       serverPortNumber,
+      showOverlayBE,
     };
     if (newSettings.useTeamColorsForFlipColors) {
       newSettings.blueTeamFlipColor = newSettings.blueTeamColor;

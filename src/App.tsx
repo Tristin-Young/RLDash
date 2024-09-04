@@ -23,16 +23,7 @@ function App() {
         <WebsocketContext.Provider value={websocketService}>
           <UpdateStateContext.Provider value={{ updateState, setUpdateState }}>
             <Routes>
-              <Route
-                path="/"
-                element={
-                  //controlPanelService.controlPanelSettings.showOverlayBE ? (
-                  <Overlay />
-                  // ) : (
-                  //   <></>
-                  // )
-                }
-              />
+              <Route path="/" element={<Overlay />} />
               <Route path="/ControlPanel" element={<ControlPanel />} />
             </Routes>
           </UpdateStateContext.Provider>

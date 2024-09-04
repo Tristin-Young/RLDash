@@ -66,11 +66,11 @@ wss.on('connection', async (ws) => {
 
   ws.on('message', async (data) => {
     const message = JSON.parse(data);
-    console.log("Processing message:", message.event, message.data?.BlueTeamName, message.data?.OrangeTeamName);
+    console.log("Processing message:", message.event);
 
     switch (message.event) {
       case 'updateSettings':
-        console.log('Updating settings with data:', message.data?.BlueTeamName, message.data?.OrangeTeamName);
+        console.log('Updating settings with data:', message.data);
         await saveSettings(message.data);
         const updatedSettings = await loadSettings();
         broadcast(JSON.stringify({ event: 'updateSettings', data: updatedSettings }));

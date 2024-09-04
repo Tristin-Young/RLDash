@@ -1,46 +1,106 @@
-import { useContext, useEffect } from "react";
-import { UpdateStateContext } from "../../contexts/UpdateStateContext";
+import { useContext, useEffect, useRef } from "react";
 import { ControlPanelSettingsContext } from "../../contexts/ControlPanelSettingsContext";
 import { WebsocketContext } from "../../contexts/WebsocketContext";
 
 export const UpdateShowOverlay = () => {
-  const { updateState } = useContext(UpdateStateContext);
   const { controlPanelSettings, setControlPanelSettings } = useContext(
     ControlPanelSettingsContext
   );
   const { subscribe } = useContext(WebsocketContext);
 
-  useEffect(() => {
-    const handleHideOverlay = (innerMessage: any) => {
-      if (innerMessage.event === "game:replay_start") {
-        console.log("Replay Started");
-        setControlPanelSettings((prevSettings) => ({
+  // Ref to track if the overlay is currently being shown or hidden
+  const isOverlayVisibleRef = useRef<boolean>(false);
+
+  const hideOverlay = () => {
+    if (isOverlayVisibleRef.current) {
+      setControlPanelSettings((prevSettings) => {
+        const updatedSettings = {
           ...prevSettings,
           showOverlayBE: false,
-        }));
-      }
-    };
-    const unsubscribe = subscribe("game:replay_start", handleHideOverlay);
+        };
+        console.log("Overlay Hidden, updated settings: ", updatedSettings);
+        isOverlayVisibleRef.current = false;
+        return updatedSettings;
+      });
+    }
+  };
 
+  const showOverlay = () => {
+    if (!isOverlayVisibleRef.current) {
+      setControlPanelSettings((prevSettings) => {
+        const updatedSettings = {
+          ...prevSettings,
+          showOverlayBE: true,
+        };
+        console.log("Overlay Shown, updated settings: ", updatedSettings);
+        isOverlayVisibleRef.current = true;
+        return updatedSettings;
+      });
+    }
+  };
+
+  useEffect(() => {
+    const handleHideOverlay = (innerMessage: any) => {
+      hideOverlay();
+    };
+
+    const unsubscribeReplayStart = subscribe(
+      "game:replay_start",
+      handleHideOverlay
+    );
     return () => {
-      unsubscribe();
+      unsubscribeReplayStart();
     };
   }, [subscribe]);
 
   useEffect(() => {
     const handleShowOverlay = (innerMessage: any) => {
-      if (innerMessage.event === "game:replay_end") {
-        console.log("Replay Ended");
-        setControlPanelSettings((prevSettings) => ({
-          ...prevSettings,
-          showOverlayBE: true,
-        }));
-      }
+      showOverlay();
     };
-    const unsubscribe = subscribe("game:replay_end", handleShowOverlay);
+
+    const unsubscribeReplayEnd = subscribe(
+      "game:replay_end",
+      handleShowOverlay
+    );
+    return () => {
+      unsubscribeReplayEnd();
+    };
+  }, [subscribe]);
+
+  useEffect(() => {
+    // Handling game start or clock start
+    const handleGameStart = () => {
+      showOverlay();
+    };
+    const unsubscribeGameStart = subscribe(
+      "game:pre_countdown_begin",
+      handleGameStart
+    );
+    const unsubscribeClockTick = subscribe(
+      "game:clock_updated_seconds",
+      handleGameStart
+    );
 
     return () => {
-      unsubscribe();
+      unsubscribeGameStart();
+      unsubscribeClockTick();
+    };
+  }, [subscribe]);
+
+  useEffect(() => {
+    // Handling game pause or end
+    const handleGameEnd = () => {
+      hideOverlay();
+    };
+    const unsubscribeReplayStart = subscribe(
+      "game:replay_start",
+      handleGameEnd
+    );
+    const unsubscribeClockStop = subscribe("game:clock_stopped", handleGameEnd);
+
+    return () => {
+      unsubscribeReplayStart();
+      unsubscribeClockStop();
     };
   }, [subscribe]);
 

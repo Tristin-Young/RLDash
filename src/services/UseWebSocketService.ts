@@ -45,26 +45,31 @@ export const useWebSocketService = () => {
           );
         } else if (message.event === "game:pre_countdown_begin") {
           const innerMessage = message.data;
+          //console.log("game:pre_countdown_begin - WSService");
           subscribers["game:pre_countdown_begin"]?.forEach((callback) =>
             callback(innerMessage)
           );
         } else if (message.event === "game:post_countdown_begin") {
           const innerMessage = message.data;
+          //console.log("game:post_countdown_begin - WSService");
           subscribers["game:post_countdown_begin"]?.forEach((callback) =>
             callback(innerMessage)
           );
         } else if (message.event === "game:round_started_go") {
           const innerMessage = message.data;
+          //console.log("game:round_started_go - WSService");
           subscribers["game:round_started_go"]?.forEach((callback) =>
             callback(innerMessage)
           );
         } else if (message.event === "game:clock_started") {
           const innerMessage = message.data;
+          //console.log("game:clock_started - WSService");
           subscribers["game:clock_started"]?.forEach((callback) =>
             callback(innerMessage)
           );
         } else if (message.event === "game:clock_stopped") {
           const innerMessage = message.data;
+          //console.log("game:clock_stopped - WSService");
           subscribers["game:clock_stopped"]?.forEach((callback) =>
             callback(innerMessage)
           );
