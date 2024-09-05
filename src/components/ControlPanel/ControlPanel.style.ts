@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const FormWrapper = styled.div`
   display: flex;
@@ -65,12 +65,12 @@ export const Input = styled.input`
   font-size: 14px;
   color: #333;
   width: 90%; // Input takes full width for consistency
-  box-shadow: inset 0 2px 4px rgba(0,0,0,0.1); // Subtle inner shadow for depth
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1); // Subtle inner shadow for depth
 
   &:focus {
-    border-color: #4CAF50;
+    border-color: #4caf50;
     outline: none;
-    box-shadow: inset 0 2px 4px rgba(0,0,0,0.2); // Deeper shadow on focus for emphasis
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2); // Deeper shadow on focus for emphasis
   }
 `;
 
@@ -83,7 +83,7 @@ export const Select = styled.select`
   color: #333;
   width: 60%; // Adjust width for better alignment
   cursor: pointer;
-  box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
 `;
 
 export const CheckboxContainer = styled.div`
@@ -111,7 +111,7 @@ export const ImagePreview = styled.img`
 `;
 
 export const SubmitButton = styled.button`
-  background-color: #4CAF50;
+  background-color: #4caf50;
   color: white;
   padding: 12px 20px;
   border: none;
@@ -124,7 +124,9 @@ export const SubmitButton = styled.button`
 
   &:hover {
     background-color: #45a049;
-    transform: translateY(-2px); // Slight lift effect on hover for interactivity
+    transform: translateY(
+      -2px
+    ); // Slight lift effect on hover for interactivity
   }
 `;
 
@@ -141,4 +143,19 @@ export const ColorPickerInput = styled(Input)`
     border: none;
     border-radius: 8px;
   }
+`;
+
+export const GreyOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); // Semi-transparent black background
+  z-index: 1000; // Ensure overlay is on top of other content
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff; // White text for better contrast
+  font-size: 2rem;
 `;

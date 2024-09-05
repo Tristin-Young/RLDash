@@ -15,15 +15,20 @@ import {
   LogoFormGroup,
   FileInputContainer2,
   ColorPickerInput,
+  GreyOverlay,
 } from "./ControlPanel.style";
+import { WebsocketContext } from "../../contexts/WebsocketContext";
 
 export const ControlPanel = () => {
   const {
     controlPanelSettings,
     setControlPanelSettings,
-    subscribe,
+    subscribe: controlPanelSubscribe,
     updateSettings,
   } = useContext(ControlPanelSettingsContext);
+
+  const { subscribe: websocketSubscribe } = useContext(WebsocketContext); // Renaming subscribe from WebsocketContext
+  const [isFormLocked, setIsFormLocked] = useState(false);
 
   const [blueTeamName, setBlueTeamName] = useState(
     controlPanelSettings.blueTeamName
@@ -234,6 +239,10 @@ export const ControlPanel = () => {
   }
 
   const handleSubmit = (e: React.FormEvent) => {
+    if (isFormLocked) {
+      console.log("Form is locked");
+      return;
+    }
     setShowOverlayBE(false);
     e.preventDefault();
     const newSettings = {
@@ -271,6 +280,35 @@ export const ControlPanel = () => {
       setFeedbackMessage("");
     }, 3000);
   };
+  useEffect(() => {
+    const handleLockEvent = () => {
+      console.log(
+        "Event detected (podium/replay): locking the form for 5 seconds"
+      );
+      setIsFormLocked(true); // Lock the form
+
+      setTimeout(() => {
+        console.log("Form unlocked after 12.5 seconds");
+        setIsFormLocked(false); // Unlock after 5 seconds
+      }, 12500);
+    };
+
+    // Subscribe to both "game:podium_start" and "game:replay_start"
+    const unsubscribePodium = websocketSubscribe(
+      "game:podium_start",
+      handleLockEvent
+    );
+    const unsubscribeReplay = websocketSubscribe(
+      "game:replay_start",
+      handleLockEvent
+    );
+
+    // Cleanup subscriptions when component unmounts
+    return () => {
+      unsubscribePodium();
+      unsubscribeReplay();
+    };
+  }, [controlPanelSubscribe]);
 
   useEffect(() => {
     const handleLoadSettings = (data: any) => {
@@ -285,12 +323,12 @@ export const ControlPanel = () => {
       setControlPanelSettings(data);
       //updateSettings(data);
     };
-    const unsubscribeLoadSettings = subscribe(
+    const unsubscribeLoadSettings = controlPanelSubscribe(
       "loadSettings",
       handleLoadSettings
     );
 
-    const unsubscribeUpdateSettings = subscribe(
+    const unsubscribeUpdateSettings = controlPanelSubscribe(
       "updateSettings",
       handleUpdateSettings
     );
@@ -300,16 +338,17 @@ export const ControlPanel = () => {
       unsubscribeLoadSettings();
       unsubscribeUpdateSettings();
     };
-  }, [subscribe, setControlPanelSettings]);
+  }, [controlPanelSubscribe, setControlPanelSettings]);
 
   useEffect(() => {
-    const unsubscribe = subscribe("updateSettings", () => {
+    const unsubscribe = controlPanelSubscribe("updateSettings", () => {
       // console.log("Settings updated");
     });
     return () => unsubscribe();
-  }, [subscribe]);
+  }, [controlPanelSubscribe]);
   return (
     <FormWrapper>
+      {isFormLocked && <GreyOverlay>Control Panel Locked</GreyOverlay>}
       <Form onSubmit={handleSubmit}>
         <FormGroup>
           <Label htmlFor="blueName">Blue Team Name:</Label>
