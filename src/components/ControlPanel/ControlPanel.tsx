@@ -169,7 +169,7 @@ export const ControlPanel = () => {
   };
 
   const handleOrangeWinsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (Number(e.target.value) - 1 >= NumberOfGames / 2 + 1) {
+    if (Number(e.target.value) >= NumberOfGames / 2 + 1) {
       setOrangeWins(0);
     } else {
       setOrangeWins(Number(e.target.value));
@@ -262,7 +262,7 @@ export const ControlPanel = () => {
       newSettings.orangeTeamFlipColor = newSettings.orangeTeamColor;
     }
     setControlPanelSettings(newSettings);
-    console.log("CONTROLPANEL.TSX>>Updating Control Panel Settings From Form");
+    //console.log("CONTROLPANEL.TSX>>Updating Control Panel Settings From Form");
     updateSettings(newSettings);
     localStorage.setItem("controlPanelSettings", JSON.stringify(newSettings));
     // console.log("New Control Panel Settings:", newSettings);
@@ -274,14 +274,14 @@ export const ControlPanel = () => {
 
   useEffect(() => {
     const handleLoadSettings = (data: any) => {
-      console.log("CONTROLPANEL.TSX>>Loaded Control Panel Settings From WS");
+      //console.log("CONTROLPANEL.TSX>>Loaded Control Panel Settings From WS");
       setControlPanelSettings(data);
     };
 
     const handleUpdateSettings = (data: any) => {
-      console.log(
-        "CONTROLPANEL.TSX>>Updating Control Panel Settings (External component)"
-      );
+      //console.log(
+      //   "CONTROLPANEL.TSX>>Updating Control Panel Settings (External component)"
+      // );
       setControlPanelSettings(data);
       //updateSettings(data);
     };
@@ -304,7 +304,7 @@ export const ControlPanel = () => {
 
   useEffect(() => {
     const unsubscribe = subscribe("updateSettings", () => {
-      console.log("Settings updated");
+      // console.log("Settings updated");
     });
     return () => unsubscribe();
   }, [subscribe]);

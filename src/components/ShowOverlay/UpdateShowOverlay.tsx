@@ -3,75 +3,49 @@ import { ControlPanelSettingsContext } from "../../contexts/ControlPanelSettings
 import { WebsocketContext } from "../../contexts/WebsocketContext";
 
 export const UpdateShowOverlay = () => {
-  const { controlPanelSettings, setControlPanelSettings } = useContext(
-    ControlPanelSettingsContext
-  );
+  const { setControlPanelSettings } = useContext(ControlPanelSettingsContext);
   const { subscribe } = useContext(WebsocketContext);
 
-  // Ref to track if the overlay is currently being shown or hidden
   const isOverlayVisibleRef = useRef<boolean>(false);
 
   const hideOverlay = () => {
-    if (isOverlayVisibleRef.current) {
-      setControlPanelSettings((prevSettings) => {
-        const updatedSettings = {
-          ...prevSettings,
-          showOverlayBE: false,
-        };
-        console.log("Overlay Hidden, updated settings: ", updatedSettings);
-        isOverlayVisibleRef.current = false;
-        return updatedSettings;
-      });
-    }
+    setControlPanelSettings((prevSettings) => {
+      if (!prevSettings.showOverlayBE) return prevSettings;
+      const updatedSettings = { ...prevSettings, showOverlayBE: false };
+      isOverlayVisibleRef.current = false;
+      return updatedSettings;
+    });
   };
 
   const showOverlay = () => {
-    if (!isOverlayVisibleRef.current) {
-      setControlPanelSettings((prevSettings) => {
-        const updatedSettings = {
-          ...prevSettings,
-          showOverlayBE: true,
-        };
-        console.log("Overlay Shown, updated settings: ", updatedSettings);
-        isOverlayVisibleRef.current = true;
-        return updatedSettings;
-      });
-    }
+    setControlPanelSettings((prevSettings) => {
+      if (prevSettings.showOverlayBE) return prevSettings;
+      const updatedSettings = { ...prevSettings, showOverlayBE: true };
+      isOverlayVisibleRef.current = true;
+      return updatedSettings;
+    });
   };
 
   useEffect(() => {
-    const handleHideOverlay = (innerMessage: any) => {
-      hideOverlay();
-    };
-
+    const handleHideOverlay = () => hideOverlay();
     const unsubscribeReplayStart = subscribe(
       "game:replay_start",
       handleHideOverlay
     );
-    return () => {
-      unsubscribeReplayStart();
-    };
+    return () => unsubscribeReplayStart();
   }, [subscribe]);
 
   useEffect(() => {
-    const handleShowOverlay = (innerMessage: any) => {
-      showOverlay();
-    };
-
+    const handleShowOverlay = () => showOverlay();
     const unsubscribeReplayEnd = subscribe(
       "game:replay_end",
       handleShowOverlay
     );
-    return () => {
-      unsubscribeReplayEnd();
-    };
+    return () => unsubscribeReplayEnd();
   }, [subscribe]);
 
   useEffect(() => {
-    // Handling game start or clock start
-    const handleGameStart = () => {
-      showOverlay();
-    };
+    const handleGameStart = () => showOverlay();
     const unsubscribeGameStart = subscribe(
       "game:pre_countdown_begin",
       handleGameStart
@@ -88,9 +62,8 @@ export const UpdateShowOverlay = () => {
   }, [subscribe]);
 
   useEffect(() => {
-    // Handling game pause or end
     const handleGameEnd = () => {
-      hideOverlay();
+      setTimeout(() => hideOverlay(), 500); // Adds a slight delay
     };
     const unsubscribeReplayStart = subscribe(
       "game:replay_start",
@@ -104,5 +77,5 @@ export const UpdateShowOverlay = () => {
     };
   }, [subscribe]);
 
-  return null; // This component doesn't render anything
+  return null;
 };

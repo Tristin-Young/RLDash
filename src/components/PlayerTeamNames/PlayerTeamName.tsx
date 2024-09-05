@@ -69,12 +69,12 @@ export const PlayerTeamName = () => {
 
   useEffect(() => {
     const handlePlayerDataUpdate = (receivedData: ReceivedData) => {
-      console.log("Received data:", receivedData);
+      // console.log("Received data:", receivedData);
       const newData: PlayerData = {};
       Object.entries(receivedData.teams).forEach(
         ([teamKey, teamData]: [string, TeamData]) => {
           teamData.players.forEach((player) => {
-            console.log("Player:", player);
+            // console.log("Player:", player);
             newData[player.name] = {
               name: player.name,
               numWheelsOnGround: player.numWheelsOnGround,
