@@ -6,26 +6,35 @@ export const UpdateShowOverlay = () => {
   const { setControlPanelSettings } = useContext(ControlPanelSettingsContext);
   const { subscribe } = useContext(WebsocketContext);
 
-  const isOverlayVisibleRef = useRef<boolean>(false);
+  const isOverlayVisibleRef = useRef<boolean>(false); // Track the overlay visibility
 
   const hideOverlay = () => {
-    setControlPanelSettings((prevSettings) => {
-      if (!prevSettings.showOverlayBE) return prevSettings;
-      const updatedSettings = { ...prevSettings, showOverlayBE: false };
-      isOverlayVisibleRef.current = false;
-      return updatedSettings;
-    });
+    if (isOverlayVisibleRef.current) {
+      // Ensure this condition is met
+      console.log("Hiding overlay");
+      setControlPanelSettings((prevSettings) => {
+        const updatedSettings = { ...prevSettings, showOverlayBE: false };
+        isOverlayVisibleRef.current = false; // Update ref state
+        console.log("Overlay hidden, updated settings:", updatedSettings);
+        return updatedSettings;
+      });
+    }
   };
 
   const showOverlay = () => {
-    setControlPanelSettings((prevSettings) => {
-      if (prevSettings.showOverlayBE) return prevSettings;
-      const updatedSettings = { ...prevSettings, showOverlayBE: true };
-      isOverlayVisibleRef.current = true;
-      return updatedSettings;
-    });
+    if (!isOverlayVisibleRef.current) {
+      // Ensure this condition is met
+      console.log("Showing overlay");
+      setControlPanelSettings((prevSettings) => {
+        const updatedSettings = { ...prevSettings, showOverlayBE: true };
+        isOverlayVisibleRef.current = true; // Update ref state
+        console.log("Overlay shown, updated settings:", updatedSettings);
+        return updatedSettings;
+      });
+    }
   };
 
+  // Hide overlay on game replay start
   useEffect(() => {
     const handleHideOverlay = () => hideOverlay();
     const unsubscribeReplayStart = subscribe(
@@ -35,6 +44,7 @@ export const UpdateShowOverlay = () => {
     return () => unsubscribeReplayStart();
   }, [subscribe]);
 
+  // Show overlay on game replay end
   useEffect(() => {
     const handleShowOverlay = () => showOverlay();
     const unsubscribeReplayEnd = subscribe(
@@ -44,6 +54,7 @@ export const UpdateShowOverlay = () => {
     return () => unsubscribeReplayEnd();
   }, [subscribe]);
 
+  // Show overlay on game start or clock update
   useEffect(() => {
     const handleGameStart = () => showOverlay();
     const unsubscribeGameStart = subscribe(
@@ -61,9 +72,13 @@ export const UpdateShowOverlay = () => {
     };
   }, [subscribe]);
 
+  // Hide overlay when game ends
   useEffect(() => {
     const handleGameEnd = () => {
-      setTimeout(() => hideOverlay(), 500); // Adds a slight delay
+      if (isOverlayVisibleRef.current) {
+        console.log("Game ending, hiding overlay after delay");
+        setTimeout(() => hideOverlay(), 500); // Adds a slight delay
+      }
     };
     const unsubscribeReplayStart = subscribe(
       "game:replay_start",

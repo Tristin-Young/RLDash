@@ -5,17 +5,15 @@ import {
   FormGroup,
   Label,
   Input,
-  Select,
   SubmitButton,
   FormWrapper,
-  RowInput,
-  CheckboxContainer,
-  FileInputContainer,
-  ImagePreview,
-  LogoFormGroup,
-  FileInputContainer2,
   ColorPickerInput,
-  GreyOverlay,
+  TwoColumnRow,
+  Select,
+  CheckboxContainer,
+  CheckboxLabel,
+  DynamicCheckbox,
+  CheckboxContainer2,
 } from "./ControlPanel.style";
 import { WebsocketContext } from "../../contexts/WebsocketContext";
 
@@ -114,106 +112,106 @@ export const ControlPanel = () => {
     setOrangeTeamLogoPreview(controlPanelSettings.OrangeTeamPhoto);
   }, [controlPanelSettings]);
 
-  const handleShowTeamWinsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setShowTeamWins(e.target.checked);
-  };
+  // const handleShowTeamWinsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   setShowTeamWins(e.target.checked);
+  // };
 
-  const handleBlueTeamNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setBlueTeamName(e.target.value);
-  };
+  // const handleBlueTeamNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   setBlueTeamName(e.target.value);
+  // };
 
-  const handleOrangeTeamNameChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setOrangeTeamName(e.target.value);
-  };
+  // const handleOrangeTeamNameChange = (
+  //   e: React.ChangeEvent<HTMLInputElement>
+  // ) => {
+  //   setOrangeTeamName(e.target.value);
+  // };
 
-  const handleUseTeamColorsForFlipColorsChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setUseTeamColorsForFlipColors(e.target.checked);
-  };
+  // const handleUseTeamColorsForFlipColorsChange = (
+  //   e: React.ChangeEvent<HTMLInputElement>
+  // ) => {
+  //   setUseTeamColorsForFlipColors(e.target.checked);
+  // };
 
-  const handleBlueTeamColorChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setBlueTeamColor(e.target.value);
-  };
+  // const handleBlueTeamColorChange = (
+  //   e: React.ChangeEvent<HTMLInputElement>
+  // ) => {
+  //   setBlueTeamColor(e.target.value);
+  // };
 
-  const handleOrangeTeamColorChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setOrangeTeamColor(e.target.value);
-  };
+  // const handleOrangeTeamColorChange = (
+  //   e: React.ChangeEvent<HTMLInputElement>
+  // ) => {
+  //   setOrangeTeamColor(e.target.value);
+  // };
 
-  const handleBlueTeamFlipColorChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setBlueTeamFlipColor(e.target.value);
-  };
+  // const handleBlueTeamFlipColorChange = (
+  //   e: React.ChangeEvent<HTMLInputElement>
+  // ) => {
+  //   setBlueTeamFlipColor(e.target.value);
+  // };
 
-  const handleOrangeTeamFlipColorChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setOrangeTeamFlipColor(e.target.value);
-  };
+  // const handleOrangeTeamFlipColorChange = (
+  //   e: React.ChangeEvent<HTMLInputElement>
+  // ) => {
+  //   setOrangeTeamFlipColor(e.target.value);
+  // };
 
-  const handleFlipUnavailableColorChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setFlipUnavailableColor(e.target.value);
-  };
+  // const handleFlipUnavailableColorChange = (
+  //   e: React.ChangeEvent<HTMLInputElement>
+  // ) => {
+  //   setFlipUnavailableColor(e.target.value);
+  // };
 
-  const handleBlueWinsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let winsNecessary = Math.floor(NumberOfGames / 2) + 1;
-    if (Number(e.target.value) - 1 >= winsNecessary) {
-      setBlueWins(0);
-    } else {
-      setBlueWins(Number(e.target.value));
-    }
-  };
+  // const handleBlueWinsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   let winsNecessary = Math.floor(NumberOfGames / 2) + 1;
+  //   if (Number(e.target.value) - 1 >= winsNecessary) {
+  //     setBlueWins(0);
+  //   } else {
+  //     setBlueWins(Number(e.target.value));
+  //   }
+  // };
 
-  const handleOrangeWinsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (Number(e.target.value) >= NumberOfGames / 2 + 1) {
-      setOrangeWins(0);
-    } else {
-      setOrangeWins(Number(e.target.value));
-    }
-  };
+  // const handleOrangeWinsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   if (Number(e.target.value) >= NumberOfGames / 2 + 1) {
+  //     setOrangeWins(0);
+  //   } else {
+  //     setOrangeWins(Number(e.target.value));
+  //   }
+  // };
 
-  const handleNumberOfGamesChange = (
-    e: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    setNumberOfGames(Number(e.target.value));
-  };
+  // const handleNumberOfGamesChange = (
+  //   e: React.ChangeEvent<HTMLSelectElement>
+  // ) => {
+  //   setNumberOfGames(Number(e.target.value));
+  // };
 
-  const handleShowPlayerSpeedChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setShowPlayerSpeed(e.target.checked);
-  };
+  // const handleShowPlayerSpeedChange = (
+  //   e: React.ChangeEvent<HTMLInputElement>
+  // ) => {
+  //   setShowPlayerSpeed(e.target.checked);
+  // };
 
-  const handleShowFlipResetsChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setShowFlipResets(e.target.checked);
-  };
+  // const handleShowFlipResetsChange = (
+  //   e: React.ChangeEvent<HTMLInputElement>
+  // ) => {
+  //   setShowFlipResets(e.target.checked);
+  // };
 
-  const handleSeriesScoreWinPercentChange = (
-    e: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    setSeriesScoreWinPercent(e.target.value);
-  };
+  // const handleSeriesScoreWinPercentChange = (
+  //   e: React.ChangeEvent<HTMLSelectElement>
+  // ) => {
+  //   setSeriesScoreWinPercent(e.target.value);
+  // };
 
-  const handleMetricOrImperialChange = (
-    e: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    setMetricOrImperial(e.target.value);
-  };
+  // const handleMetricOrImperialChange = (
+  //   e: React.ChangeEvent<HTMLSelectElement>
+  // ) => {
+  //   setMetricOrImperial(e.target.value);
+  // };
 
-  const handleSaveDataChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSaveData(e.target.checked);
-  };
+  // const handleSaveDataChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   setSaveData(e.target.checked);
+  // };
 
   function convertToBase64(file: Blob) {
     return new Promise((resolve, reject) => {
@@ -265,6 +263,7 @@ export const ControlPanel = () => {
       savedata,
       serverPortNumber,
       showOverlayBE,
+      useTeamColorsForFlipColors,
     };
     if (newSettings.useTeamColorsForFlipColors) {
       newSettings.blueTeamFlipColor = newSettings.blueTeamColor;
@@ -283,14 +282,14 @@ export const ControlPanel = () => {
   useEffect(() => {
     const handleLockEvent = () => {
       console.log(
-        "Event detected (podium/replay): locking the form for 5 seconds"
+        "Event detected (podium/replay): locking the form for 10 seconds"
       );
       setIsFormLocked(true); // Lock the form
 
       setTimeout(() => {
-        console.log("Form unlocked after 12.5 seconds");
+        console.log("Form unlocked after 10 seconds");
         setIsFormLocked(false); // Unlock after 5 seconds
-      }, 12500);
+      }, 10000);
     };
 
     // Subscribe to both "game:podium_start" and "game:replay_start"
@@ -348,240 +347,289 @@ export const ControlPanel = () => {
   }, [controlPanelSubscribe]);
   return (
     <FormWrapper>
-      {isFormLocked && <GreyOverlay>Control Panel Locked</GreyOverlay>}
       <Form onSubmit={handleSubmit}>
-        <FormGroup>
-          <Label htmlFor="blueName">Blue Team Name:</Label>
-          <Input
-            id="blueName"
-            type="text"
-            value={blueTeamName}
-            onChange={handleBlueTeamNameChange}
-          />
-        </FormGroup>
-        <FormGroup>
-          <Label htmlFor="orangeName">Orange Team Name:</Label>
-          <Input
-            id="orangeName"
-            type="text"
-            value={orangeTeamName}
-            onChange={handleOrangeTeamNameChange}
-          />
-        </FormGroup>
-        <LogoFormGroup>
-          <Label htmlFor="blueTeamLogo">Blue Team Logo:</Label>
-          <FileInputContainer>
+        {/* Team Names */}
+        <TwoColumnRow>
+          <FormGroup>
+            <Label htmlFor="blueName">Blue Team Name:</Label>
             <Input
-              id="blueTeamLogo"
-              type="file"
-              accept="image/*"
-              onChange={(e) => handleImageChange(e, "BlueTeamPhoto")}
+              id="blueName"
+              type="text"
+              value={blueTeamName}
+              onChange={(e) => setBlueTeamName(e.target.value)}
             />
-            {blueTeamLogo && (
-              <ImagePreview
+          </FormGroup>
+          <FormGroup>
+            <Label htmlFor="orangeName">Orange Team Name:</Label>
+            <Input
+              id="orangeName"
+              type="text"
+              value={orangeTeamName}
+              onChange={(e) => setOrangeTeamName(e.target.value)}
+            />
+          </FormGroup>
+        </TwoColumnRow>
+
+        {/* Team Logos */}
+        <TwoColumnRow>
+          <div>
+            <FormGroup>
+              <Label htmlFor="blueTeamLogo">Blue Team Logo:</Label>
+              <Input
+                id="blueTeamLogo"
+                type="file"
+                accept="image/*"
+                onChange={(e) => handleImageChange(e, "BlueTeamPhoto")}
+              />
+            </FormGroup>
+            {blueTeamLogoPreview && (
+              <img
                 src={blueTeamLogoPreview}
-                alt="Blue Team Logo Preview"
+                alt="Blue Team Logo"
+                style={{ width: "100px", height: "100px", objectFit: "cover" }}
               />
             )}
-          </FileInputContainer>
-        </LogoFormGroup>
-        <LogoFormGroup>
-          <Label htmlFor="orangeTeamLogo">Orange Team Logo:</Label>
-          <FileInputContainer2>
-            <Input
-              id="orangeTeamLogo"
-              type="file"
-              accept="image/*"
-              onChange={(e) => handleImageChange(e, "OrangeTeamPhoto")}
-            />
-            {orangeTeamLogo && (
-              <ImagePreview
-                src={orangeTeamLogoPreview}
-                alt="Orange Team Logo Preview"
-              />
-            )}
-          </FileInputContainer2>
-        </LogoFormGroup>
-        <RowInput>
-          <Label htmlFor="useTeamColorsForFlip">Use Team Colors for Flip</Label>
-          <CheckboxContainer>
-            <Input
-              id="useTeamColorsForFlip"
-              type="checkbox"
-              checked={useTeamColorsForFlipColors}
-              onChange={handleUseTeamColorsForFlipColorsChange}
-            />
-          </CheckboxContainer>
-        </RowInput>
-        <FormGroup>
-          <Label htmlFor="blueColor">Blue Team Color:</Label>
-          <ColorPickerInput
-            id="blueColor"
-            type="color"
-            value={blueTeamColor}
-            onChange={handleBlueTeamColorChange}
-            style={{ backgroundColor: blueTeamColor }}
-          />
-        </FormGroup>
-        <FormGroup>
-          <Label htmlFor="orangeColor">Orange Team Color:</Label>
-          <ColorPickerInput
-            id="orangeColor"
-            type="color"
-            value={orangeTeamColor}
-            onChange={handleOrangeTeamColorChange}
-            style={{ backgroundColor: orangeTeamColor }}
-          />
-        </FormGroup>
-        <FormGroup>
-          <Label htmlFor="blueFlipColor">Blue Team Flip Color:</Label>
-          <ColorPickerInput
-            id="blueFlipColor"
-            type="color"
-            value={blueTeamFlipColor}
-            onChange={handleBlueTeamFlipColorChange}
-            style={{ backgroundColor: blueTeamFlipColor }}
-          />
-        </FormGroup>
-        <FormGroup>
-          <Label htmlFor="orangeFlipColor">Orange Team Flip Color:</Label>
-          <ColorPickerInput
-            id="orangeFlipColor"
-            type="color"
-            value={orangeTeamFlipColor}
-            onChange={handleOrangeTeamFlipColorChange}
-            style={{
-              backgroundColor: orangeTeamFlipColor,
-            }}
-          />
-        </FormGroup>
-        <FormGroup>
-          <Label htmlFor="flipUnavailableColor">Flip Unavailable Color:</Label>
-          <ColorPickerInput
-            id="flipUnavailableColor"
-            type="color"
-            value={flipUnavailableColor}
-            onChange={handleFlipUnavailableColorChange}
-            style={{
-              backgroundColor: flipUnavailableColor,
-            }}
-          />
-        </FormGroup>
-        <FormGroup>
-          <Label htmlFor="blueWinCount">Blue Win Count:</Label>
-          <Input
-            id="blueWinCount"
-            type="number"
-            value={blueWins}
-            onChange={handleBlueWinsChange}
-          />
-        </FormGroup>
-        <FormGroup>
-          <Label htmlFor="orangeWinCount">Orange Win Count:</Label>
-          <Input
-            id="orangeWinCount"
-            type="number"
-            value={orangeWins}
-            onChange={handleOrangeWinsChange}
-          />
-        </FormGroup>
-        <RowInput>
-          <Label htmlFor="numberOfGames">Number of Games:</Label>
-          <Select
-            id="numberOfGames"
-            value={NumberOfGames}
-            onChange={handleNumberOfGamesChange}
-          >
-            <option value="1">1</option>
-            <option value="3">3</option>
-            <option value="5">5</option>
-            <option value="7">7</option>
-            {/* <option value="9">9</option> */}
-          </Select>
-        </RowInput>
-        <RowInput>
-          <Label htmlFor="showTeamWins">Show Team Wins</Label>
-          <CheckboxContainer>
-            <Input
-              id="showTeamWins"
-              type="checkbox"
-              checked={showTeamWins}
-              onChange={handleShowTeamWinsChange}
-            />
-          </CheckboxContainer>
-        </RowInput>
-        <RowInput>
-          <Label htmlFor="metricOrImperial">MPH/KPH:</Label>
-          <Select
-            id="metricOrImperial"
-            value={metricOrImperial}
-            onChange={handleMetricOrImperialChange}
-          >
-            <option value="MPH">MPH</option>
-            <option value="KPH">KPH</option>
-          </Select>
-        </RowInput>
-        <RowInput>
-          <Label htmlFor="SeriesScoreWinPercent">
-            Series Score / Win Percent:
-          </Label>
-          <Select
-            id="SeriesScoreWinPercent"
-            value={SeriesScoreWinPercent}
-            onChange={handleSeriesScoreWinPercentChange}
-          >
-            <option value="SeriesScore">Series Score</option>
-            <option value="WinPercent">Win Percent</option>
-            <option value="Both">Both</option>
-            <option value="None">None</option>
-          </Select>
-        </RowInput>
-        <RowInput>
-          <Label htmlFor="showPlayerSpeed">Show Player Speed</Label>
-          <CheckboxContainer>
-            <Input
-              id="showPlayerSpeed"
-              type="checkbox"
-              checked={showPlayerSpeed}
-              onChange={handleShowPlayerSpeedChange}
-            />
-          </CheckboxContainer>
-        </RowInput>
-        <RowInput>
-          <Label htmlFor="showFlipResets">Show Flip Resets</Label>
-          <CheckboxContainer>
-            <Input
-              id="showFlipResets"
-              type="checkbox"
-              checked={showFlipResets}
-              onChange={handleShowFlipResetsChange}
-            />
-          </CheckboxContainer>
-        </RowInput>
-        <RowInput>
-          <Label htmlFor="savedata">Save Data</Label>
-          <CheckboxContainer>
-            <Input
-              id="savedata"
-              type="checkbox"
-              checked={savedata}
-              onChange={handleSaveDataChange}
-            />
-          </CheckboxContainer>
-        </RowInput>
-        <SubmitButton type="submit">Update Settings</SubmitButton>
-        {feedbackMessage && (
-          <div style={{ marginTop: "20px", color: "green" }}>
-            {feedbackMessage}
           </div>
-        )}
-        <h1>DEVELOPER SETTINGS **HIDE LATER**</h1>
-        <SubmitButton
-          type="button"
-          onClick={() => console.log(controlPanelSettings)}
-        >
-          Print Settings
-        </SubmitButton>
+          <div>
+            <FormGroup>
+              <Label htmlFor="orangeTeamLogo">Orange Team Logo:</Label>
+              <Input
+                id="orangeTeamLogo"
+                type="file"
+                accept="image/*"
+                onChange={(e) => handleImageChange(e, "OrangeTeamPhoto")}
+              />
+            </FormGroup>
+            {orangeTeamLogoPreview && (
+              <img
+                src={orangeTeamLogoPreview}
+                alt="Orange Team Logo"
+                style={{ width: "100px", height: "100px", objectFit: "cover" }}
+              />
+            )}
+          </div>
+        </TwoColumnRow>
+
+        {/* Team Colors and Flip Colors */}
+        <TwoColumnRow>
+          <div>
+            <CheckboxContainer>
+              <DynamicCheckbox
+                id="useTeamColorsForFlipColors"
+                checked={useTeamColorsForFlipColors}
+                onChange={(e) =>
+                  setUseTeamColorsForFlipColors(e.target.checked)
+                }
+              />
+              <CheckboxLabel htmlFor="useTeamColorsForFlipColors">
+                Use Team Colors for Flip Colors
+              </CheckboxLabel>
+            </CheckboxContainer>
+            <FormGroup>
+              <Label htmlFor="blueColor">Blue Team Color:</Label>
+              <ColorPickerInput
+                id="blueColor"
+                type="color"
+                value={blueTeamColor}
+                onChange={(e) => setBlueTeamColor(e.target.value)}
+                style={{ backgroundColor: blueTeamColor }}
+              />
+            </FormGroup>
+            <FormGroup>
+              <Label htmlFor="blueFlipColor">Blue Team Flip Color:</Label>
+              <ColorPickerInput
+                id="blueFlipColor"
+                type="color"
+                value={blueTeamFlipColor}
+                onChange={(e) => setBlueTeamFlipColor(e.target.value)}
+                disabled={useTeamColorsForFlipColors}
+                style={{
+                  backgroundColor: useTeamColorsForFlipColors
+                    ? blueTeamColor
+                    : blueTeamFlipColor,
+                }}
+              />
+            </FormGroup>
+          </div>
+
+          <div>
+            <FormGroup>
+              <Label htmlFor="flipUnavailableColor">
+                Flip Unavailable Color:
+              </Label>
+              <ColorPickerInput
+                id="flipUnavailableColor"
+                type="color"
+                value={controlPanelSettings.flipUnavailableColor}
+                onChange={(e) => setFlipUnavailableColor(e.target.value)}
+                style={{
+                  backgroundColor: flipUnavailableColor,
+                }}
+              />
+            </FormGroup>
+            <FormGroup>
+              <Label htmlFor="orangeColor">Orange Team Color:</Label>
+              <ColorPickerInput
+                id="orangeColor"
+                type="color"
+                value={orangeTeamColor}
+                onChange={(e) => setOrangeTeamColor(e.target.value)}
+                style={{ backgroundColor: orangeTeamColor }}
+              />
+            </FormGroup>
+
+            <FormGroup>
+              <Label htmlFor="orangeFlipColor">Orange Team Flip Color:</Label>
+              <ColorPickerInput
+                id="orangeFlipColor"
+                type="color"
+                value={orangeTeamFlipColor}
+                onChange={(e) => setOrangeTeamFlipColor(e.target.value)}
+                disabled={useTeamColorsForFlipColors}
+                style={{
+                  backgroundColor: useTeamColorsForFlipColors
+                    ? orangeTeamColor
+                    : orangeTeamFlipColor,
+                }}
+              />
+            </FormGroup>
+          </div>
+        </TwoColumnRow>
+
+        {/* Team Wins */}
+        <TwoColumnRow>
+          <FormGroup>
+            <Label htmlFor="blueWinCount">Blue Win Count:</Label>
+            <Input
+              id="blueWinCount"
+              type="number"
+              value={blueWins}
+              onChange={(e) => {
+                const newBlueWins = Number(e.target.value);
+                const winsNecessary = Math.floor(NumberOfGames / 2) + 1;
+                if (newBlueWins > winsNecessary) {
+                  setBlueWins(0);
+                } else {
+                  setBlueWins(newBlueWins);
+                }
+              }}
+              min={0}
+            />
+          </FormGroup>
+
+          <FormGroup>
+            <Label htmlFor="orangeWinCount">Orange Win Count:</Label>
+            <Input
+              id="orangeWinCount"
+              type="number"
+              value={orangeWins}
+              onChange={(e) => {
+                const newOrangeWins = Number(e.target.value);
+                const winsNecessary = Math.floor(NumberOfGames / 2) + 1;
+                if (newOrangeWins > winsNecessary) {
+                  setOrangeWins(0);
+                } else {
+                  setOrangeWins(newOrangeWins);
+                }
+              }}
+              min={0}
+            />
+          </FormGroup>
+        </TwoColumnRow>
+
+        {/* Series Length and Unit Preference */}
+        <TwoColumnRow>
+          <div>
+            <FormGroup>
+              <Label htmlFor="NumberOfGames">Series Length:</Label>
+              <Select
+                id="NumberOfGames"
+                value={NumberOfGames}
+                onChange={(e) => setNumberOfGames(Number(e.target.value))}
+              >
+                <option value={1}>1</option>
+                <option value={3}>3</option>
+                <option value={5}>5</option>
+                <option value={7}>7</option>
+              </Select>
+            </FormGroup>
+            <FormGroup>
+              <Label htmlFor="metricOrImperial">Unit Preference:</Label>
+              <Select
+                id="metricOrImperial"
+                value={metricOrImperial}
+                onChange={(e) => setMetricOrImperial(e.target.value)}
+              >
+                <option value="MPH">MPH</option>
+                <option value="KPH">KPH</option>
+              </Select>
+            </FormGroup>
+            <FormGroup>
+              <Label htmlFor="SeriesScoreWinPercent">
+                Show Series Score / Win Percent:
+              </Label>
+              <Select
+                id="SeriesScoreWinPercent"
+                value={SeriesScoreWinPercent}
+                onChange={(e) => setSeriesScoreWinPercent(e.target.value)}
+              >
+                <option value="SeriesScore">Series Score</option>
+                <option value="WinPercent">Win Percent</option>
+                <option value="Both">Both</option>
+                <option value="None">None</option>
+              </Select>
+            </FormGroup>
+          </div>
+
+          <div>
+            <FormGroup>
+              <CheckboxContainer2>
+                <DynamicCheckbox
+                  id="showTeamWins"
+                  checked={showTeamWins}
+                  onChange={(e) => setShowTeamWins(e.target.checked)}
+                />
+                <CheckboxLabel htmlFor="showTeamWins">
+                  Show Team Wins
+                </CheckboxLabel>
+              </CheckboxContainer2>
+
+              <CheckboxContainer2>
+                <DynamicCheckbox
+                  id="savedata"
+                  checked={savedata}
+                  onChange={(e) => setSaveData(e.target.checked)}
+                />
+                <CheckboxLabel htmlFor="savedata">Save Data</CheckboxLabel>
+              </CheckboxContainer2>
+
+              <CheckboxContainer2>
+                <DynamicCheckbox
+                  id="showPlayerSpeed"
+                  checked={showPlayerSpeed}
+                  onChange={(e) => setShowPlayerSpeed(e.target.checked)}
+                />
+                <CheckboxLabel htmlFor="showPlayerSpeed">
+                  Show Player Speed
+                </CheckboxLabel>
+              </CheckboxContainer2>
+
+              <CheckboxContainer2>
+                <DynamicCheckbox
+                  id="showFlipResets"
+                  checked={showFlipResets}
+                  onChange={(e) => setShowFlipResets(e.target.checked)}
+                />
+                <CheckboxLabel htmlFor="showFlipResets">
+                  Show Flip Available
+                </CheckboxLabel>
+              </CheckboxContainer2>
+            </FormGroup>
+          </div>
+        </TwoColumnRow>
+
+        <SubmitButton type="submit">Update Settings</SubmitButton>
+        {feedbackMessage && <div>{feedbackMessage}</div>}
       </Form>
     </FormWrapper>
   );

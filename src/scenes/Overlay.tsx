@@ -61,7 +61,7 @@ export const Overlay = () => {
   }, [subscribe, setUpdateState, setControlPanelSettings]);
 
   // Conditionally render the overlay based on the value of showOverlayBE
-  if (controlPanelSettings.showOverlayBE) {
+  if (!controlPanelSettings.showOverlayBE) {
     return (
       <>
         <Scorebug />

@@ -11,6 +11,7 @@ import {
   DEFAULT_UPDATESTATE,
   UpdateStateContext,
 } from "./contexts/UpdateStateContext";
+import { GlobalStyle } from "./GlobalStyles.style";
 
 function App() {
   const websocketService = useWebSocketService();
@@ -24,7 +25,15 @@ function App() {
           <UpdateStateContext.Provider value={{ updateState, setUpdateState }}>
             <Routes>
               <Route path="/" element={<Overlay />} />
-              <Route path="/ControlPanel" element={<ControlPanel />} />
+              <Route
+                path="/ControlPanel"
+                element={
+                  <>
+                    <GlobalStyle />
+                    <ControlPanel />
+                  </>
+                }
+              />
             </Routes>
           </UpdateStateContext.Provider>
         </WebsocketContext.Provider>

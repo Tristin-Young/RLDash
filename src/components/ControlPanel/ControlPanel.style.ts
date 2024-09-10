@@ -1,52 +1,70 @@
 import styled from "styled-components";
 
 export const FormWrapper = styled.div`
+  background-color: #f4f7f6;
+  height: 100vh; /* Full height of the viewport */
+  width: 100vw; /* Full width of the viewport */
+  padding: 25px;
+  margin: 0;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #f4f7f6; // Soft background color for a modern, minimalistic look
-  height: 100vh;
-  width: 100%;
+  flex-direction: column;
+  overflow: hidden; /* Prevent any unnecessary scrolling */
 `;
 
 export const Form = styled.form`
   display: flex;
   flex-direction: column;
-  align-items: center;
-  max-width: 600px; // Ensuring the form is not too wide on larger screens
-  width: 90%;
-  margin: 0 auto;
+  justify-content: space-between;
+  height: 100%;
+  width: 100%;
   padding: 20px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); // Smoother shadow for depth
-  border-radius: 12px; // Slightly increased border radius for a softer look
-  background: #ffffff; // Solid background to stand out from the wrapper
+  box-sizing: border-box; /* Ensures padding is included in width/height calculations */
+  background: #ffffff;
+  overflow-y: auto; /* Allows vertical scrolling if the form content exceeds viewport height */
+  overflow-x: hidden; /* Prevent horizontal scrolling */
 `;
 
 export const FormGroup = styled.div`
   display: flex;
-  flex-direction: column; // Change to column for better mobile responsiveness
-  align-items: flex-start; // Align items to the start for a cleaner layout
+  flex-direction: column;
+  align-items: flex-start;
   width: 100%;
   margin-bottom: 20px;
 `;
 
-export const LogoFormGroup = styled(FormGroup)`
-  flex-direction: row; // Keeping row direction for logo inputs
+export const TwoColumnRow = styled.div`
+  display: flex;
   justify-content: space-between;
-  align-items: center;
+  width: 100%;
+  margin-bottom: 20px;
 
-  & > input {
-    flex: 1; // Allow input to fill available space
+  & > div {
+    width: 48%;
+  }
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    & > div {
+      width: 100%;
+    }
   }
 `;
 
-export const RowInput = styled(FormGroup)`
-  flex-direction: row;
+export const ThreeColumnRow = styled.div`
+  display: flex;
   justify-content: space-between;
-  align-items: center;
+  width: 100%;
+  margin-bottom: 20px;
 
-  & > label {
-    flex-basis: 40%; // Adjust label width for consistency
+  & > div {
+    width: 30%;
+  }
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    & > div {
+      width: 100%;
+    }
   }
 `;
 
@@ -54,23 +72,27 @@ export const Label = styled.label`
   font-weight: 600;
   font-size: 16px;
   color: #333;
-  margin-bottom: 5px; // Add margin for spacing in column layout
+  margin-bottom: 5px;
+
+  @media (max-width: 768px) {
+    font-size: 14px;
+  }
 `;
 
 export const Input = styled.input`
   padding: 10px 15px;
-  border-radius: 8px; // Increased border radius for a modern look
+  border-radius: 8px;
   border: 1px solid #ccc;
-  background-color: #fff; // Ensure background is white for clarity
+  background-color: #fff;
   font-size: 14px;
   color: #333;
-  width: 90%; // Input takes full width for consistency
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1); // Subtle inner shadow for depth
+  width: 100%;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
 
   &:focus {
     border-color: #4caf50;
     outline: none;
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2); // Deeper shadow on focus for emphasis
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
   }
 `;
 
@@ -81,33 +103,80 @@ export const Select = styled.select`
   background-color: #fff;
   font-size: 14px;
   color: #333;
-  width: 60%; // Adjust width for better alignment
+  width: 100%;
   cursor: pointer;
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+`;
+
+export const ColorPickerInput = styled(Input)`
+  cursor: pointer;
+  -webkit-appearance: none;
+  margin: 0;
+  width: auto;
+  height: auto;
+
+  &::-webkit-color-swatch-wrapper {
+    padding: 0;
+  }
+
+  &::-webkit-color-swatch {
+    border: none;
+    border-radius: 8px;
+  }
 `;
 
 export const CheckboxContainer = styled.div`
   display: flex;
   align-items: center;
+  padding: 0 0 22px 0;
 `;
 
-export const FileInputContainer = styled.div`
+export const CheckboxContainer2 = styled.div`
   display: flex;
-  flex-direction: column; // Changed to column for better layout management
-  align-items: flex-start; // Align items to start
-  width: 100%;
+  align-items: center;
+  padding: 20px 0 0 0;
+`;
+export const DynamicCheckbox = styled.input.attrs({ type: "checkbox" })`
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  margin-right: 10px;
+  appearance: none;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+  display: inline-block;
+  position: relative;
+
+  &:checked {
+    background-color: #4caf50;
+    border-color: #4caf50;
+  }
+
+  &:checked::after {
+    content: "";
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 24px;
+    height: 24px;
+    background-color: #ffffff;
+    clip-path: polygon(14% 44%, 0% 65%, 50% 100%, 100% 16%, 85% 0%, 43% 77%);
+  }
+
+  &:hover {
+    border-color: #4caf50;
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.5);
+  }
 `;
 
-export const FileInputContainer2 = styled.div`
-  display: flex;
-  flex-direction: column; // Changed to column for better layout management
-  align-items: flex-start; // Align items to start
-  width: 100%;
-`;
-
-export const ImagePreview = styled.img`
-  height: 50px;
-  margin-top: 10px; // Added margin for spacing
+export const CheckboxLabel = styled.label`
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
 `;
 
 export const SubmitButton = styled.button`
@@ -119,43 +188,15 @@ export const SubmitButton = styled.button`
   cursor: pointer;
   font-size: 16px;
   font-weight: bold;
-  width: 100%; // Button takes full width for a prominent call-to-action
-  transition: background-color 0.3s ease, transform 0.2s ease; // Smoother transition for hover
+  width: 100%;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 
   &:hover {
     background-color: #45a049;
-    transform: translateY(
-      -2px
-    ); // Slight lift effect on hover for interactivity
+    transform: translateY(-2px);
   }
-`;
 
-export const ColorPickerInput = styled(Input)`
-  cursor: pointer;
-  -webkit-appearance: none;
-  margin: 0;
-  width: auto;
-  height: auto;
-  &::-webkit-color-swatch-wrapper {
-    padding: 0;
+  @media (max-width: 768px) {
+    font-size: 14px;
   }
-  &::-webkit-color-swatch {
-    border: none;
-    border-radius: 8px;
-  }
-`;
-
-export const GreyOverlay = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5); // Semi-transparent black background
-  z-index: 1000; // Ensure overlay is on top of other content
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #fff; // White text for better contrast
-  font-size: 2rem;
 `;
