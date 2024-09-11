@@ -16,9 +16,7 @@ import { USPlayer } from "../../models/USPlayer";
 export const PlayerBoostMeter = () => {
   const { updateState, setUpdateState } = useContext(UpdateStateContext);
   const { subscribe } = useContext(WebsocketContext); // Changed to useContext
-  const { controlPanelSettings, setControlPanelSettings } = useContext(
-    ControlPanelSettingsContext
-  );
+  const { controlPanelSettings } = useContext(ControlPanelSettingsContext);
 
   useEffect(() => {
     // Logic that should run when controlPanelSettings changes

@@ -26,8 +26,6 @@ import {
 } from "./PlayerTeamName.style";
 import BlueTeamPNG from "../../assets/BlueTeam.png";
 import OrangeTeamPNG from "../../assets/OrangeTeam.png";
-import FlipIconPNG from "../../assets/flipIcon.png";
-import FlipIconMirroredPNG from "../../assets/flipIconMirrored.png";
 import { transformGameUpdate } from "../../contexts/transformGameUpdate";
 import { USPlayer } from "../../models/USPlayer";
 import { ControlPanelSettingsContext } from "../../contexts/ControlPanelSettingsContext";
@@ -62,10 +60,7 @@ export const PlayerTeamName = () => {
   const { updateState, setUpdateState } = useContext(UpdateStateContext);
   const { subscribe } = useContext(WebsocketContext);
   const [playerData, setPlayerData] = useState<PlayerData>({});
-  const { controlPanelSettings, setControlPanelSettings } = useContext(
-    ControlPanelSettingsContext
-  );
-  const [gameData, setGameData] = useState([]);
+  const { controlPanelSettings } = useContext(ControlPanelSettingsContext);
 
   useEffect(() => {
     const handlePlayerDataUpdate = (receivedData: ReceivedData) => {

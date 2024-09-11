@@ -309,7 +309,7 @@ export const ControlPanel = () => {
       unsubscribePodium();
       unsubscribeReplay();
     };
-  }, [controlPanelSubscribe]);
+  }, [websocketSubscribe]);
 
   useEffect(() => {
     const handleLoadSettings = (data: any) => {
