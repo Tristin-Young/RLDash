@@ -14,6 +14,8 @@ import {
   CheckboxLabel,
   DynamicCheckbox,
   CheckboxContainer2,
+  GreyOverlay,
+  LockedMessage,
 } from "./ControlPanel.style";
 import { WebsocketContext } from "../../contexts/WebsocketContext";
 
@@ -347,6 +349,12 @@ export const ControlPanel = () => {
   }, [controlPanelSubscribe]);
   return (
     <FormWrapper>
+      {isFormLocked && (
+        <div>
+          <GreyOverlay />
+          <LockedMessage>Form is locked</LockedMessage>
+        </div>
+      )}
       <Form onSubmit={handleSubmit}>
         {/* Team Names */}
         <TwoColumnRow>

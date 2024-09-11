@@ -200,3 +200,28 @@ export const SubmitButton = styled.button`
     font-size: 14px;
   }
 `;
+
+export const GreyOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+`;
+
+export const LockedMessage = styled.div`
+  position: fixed; /* Make sure it's fixed, so it stays in the center */
+  top: 50%;
+  left: 50%;
+  transform: translate(
+    -50%,
+    -50%
+  ); /* Center it both horizontally and vertically */
+  font-size: 48px;
+  font-weight: bold; /* Corrected font weight */
+  color: #fff;
+  z-index: 1001;
+  text-align: center;
+`;
