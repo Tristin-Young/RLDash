@@ -57,9 +57,6 @@ export const ControlPanel = () => {
   const [SeriesScoreWinPercent, setSeriesScoreWinPercent] = useState(
     controlPanelSettings.SeriesScoreWinPercent
   );
-  const [showPlayerSpeed, setShowPlayerSpeed] = useState(
-    controlPanelSettings.showPlayerSpeed
-  );
   const [blueTeamLogo, setBlueTeamLogo] = useState("");
   const [orangeTeamLogo, setOrangeTeamLogo] = useState("");
   const [blueTeamLogoPreview, setBlueTeamLogoPreview] = useState("");
@@ -85,6 +82,9 @@ export const ControlPanel = () => {
   const [showOverlayBE, setShowOverlayBE] = useState(
     controlPanelSettings.showOverlayBE
   );
+  const [SpeedBoostMeter, setSpeedBoostMeter] = useState(
+    controlPanelSettings.SpeedBoostMeter
+  );
   const [feedbackMessage, setFeedbackMessage] = useState("");
 
   useEffect(() => {
@@ -99,7 +99,7 @@ export const ControlPanel = () => {
     setSaveData(controlPanelSettings.savedata);
     setServerPortNumber(controlPanelSettings.serverPortNumber);
     setSeriesScoreWinPercent(controlPanelSettings.SeriesScoreWinPercent);
-    setShowPlayerSpeed(controlPanelSettings.showPlayerSpeed);
+    setSpeedBoostMeter(controlPanelSettings.SpeedBoostMeter);
     setShowFlipResets(controlPanelSettings.showFlipResets);
     setOrangeTeamFlipColor(controlPanelSettings.orangeTeamFlipColor);
     setBlueTeamFlipColor(controlPanelSettings.blueTeamFlipColor);
@@ -112,6 +112,7 @@ export const ControlPanel = () => {
     setOrangeTeamLogo(controlPanelSettings.OrangeTeamPhoto);
     setBlueTeamLogoPreview(controlPanelSettings.BlueTeamPhoto);
     setOrangeTeamLogoPreview(controlPanelSettings.OrangeTeamPhoto);
+    setSpeedBoostMeter(controlPanelSettings.SpeedBoostMeter);
   }, [controlPanelSettings]);
 
   // const handleShowTeamWinsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -260,7 +261,7 @@ export const ControlPanel = () => {
       showTeamWins,
       SeriesScoreWinPercent,
       showFlipResets,
-      showPlayerSpeed,
+      SpeedBoostMeter,
       metricOrImperial,
       savedata,
       serverPortNumber,
@@ -587,6 +588,21 @@ export const ControlPanel = () => {
                 <option value="None">None</option>
               </Select>
             </FormGroup>
+            <FormGroup>
+              <Label htmlFor="SpeedBoostMeter">
+                Show Speed / Boost Amount:
+              </Label>
+              <Select
+                id="SpeedBoostMeter"
+                value={SpeedBoostMeter}
+                onChange={(e) => setSpeedBoostMeter(e.target.value)}
+              >
+                <option value="Speed">Player Speed</option>
+                <option value="Boost">Boost Amount</option>
+                <option value="Both">Both</option>
+                <option value="None">None</option>
+              </Select>
+            </FormGroup>
           </div>
 
           <div>
@@ -609,17 +625,6 @@ export const ControlPanel = () => {
                   onChange={(e) => setSaveData(e.target.checked)}
                 />
                 <CheckboxLabel htmlFor="savedata">Save Data</CheckboxLabel>
-              </CheckboxContainer2>
-
-              <CheckboxContainer2>
-                <DynamicCheckbox
-                  id="showPlayerSpeed"
-                  checked={showPlayerSpeed}
-                  onChange={(e) => setShowPlayerSpeed(e.target.checked)}
-                />
-                <CheckboxLabel htmlFor="showPlayerSpeed">
-                  Show Player Speed
-                </CheckboxLabel>
               </CheckboxContainer2>
 
               <CheckboxContainer2>

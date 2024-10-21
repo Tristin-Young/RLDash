@@ -16,7 +16,7 @@ export interface ControlPanelContext {
   showTeamWins: boolean;
   SeriesScoreWinPercent: string;
   showFlipResets: boolean;
-  showPlayerSpeed: boolean;
+  SpeedBoostMeter: string;
   metricOrImperial: string;
   savedata: boolean;
   serverPortNumber: number;

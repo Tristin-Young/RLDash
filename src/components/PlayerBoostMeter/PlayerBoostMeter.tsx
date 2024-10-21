@@ -9,7 +9,7 @@ import {
 import { boostService } from "../../services/boostService";
 import { WebsocketContext } from "../../contexts/WebsocketContext";
 import { transformGameUpdate } from "../../contexts/transformGameUpdate";
-import BoostPNG from "../../assets/Boost_wCANA.png";
+import BoostPNG from "../../assets/Boost_GMU.png";
 import { ControlPanelSettingsContext } from "../../contexts/ControlPanelSettingsContext";
 import { UpdateStateContext } from "../../contexts/UpdateStateContext";
 import { USPlayer } from "../../models/USPlayer";
@@ -44,7 +44,7 @@ export const PlayerBoostMeter = () => {
     updateState.game.target
   );
 
-  const normalizedRadius = 120 - 20 * 2; //inner radius - thickness of ring * 2
+  const normalizedRadius = 121 - 20 * 2; //inner radius - thickness of ring * 2
   const circumference = normalizedRadius * 2 * Math.PI;
 
   const PlayerTeam = spectatedPlayer?.team === 0 ? "blue" : "orange";
@@ -55,8 +55,8 @@ export const PlayerBoostMeter = () => {
         <>
           {/* Circle SVG */}
           <svg
-            height={120 * 2}
-            width={120 * 2}
+            height={121 * 2}
+            width={121 * 2}
             style={{ position: "absolute", zIndex: 0 }}
           >
             <BoostMeterRing
@@ -70,11 +70,11 @@ export const PlayerBoostMeter = () => {
                 spectatedPlayer.boost * 1,
                 circumference
               )}
-              strokeWidth={28}
+              strokeWidth={50}
               fill="transparent"
               r={normalizedRadius}
-              cx={89}
-              cy={115}
+              cx={104}
+              cy={140}
             />
           </svg>
 
@@ -83,7 +83,41 @@ export const PlayerBoostMeter = () => {
 
           {/* Text SVG */}
 
-          {controlPanelSettings.showPlayerSpeed === false && (
+          {controlPanelSettings.SpeedBoostMeter === "Speed" && (
+            <svg
+              height={121 * 2}
+              width={121 * 2}
+              style={{ position: "absolute", zIndex: 2 }}
+            >
+              <BoostMeterSpeed
+                fill="white"
+                x="50%"
+                y="39%"
+                textAnchor="middle"
+                dy=".3em"
+                fontSize="105px"
+                fontWeight="bold"
+              >
+                {controlPanelSettings.metricOrImperial === "KPH"
+                  ? `${spectatedPlayer.speed}`
+                  : `${(spectatedPlayer.speed * 0.621371).toFixed(0)}`}
+              </BoostMeterSpeed>
+              <BoostMeterSpeed
+                fill="white"
+                x="50%"
+                y="62%"
+                textAnchor="middle"
+                dy=".3em"
+                fontSize="62px"
+                fontWeight="bold"
+              >
+                {controlPanelSettings.metricOrImperial === "KPH"
+                  ? ` KPH`
+                  : `MPH`}
+              </BoostMeterSpeed>
+            </svg>
+          )}
+          {controlPanelSettings.SpeedBoostMeter === "Boost" && (
             <svg
               height={121 * 2}
               width={121 * 2}
@@ -91,19 +125,19 @@ export const PlayerBoostMeter = () => {
             >
               <BoostMeterAmount
                 fill="white"
-                x="60%"
-                y="38%"
+                x="50%"
+                y="48%"
                 textAnchor="middle"
                 dy=".3em"
-                fontSize="86px"
-                // fontWeight="bold"
+                fontSize="115px"
+                fontWeight="bold"
                 color="white"
               >
                 {spectatedPlayer.boost}
               </BoostMeterAmount>
             </svg>
           )}
-          {controlPanelSettings.showPlayerSpeed === true && (
+          {controlPanelSettings.SpeedBoostMeter === "Both" && (
             <svg
               height={121 * 2}
               width={121 * 2}
@@ -111,30 +145,37 @@ export const PlayerBoostMeter = () => {
             >
               <BoostMeterAmount
                 fill="white"
-                x="60%"
-                y="38%"
+                x="50%"
+                y="43%"
                 textAnchor="middle"
                 dy=".3em"
-                fontSize="86px"
-                // fontWeight="bold"
+                fontSize="105px"
+                fontWeight="bold"
                 color="white"
               >
                 {spectatedPlayer.boost}
               </BoostMeterAmount>
               <BoostMeterSpeed
                 fill="white"
-                x="60%"
-                y="57%"
+                x="50%"
+                y="66%"
                 textAnchor="middle"
                 dy=".3em"
-                fontSize="26px"
-                // fontWeight="bold"
+                fontSize="44px"
+                fontWeight="bold"
               >
                 {controlPanelSettings.metricOrImperial === "KPH"
                   ? `${spectatedPlayer.speed} KPH`
                   : `${(spectatedPlayer.speed * 0.621371).toFixed(0)} MPH`}
               </BoostMeterSpeed>
             </svg>
+          )}
+          {controlPanelSettings.SpeedBoostMeter === "None" && (
+            <svg
+              height={121 * 2}
+              width={121 * 2}
+              style={{ position: "absolute", zIndex: 2 }}
+            ></svg>
           )}
         </>
       )}

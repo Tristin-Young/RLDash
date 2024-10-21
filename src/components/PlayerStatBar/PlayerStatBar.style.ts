@@ -7,10 +7,10 @@ import styled from "styled-components";
 // position is at X=0, Y=1030
 export const StatBarWrapper = styled.div`
   position: absolute;
-  height: 70px;
-  width: 1030px;
-  left: 0px;
-  top: 1012px;
+  height: 110px;
+  width: 612px;
+  left: 112px;
+  top: 930px;
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
@@ -20,20 +20,20 @@ export const StatBarWrapper = styled.div`
     position: absolute;
     z-index: -1;
     height: auto;
-    width: 1030px;
+    width: 612px;
   }
 `;
 
 // create stat name
 export const StatBarStatName = styled.p`
-  font-size: 30px;
-
+  font-size: 26px;
+  position: relative;
   margin: 0;
 `;
 
 // create stat value
 export const StatBarStatValue = styled.p`
-  font-size: 30px;
+  font-size: 26px;
 
   margin: 0;
 `;
@@ -50,7 +50,6 @@ export const StatBarStatPair = styled.div`
 // class to modify the player name in bottom left corner
 export const PlayerName = styled.p`
   font-size: 60px;
-  width: 234px;
   height: 44px;
   margin: 0;
   display: flex;
@@ -58,7 +57,8 @@ export const PlayerName = styled.p`
   justify-content: center;
   align-items: center;
   position: absolute;
-  top: 22px;
+  top: 5px;
+  left: 33px;
 `;
 // export const Divider = styled.div`
 //   width: 2px;
@@ -69,11 +69,11 @@ export const PlayerName = styled.p`
 // `;
 
 export const StatsContainer = styled.div`
-  width: 725px;
-  margin-left: 260px;
+  width: 580px;
   display: flex;
   align-items: center;
   justify-content: space-around;
   position: absolute;
-  top: 30px;
+  top: 68px;
+  left: 16px;
 `;

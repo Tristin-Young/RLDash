@@ -4,10 +4,10 @@ import styled from "styled-components";
 // position is at X=460, Y=0
 export const ScorebugWrapper = styled.div`
   height: auto;
-  width: 1000px;
+  width: 1048px;
   position: absolute;
   top: 0px;
-  left: 460px;
+  left: 435px;
 `;
 
 // create a div for the creator banner
@@ -32,11 +32,11 @@ export const ScorebugCreatorBanner = styled.div`
 // relative to scorebugWraper, position is X=0, Y=35
 export const ScorebugBlueLogo = styled.div`
   display: flex;
-  height: 62px;
-  width: 75px;
+  height: 90px;
+  width: 132px;
   position: absolute;
-  top: 38px;
-  left: 40px;
+  top: 31px;
+  left: 23px;
   justify-content: center;
   > img {
     height: 100%;
@@ -49,12 +49,12 @@ export const ScorebugBlueLogo = styled.div`
 // relative to scorebugWraper, position is X=85, Y=35
 //give background color of green at 30% opacity
 export const ScorebugBlueName = styled.div`
-  height: 44px;
-  width: 218px;
+  height: 90px;
+  width: 182px;
   font-size: 52px;
   position: absolute;
-  top: 44px;
-  left: 140px;
+  top: 31px;
+  left: 150px;
   color: white;
   display: flex;
   flex-flow: column;
@@ -67,16 +67,17 @@ export const ScorebugBlueName = styled.div`
 // position is at X=810, Y=35
 // relative to scorebugWraper, position is X=350, Y=35
 export const ScorebugBlueScore = styled.div`
-  height: 38px;
-  width: 53px;
+  height: 90px;
+  width: 74px;
   position: absolute;
-  top: 49px;
-  left: 370px;
+  top: 31px;
+  left: 347px;
   color: white;
   align-items: center;
   display: flex;
   justify-content: center;
-  font-size: 58px;
+  font-size: 88px;
+  font-weight: bold;
 `;
 
 // create a div for the clock
@@ -84,16 +85,16 @@ export const ScorebugBlueScore = styled.div`
 // position is at X=885, Y=35
 // relative to scorebugWraper, position is X=425, Y=35
 export const ScorebugClock = styled.div`
-  height: 52px;
-  width: 116px;
+  height: 90px;
+  width: 162px;
   position: absolute;
-  top: 42px;
-  left: 442px;
+  top: 31px;
+  left: 444px;
   color: white;
   align-items: center;
   display: flex;
   justify-content: center;
-  font-size: 48px;
+  font-size: 80px;
 `;
 
 // create a div for the orange teams score
@@ -101,16 +102,17 @@ export const ScorebugClock = styled.div`
 // position is at X=1035, Y=35
 // relative to scorebugWraper, position is X=575, Y=35
 export const ScorebugOrangeScore = styled.div`
-  height: 38px;
-  width: 53px;
+  height: 90px;
+  width: 74px;
   position: absolute;
-  top: 49px;
-  right: 370px;
+  top: 31px;
+  right: 347px;
   color: white;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 58px;
+  font-size: 88px;
+  font-weight: bold;
 `;
 
 // create a div for the orange teams name
@@ -118,12 +120,12 @@ export const ScorebugOrangeScore = styled.div`
 // position is at X=1100, Y=35
 // relative to scorebugWraper, position is X=640, Y=35
 export const ScorebugOrangeName = styled.div`
-  height: 44px;
-  width: 218px;
+  height: 90px;
+  width: 182px;
   font-size: 54px;
   position: absolute;
-  top: 44px;
-  right: 140px;
+  top: 31px;
+  right: 147px;
   color: white;
   display: flex;
   flex-flow: column;
@@ -138,11 +140,11 @@ export const ScorebugOrangeName = styled.div`
 export const ScorebugOrangeLogo = styled.div`
   display: flex;
   justify-content: center;
-  height: 62px;
-  width: 75px;
+  height: 94px;
+  width: 132px;
   position: absolute;
-  top: 38px;
-  right: 40px;
+  top: 31px;
+  right: 23px;
 
   > img {
     height: 100%;
@@ -155,12 +157,12 @@ export const ScorebugOrangeLogo = styled.div`
 // relative to scorebugWraper, position is X=355, Y=100
 // width is the width of the bluescore + the width of the clock + the width of the orangescore
 export const ScorebugWinPercentage = styled.div`
-  height: 24px;
-  width: 209px;
+  height: 41px;
+  width: 201px;
   color: white;
   position: absolute;
-  top: 127px;
-  left: 396px;
+  top: 122px;
+  left: 425px;
   color: white;
   display: flex;
   justify-content: center;
@@ -169,12 +171,12 @@ export const ScorebugWinPercentage = styled.div`
 `;
 
 export const ScorebugSeriesScore = styled.div`
-  height: 24px;
-  width: 209px;
+  height: 41px;
+  width: 201px;
   color: white;
   position: absolute;
-  top: 99px;
-  left: 396px;
+  top: 122px;
+  left: 425px;
   color: white;
   display: flex;
   justify-content: center;
@@ -182,22 +184,21 @@ export const ScorebugSeriesScore = styled.div`
   font-size: 24px;
 `;
 export const ScorebugSeriesScoreAndWinPercentage = styled.div`
-  height: 52px;
-  width: 209px;
+  height: 41px;
+  width: 201px;
   color: white;
   position: absolute;
-  top: 99px;
-  left: 396px;
+  top: 122px;
+  left: 425px;
   color: white;
   display: flex;
   flex-flow: column;
   justify-content: space-between;
   align-items: center;
-  font-size: 24px;
+  font-size: 20px;
   div {
     position: relative;
-    top: -1px;
-    padding-bottom: 2px;
+    top: -2px;
   }
 `;
 // Styled wrapper for SVGs
@@ -216,8 +217,8 @@ export const ScorebugSvgWrapper = styled.div`
 `;
 export const OrangeUndertone = styled.div`
   position: absolute;
-  top: 30px;
-  left: 1040px;
+  top: 27px;
+  left: 1037px;
   width: 30px;
   height: 100px;
   opacity: 1;
@@ -226,8 +227,8 @@ export const OrangeUndertone = styled.div`
 
 export const BlueUndertone = styled.div`
   position: absolute;
-  top: 30px;
-  left: 850px;
+  top: 27px;
+  left: 853px;
   width: 30px;
   height: 100px;
   opacity: 1;
@@ -251,19 +252,19 @@ export const CanaSVGwrapper = styled.div`
 
 export const SeriesScoreUndertone = styled.div`
   position: absolute;
-  top: 95px;
-  left: 595px;
-  width: 235px;
-  height: 20px;
+  top: 132px;
+  left: 617px;
+  width: 173px;
+  height: 25px;
   z-index: -1;
   opacity: 0.8;
 `;
 
 export const OrangeSeriesScoreUndertone = styled.div`
   position: absolute;
-  top: 95px;
-  left: 1090px;
-  width: 240px;
+  top: 133px;
+  left: 1131px;
+  width: 175px;
   height: 20px;
   z-index: -1;
   opacity: 0.8;
@@ -271,10 +272,10 @@ export const OrangeSeriesScoreUndertone = styled.div`
 
 export const DarkSeriesScoreUndertone = styled.div`
   position: absolute;
-  top: 95px;
-  left: 595px;
-  width: 740px;
-  height: 20px;
+  top: 132px;
+  left: 617px;
+  width: 690px;
+  height: 25px;
   z-index: -1;
   opacity: 0.65;
   background-color: #000;
@@ -282,22 +283,22 @@ export const DarkSeriesScoreUndertone = styled.div`
 
 export const SeriesScoreDynamicUndertone = styled.div`
   position: absolute;
-  top: 95px;
-  right: 1095px;
-  width: 225px;
-  height: 20px;
+  top: 132px;
+  right: 1127px;
+  width: 180px;
+  height: 25px;
   z-index: -1;
   opacity: 1;
-  max-width: 225px;
+  max-width: 180px;
 `;
 
 export const OrangeSeriesScoreDynamicUndertone = styled.div`
   position: absolute;
-  top: 95px;
-  left: 1095px;
-  width: 225px;
-  height: 20px;
+  top: 131px;
+  left: 1128px;
+  width: 180px;
+  height: 25px;
   z-index: -1;
   opacity: 1;
-  max-width: 225px;
+  max-width: 180px;
 `;

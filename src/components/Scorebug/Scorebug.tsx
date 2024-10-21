@@ -33,7 +33,7 @@ import ScoreBoardBO1 from "../../assets/ScorecardBO1.png";
 import ScoreBoardBO3 from "../../assets/ScorecardBO3.png";
 import ScoreBoardBO5 from "../../assets/ScorecardBO5.png";
 import ScoreBoardBO7 from "../../assets/ScorecardBO7.png";
-import ScoreBoardBO9 from "../../assets/ScorecardBO9.png";
+
 import CanaLogo from "../../assets/CANAesportsLogo.png";
 
 export const Scorebug = () => {
@@ -111,17 +111,13 @@ export const Scorebug = () => {
       <OrangeSeriesScoreDynamicUndertone
         style={{
           backgroundColor: controlPanelSettings.orangeTeamColor,
-          width:
-            (225 / Math.round(controlPanelSettings.NumberOfGames / 2)) *
-            controlPanelSettings.orangeWins,
+          width: 45 * controlPanelSettings.orangeWins,
         }}
       />
       <SeriesScoreDynamicUndertone
         style={{
           backgroundColor: controlPanelSettings.blueTeamColor,
-          width:
-            (225 / Math.round(controlPanelSettings.NumberOfGames / 2)) *
-            controlPanelSettings.blueWins,
+          width: 45 * controlPanelSettings.blueWins,
         }}
       />
 
@@ -148,10 +144,10 @@ export const Scorebug = () => {
           controlPanelSettings.NumberOfGames === 7 && (
             <img src={ScoreBoardBO7} alt="ScoreBoard" />
           )}
-        {controlPanelSettings.showTeamWins &&
+        {/* {controlPanelSettings.showTeamWins &&
           controlPanelSettings.NumberOfGames === 9 && (
             <img src={ScoreBoardBO9} alt="ScoreBoard" />
-          )}
+          )} */}
         {!controlPanelSettings.showTeamWins && (
           <img src={ScoreBoardBO1} alt="ScoreBoard" />
         )}
