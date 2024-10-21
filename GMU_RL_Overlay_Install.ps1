@@ -4,7 +4,7 @@
 # Date: 3/27/2024
 
 # 1. Git Clone Project
-git clone --branch GMUFinal --single-branch https://github.com/Tristin-Young/RLDash.git
+git clone --branch GMUOverlay --single-branch https://github.com/Tristin-Young/RLDash.git
 
 # 2. Navigate to RLDash directory
 Set-Location -Path RLDash
