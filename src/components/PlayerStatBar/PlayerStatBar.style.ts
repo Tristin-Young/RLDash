@@ -26,14 +26,14 @@ export const StatBarWrapper = styled.div`
 
 // create stat name
 export const StatBarStatName = styled.p`
-  font-size: 26px;
+  font-size: 18px;
   position: relative;
   margin: 0;
 `;
 
 // create stat value
 export const StatBarStatValue = styled.p`
-  font-size: 26px;
+  font-size: 18px;
 
   margin: 0;
 `;
@@ -49,7 +49,7 @@ export const StatBarStatPair = styled.div`
 
 // class to modify the player name in bottom left corner
 export const PlayerName = styled.p`
-  font-size: 60px;
+  font-size: 40px;
   height: 44px;
   margin: 0;
   display: flex;

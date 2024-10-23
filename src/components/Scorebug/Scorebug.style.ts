@@ -51,7 +51,7 @@ export const ScorebugBlueLogo = styled.div`
 export const ScorebugBlueName = styled.div`
   height: 90px;
   width: 182px;
-  font-size: 52px;
+  font-size: 38px;
   position: absolute;
   top: 31px;
   left: 150px;
@@ -76,7 +76,7 @@ export const ScorebugBlueScore = styled.div`
   align-items: center;
   display: flex;
   justify-content: center;
-  font-size: 88px;
+  font-size: 54px;
   font-weight: bold;
 `;
 
@@ -94,7 +94,7 @@ export const ScorebugClock = styled.div`
   align-items: center;
   display: flex;
   justify-content: center;
-  font-size: 80px;
+  font-size: 52px;
 `;
 
 // create a div for the orange teams score
@@ -111,7 +111,7 @@ export const ScorebugOrangeScore = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 88px;
+  font-size: 54px;
   font-weight: bold;
 `;
 
@@ -122,7 +122,7 @@ export const ScorebugOrangeScore = styled.div`
 export const ScorebugOrangeName = styled.div`
   height: 90px;
   width: 182px;
-  font-size: 54px;
+  font-size: 38px;
   position: absolute;
   top: 31px;
   right: 147px;
@@ -167,7 +167,7 @@ export const ScorebugWinPercentage = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 24px;
+  font-size: 20px;
 `;
 
 export const ScorebugSeriesScore = styled.div`
@@ -181,7 +181,7 @@ export const ScorebugSeriesScore = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 24px;
+  font-size: 20px;
 `;
 export const ScorebugSeriesScoreAndWinPercentage = styled.div`
   height: 41px;
@@ -195,10 +195,10 @@ export const ScorebugSeriesScoreAndWinPercentage = styled.div`
   flex-flow: column;
   justify-content: space-between;
   align-items: center;
-  font-size: 20px;
+  font-size: 16px;
   div {
     position: relative;
-    top: -2px;
+    top: -1px;
   }
 `;
 // Styled wrapper for SVGs

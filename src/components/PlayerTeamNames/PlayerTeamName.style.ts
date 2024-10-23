@@ -67,7 +67,7 @@ export const OrangePlayerContainer = styled.div`
 // font size is 40px
 // font weight is bold
 export const PlayerName = styled.p`
-  font-size: 36px;
+  font-size: 28px;
   margin: 0;
   margin-left: 28px;
   position: relative;
@@ -76,7 +76,7 @@ export const PlayerName = styled.p`
 `;
 
 export const PlayerBoost = styled.p`
-  font-size: 36px;
+  font-size: 28px;
   margin: 0;
   margin-right: 20px;
   position: relative;
@@ -87,7 +87,7 @@ export const PlayerBoost = styled.p`
 // font size is 40px
 // font weight is bold
 export const OrangePlayerName = styled.p`
-  font-size: 36px;
+  font-size: 28px;
   margin: 0;
   margin-right: 28px;
   position: relative;
@@ -96,7 +96,7 @@ export const OrangePlayerName = styled.p`
 `;
 
 export const OrangePlayerBoost = styled.p`
-  font-size: 36px;
+  font-size: 28px;
   margin: 0;
   margin-left: 20px;
   position: relative;
@@ -107,7 +107,7 @@ export const OrangePlayerBoost = styled.p`
 // font size is 40px
 // font weight is bold
 export const BoostNumber = styled.p`
-  font-size: 40px;
+  font-size: 28px;
   font-weight: bold;
   margin: 0;
 `;

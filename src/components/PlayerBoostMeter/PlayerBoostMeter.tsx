@@ -92,10 +92,10 @@ export const PlayerBoostMeter = () => {
               <BoostMeterSpeed
                 fill="white"
                 x="50%"
-                y="39%"
+                y="46%"
                 textAnchor="middle"
                 dy=".3em"
-                fontSize="105px"
+                fontSize="75px"
                 fontWeight="bold"
               >
                 {controlPanelSettings.metricOrImperial === "KPH"
@@ -105,10 +105,10 @@ export const PlayerBoostMeter = () => {
               <BoostMeterSpeed
                 fill="white"
                 x="50%"
-                y="62%"
+                y="66%"
                 textAnchor="middle"
                 dy=".3em"
-                fontSize="62px"
+                fontSize="40px"
                 fontWeight="bold"
               >
                 {controlPanelSettings.metricOrImperial === "KPH"
@@ -126,10 +126,10 @@ export const PlayerBoostMeter = () => {
               <BoostMeterAmount
                 fill="white"
                 x="50%"
-                y="48%"
+                y="52%"
                 textAnchor="middle"
                 dy=".3em"
-                fontSize="115px"
+                fontSize="80px"
                 fontWeight="bold"
                 color="white"
               >
@@ -146,10 +146,10 @@ export const PlayerBoostMeter = () => {
               <BoostMeterAmount
                 fill="white"
                 x="50%"
-                y="43%"
+                y="46%"
                 textAnchor="middle"
                 dy=".3em"
-                fontSize="105px"
+                fontSize="78px"
                 fontWeight="bold"
                 color="white"
               >
@@ -161,7 +161,7 @@ export const PlayerBoostMeter = () => {
                 y="66%"
                 textAnchor="middle"
                 dy=".3em"
-                fontSize="44px"
+                fontSize="30px"
                 fontWeight="bold"
               >
                 {controlPanelSettings.metricOrImperial === "KPH"
