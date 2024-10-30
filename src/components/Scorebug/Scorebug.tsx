@@ -34,7 +34,7 @@ import ScoreBoardBO3 from "../../assets/ScorecardBO3.png";
 import ScoreBoardBO5 from "../../assets/ScorecardBO5.png";
 import ScoreBoardBO7 from "../../assets/ScorecardBO7.png";
 import ScoreBoardBO9 from "../../assets/ScorecardBO9.png";
-import CanaLogo from "../../assets/CANAesportsLogo.png";
+import CanaLogo from "../../assets/Logos/CANAesportsLogo.png";
 
 export const Scorebug = () => {
   const { updateState, setUpdateState } = useContext(UpdateStateContext);
