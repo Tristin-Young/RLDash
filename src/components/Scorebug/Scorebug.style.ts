@@ -234,13 +234,43 @@ export const BlueUndertone = styled.div`
   z-index: -1;
 `;
 
-export const CanaSVGwrapper = styled.div`
+export const EventLogoSVGwrapper = styled.div`
   position: absolute;
-  z-index: -1;
+  z-index: -2;
   //top: 1015px;
   top: 3px;
-  left: 1775px;
-  width: 150px; /* Ensure this matches the actual width of your PNG for proper alignment */
+  left: 915px;
+  width: 90px; /* Ensure this matches the actual width of your PNG for proper alignment */
+  height: auto; /* Adjust if you know the exact height of your image or prefer a specific height */
+
+  img {
+    width: 100%; /* This will make the image fill the div's width */
+    height: auto; /* Adjust the height automatically to maintain aspect ratio */
+  }
+`;
+
+export const SponsorLogo1SVGwrapper = styled.div`
+  position: absolute;
+  z-index: 2;
+  //top: 1015px;
+  top: 17px;
+  left: 596px;
+  width: 50px; /* Ensure this matches the actual width of your PNG for proper alignment */
+  height: auto; /* Adjust if you know the exact height of your image or prefer a specific height */
+
+  img {
+    width: 100%; /* This will make the image fill the div's width */
+    height: auto; /* Adjust the height automatically to maintain aspect ratio */
+  }
+`;
+
+export const SponsorLogo2SVGwrapper = styled.div`
+  position: absolute;
+  z-index: 2;
+  //top: 1015px;
+  top: -7px;
+  left: 933px;
+  width: 55px; /* Ensure this matches the actual width of your PNG for proper alignment */
   height: auto; /* Adjust if you know the exact height of your image or prefer a specific height */
 
   img {

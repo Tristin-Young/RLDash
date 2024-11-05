@@ -19,7 +19,9 @@ import {
   OrangeUndertone,
   BlueUndertone,
   ScorebugSeriesScoreAndWinPercentage,
-  CanaSVGwrapper,
+  EventLogoSVGwrapper,
+  SponsorLogo1SVGwrapper,
+  SponsorLogo2SVGwrapper,
   SeriesScoreUndertone,
   OrangeSeriesScoreUndertone,
   SeriesScoreDynamicUndertone,
@@ -33,8 +35,10 @@ import ScoreBoardBO1 from "../../assets/ScorecardBO1.png";
 import ScoreBoardBO3 from "../../assets/ScorecardBO3.png";
 import ScoreBoardBO5 from "../../assets/ScorecardBO5.png";
 import ScoreBoardBO7 from "../../assets/ScorecardBO7.png";
-import ScoreBoardBO9 from "../../assets/ScorecardBO9.png";
-import CanaLogo from "../../assets/Logos/CANAesportsLogo.png";
+
+import WarriorGMREvent from "../../assets/Logos/Veterans Day invitational logo.png";
+import SyracuseLogo from "../../assets/Logos/Syracuse_University Logo.png";
+import WarriorGMRFoundationLogo from "../../assets/Logos/Warriror GMR Foundation Logo.png";
 
 export const Scorebug = () => {
   const { updateState, setUpdateState } = useContext(UpdateStateContext);
@@ -98,9 +102,18 @@ export const Scorebug = () => {
 
   return (
     <>
-      {/* <CanaSVGwrapper>
-        <img src={CanaLogo} alt="Cana Logo" />
-      </CanaSVGwrapper> */}
+      <EventLogoSVGwrapper>
+        <img src={WarriorGMREvent} alt="Veterans Day Invitational Logo" />
+      </EventLogoSVGwrapper>
+      <SponsorLogo1SVGwrapper>
+        <img src={SyracuseLogo} alt="Veterans Day Invitational Logo" />
+      </SponsorLogo1SVGwrapper>
+      <SponsorLogo2SVGwrapper>
+        <img
+          src={WarriorGMRFoundationLogo}
+          alt="Veterans Day Invitational Logo"
+        />
+      </SponsorLogo2SVGwrapper>
       <SeriesScoreUndertone
         style={{ backgroundColor: controlPanelSettings.blueTeamColor }}
       />
@@ -147,10 +160,6 @@ export const Scorebug = () => {
         {controlPanelSettings.showTeamWins &&
           controlPanelSettings.NumberOfGames === 7 && (
             <img src={ScoreBoardBO7} alt="ScoreBoard" />
-          )}
-        {controlPanelSettings.showTeamWins &&
-          controlPanelSettings.NumberOfGames === 9 && (
-            <img src={ScoreBoardBO9} alt="ScoreBoard" />
           )}
         {!controlPanelSettings.showTeamWins && (
           <img src={ScoreBoardBO1} alt="ScoreBoard" />
