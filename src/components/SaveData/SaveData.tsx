@@ -52,7 +52,7 @@ export const SaveData = () => {
           }
           return prev;
         });
-        console.log("Updated captureData: ", captureDataRef.current.length);
+        // console.log("Updated captureData: ", captureDataRef.current.length);
       }
     };
 
@@ -216,9 +216,17 @@ export const SaveData = () => {
 
   useEffect(() => {
     const processStatfeedEvent = (data: any) => {
+      console.log("Received statfeed event: ", data);
       if (data.event === "game:statfeed_event") {
-        setStatfeedEvent((prev) => [...prev, data]);
-        console.log("Updated statfeedEvent: ", statfeedEventRef.current.length);
+        console.log("Received statfeed event: ", data);
+        setStatfeedEvent((prev) => {
+          const updatedEvents = [...prev, data];
+          console.log(
+            "Statfeed event added, new length: ",
+            updatedEvents.length
+          );
+          return updatedEvents;
+        });
       }
     };
 

@@ -89,32 +89,56 @@ export const useWebSocketService = () => {
             subscribers["game:statfeed_event_shotOnGoal"]?.forEach((callback) =>
               callback(innerMessage)
             );
+            subscribers["game:statfeed_event"]?.forEach((callback) =>
+              callback(innerMessage)
+            );
           } else if (innerMessage.data.type === "Goal") {
             subscribers["game:statfeed_event_goal"]?.forEach((callback) =>
+              callback(innerMessage)
+            );
+            subscribers["game:statfeed_event"]?.forEach((callback) =>
               callback(innerMessage)
             );
           } else if (innerMessage.data.type === "Assist") {
             subscribers["game:statfeed_event_assist"]?.forEach((callback) =>
               callback(innerMessage)
             );
+            subscribers["game:statfeed_event"]?.forEach((callback) =>
+              callback(innerMessage)
+            );
           } else if (innerMessage.data.type === "Demolition") {
             subscribers["game:statfeed_event_demolition"]?.forEach((callback) =>
+              callback(innerMessage)
+            );
+            subscribers["game:statfeed_event"]?.forEach((callback) =>
               callback(innerMessage)
             );
           } else if (innerMessage.data.type === "Epic Save") {
             subscribers["game:statfeed_event_epicSave"]?.forEach((callback) =>
               callback(innerMessage)
             );
+            subscribers["game:statfeed_event"]?.forEach((callback) =>
+              callback(innerMessage)
+            );
           } else if (innerMessage.data.type === "Save") {
             subscribers["game:statfeed_event_save"]?.forEach((callback) =>
+              callback(innerMessage)
+            );
+            subscribers["game:statfeed_event"]?.forEach((callback) =>
               callback(innerMessage)
             );
           } else if (innerMessage.data.type === "Win") {
             subscribers["game:statfeed_event_win"]?.forEach((callback) =>
               callback(innerMessage)
             );
+            subscribers["game:statfeed_event"]?.forEach((callback) =>
+              callback(innerMessage)
+            );
           } else if (innerMessage.data.type === "MVP") {
             subscribers["game:statfeed_event_MVP"]?.forEach((callback) =>
+              callback(innerMessage)
+            );
+            subscribers["game:statfeed_event"]?.forEach((callback) =>
               callback(innerMessage)
             );
           }
