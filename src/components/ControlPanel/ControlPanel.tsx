@@ -240,7 +240,7 @@ export const ControlPanel = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     if (isFormLocked) {
-      console.log("Form is locked");
+      //console.log("Form is locked");
       return;
     }
     setShowOverlayBE(false);
@@ -283,13 +283,13 @@ export const ControlPanel = () => {
   };
   useEffect(() => {
     const handleLockEvent = () => {
-      console.log(
-        "Event detected (podium/replay): locking the form for 10 seconds"
-      );
+      // console.log(
+      //   "Event detected (podium/replay): locking the form for 10 seconds"
+      // );
       setIsFormLocked(true); // Lock the form
 
       setTimeout(() => {
-        console.log("Form unlocked after 10 seconds");
+        //console.log("Form unlocked after 10 seconds");
         setIsFormLocked(false); // Unlock after 5 seconds
       }, 10000);
     };

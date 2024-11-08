@@ -6,6 +6,7 @@ import { SavePlayerDataContext } from "../../contexts/SavePlayerDataContext";
 import { UpdateStateContext } from "../../contexts/UpdateStateContext";
 import { StatfeedEvent } from "../../models/StatfeedEvent/StatfeedEvent";
 import { calculateWinProbability } from "../../services/winPercentage";
+import { USPlayer } from "../../models/USPlayer";
 
 export const SaveData = () => {
   const { updateState, setUpdateState } = useContext(UpdateStateContext);
@@ -17,15 +18,16 @@ export const SaveData = () => {
   const { setPlayerData } = useContext(SavePlayerDataContext);
   const [captureData, setCaptureData] = useState<any[]>([]);
   const [statfeedEvent, setStatfeedEvent] = useState<StatfeedEvent[]>([]);
-
+  const [playerStats, setPlayerStats] = useState<any>();
   // Using refs to keep track of the latest state reliably
   const captureDataRef = useRef(captureData);
   const statfeedEventRef = useRef(statfeedEvent);
-
+  const playerStatsRef = useRef(playerStats);
   useEffect(() => {
     captureDataRef.current = captureData;
     statfeedEventRef.current = statfeedEvent;
-  }, [captureData, statfeedEvent]);
+    playerStatsRef.current = playerStats;
+  }, [captureData, statfeedEvent, playerStats]);
 
   const isDataSame = (data: any, lastData: any) => {
     return JSON.stringify(data) === JSON.stringify(lastData);
@@ -52,7 +54,14 @@ export const SaveData = () => {
           }
           return prev;
         });
-        // console.log("Updated captureData: ", captureDataRef.current.length);
+
+        // Using ref to update the most recent value
+        if (Object.keys(innerMessage.players).length > 0) {
+          const updatedPlayerStats = Object.values(innerMessage.players);
+          playerStatsRef.current = updatedPlayerStats;
+          setPlayerStats(updatedPlayerStats);
+          //console.log("Updated playerStats: ", playerStatsRef.current);
+        }
       }
     };
 
@@ -70,24 +79,26 @@ export const SaveData = () => {
         data.event === "game:statfeed_event" &&
         data.data.event_name === "MVP"
       ) {
-        console.log("Game over, processing and saving data");
-        console.log(
-          "captureData Length (Ref): ",
-          captureDataRef.current.length
-        );
-        console.log(
-          "statfeedEvent Length (Ref): ",
-          statfeedEventRef.current.length
-        );
+        //console.log("Game over, processing and saving data");
+        // console.log(
+        //   "captureData Length (Ref): ",
+        //   captureDataRef.current.length
+        // );
+        // console.log(
+        //   "statfeedEvent Length (Ref): ",
+        //   statfeedEventRef.current.length
+        // );
         if (captureDataRef.current.length > 0) {
           processAndSaveGameData(captureDataRef.current);
         }
         if (statfeedEventRef.current.length > 0) {
           processAndSaveStatfeedData(statfeedEventRef.current);
         }
+        processAndSavePlayerStatsSummary(playerStatsRef.current);
 
         setCaptureData([]);
         setStatfeedEvent([]);
+        setPlayerStats({});
       }
     };
 
@@ -174,6 +185,56 @@ export const SaveData = () => {
     }
   };
 
+  const processAndSavePlayerStatsSummary = (players: USPlayer[]) => {
+    let playerStatsCsvContent =
+      "data:text/csv;charset=utf-8,Name,Team,Score,Goals,Shots,Assists,Saves\n";
+    //convert players object to array of objects
+    const playerArray: USPlayer[] = Object.values(players);
+    playerArray.forEach(
+      (player: {
+        name: any;
+        team: any;
+        score: any;
+        goals: any;
+        shots: any;
+        assists: any;
+        saves: any;
+      }) => {
+        const row =
+          [
+            player.name,
+            player.team,
+            player.score,
+            player.goals,
+            player.shots,
+            player.assists,
+            player.saves,
+          ].join(",") + "\n";
+
+        playerStatsCsvContent += row;
+      }
+    );
+
+    if (playerStatsCsvContent.split("\n").length > 1) {
+      const blueTeamName = controlPanelSettings.blueTeamName;
+      const orangeTeamName = controlPanelSettings.orangeTeamName;
+      const currentGame =
+        controlPanelSettings.blueWins + controlPanelSettings.orangeWins + 1;
+      const numberOfGames = controlPanelSettings.NumberOfGames;
+      const saveTime = new Date().toISOString();
+      const encodedUri = encodeURI(playerStatsCsvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute(
+        "download",
+        `game${currentGame}of${numberOfGames}-${blueTeamName}_Vs_${orangeTeamName}-PlayerStatsSummary-${saveTime}.csv`
+      );
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  };
+
   const processAndSaveStatfeedData = (data: any[]) => {
     let statfeedCsvContent =
       "data:text/csv;charset=utf-8,Event Name,Type,Main Target Name,Main Target Team,Secondary Target Name,Secondary Target Team\n";
@@ -185,9 +246,9 @@ export const SaveData = () => {
             item.data.event_name,
             item.data.type,
             item.data.main_target.name,
-            item.data.main_target.team,
+            item.data.main_target.team_num,
             item.data.secondary_target.name,
-            item.data.secondary_target.team,
+            item.data.secondary_target.team_num,
           ].join(",") + "\n";
 
         statfeedCsvContent += row;
@@ -216,15 +277,15 @@ export const SaveData = () => {
 
   useEffect(() => {
     const processStatfeedEvent = (data: any) => {
-      console.log("Received statfeed event: ", data);
+      //console.log("Received statfeed event: ", data);
       if (data.event === "game:statfeed_event") {
-        console.log("Received statfeed event: ", data);
+        //console.log("Received statfeed event: ", data);
         setStatfeedEvent((prev) => {
           const updatedEvents = [...prev, data];
-          console.log(
-            "Statfeed event added, new length: ",
-            updatedEvents.length
-          );
+          // console.log(
+          //   "Statfeed event added, new length: ",
+          //   updatedEvents.length
+          // );
           return updatedEvents;
         });
       }
