@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useRef } from "react";
 import { ControlPanelSettingsContext } from "../../contexts/ControlPanelSettingsContext";
 import { WebsocketContext } from "../../contexts/WebsocketContext";
 import { SaveGameDataContext } from "../../contexts/SaveGameDataContext";
@@ -18,6 +18,15 @@ export const SaveData = () => {
   const [captureData, setCaptureData] = useState<any[]>([]);
   const [statfeedEvent, setStatfeedEvent] = useState<StatfeedEvent[]>([]);
 
+  // Using refs to keep track of the latest state reliably
+  const captureDataRef = useRef(captureData);
+  const statfeedEventRef = useRef(statfeedEvent);
+
+  useEffect(() => {
+    captureDataRef.current = captureData;
+    statfeedEventRef.current = statfeedEvent;
+  }, [captureData, statfeedEvent]);
+
   const isDataSame = (data: any, lastData: any) => {
     return JSON.stringify(data) === JSON.stringify(lastData);
   };
@@ -32,7 +41,18 @@ export const SaveData = () => {
       ) {
         setGameData(innerMessage);
         setPlayerData(innerMessage.players);
-        setCaptureData((prev) => [...prev, innerMessage]);
+
+        // Append the new game state to captureData, ensuring it doesn't get replaced
+        setCaptureData((prev) => {
+          if (
+            prev.length === 0 ||
+            !isDataSame(prev[prev.length - 1], innerMessage)
+          ) {
+            return [...prev, innerMessage];
+          }
+          return prev;
+        });
+        console.log("Updated captureData: ", captureDataRef.current.length);
       }
     };
 
@@ -50,9 +70,24 @@ export const SaveData = () => {
         data.event === "game:statfeed_event" &&
         data.data.event_name === "MVP"
       ) {
-        //console.log("Game over, processing and saving data");
-        processAndSaveGameData(captureData);
-        processAndSaveStatfeedData(statfeedEvent);
+        console.log("Game over, processing and saving data");
+        console.log(
+          "captureData Length (Ref): ",
+          captureDataRef.current.length
+        );
+        console.log(
+          "statfeedEvent Length (Ref): ",
+          statfeedEventRef.current.length
+        );
+        if (captureDataRef.current.length > 0) {
+          processAndSaveGameData(captureDataRef.current);
+        }
+        if (statfeedEventRef.current.length > 0) {
+          processAndSaveStatfeedData(statfeedEventRef.current);
+        }
+
+        setCaptureData([]);
+        setStatfeedEvent([]);
       }
     };
 
@@ -61,7 +96,7 @@ export const SaveData = () => {
     return () => {
       unsubscribe();
     };
-  }, [subscribe, captureData, statfeedEvent]);
+  }, [subscribe]);
 
   const processAndSaveGameData = (data: any[]) => {
     let gameCsvContent =
@@ -114,29 +149,29 @@ export const SaveData = () => {
               controlPanelSettings.NumberOfGames,
             ].join(",") + "\n";
 
-          if (!isDataSame(row, gameCsvContent[gameCsvContent.length - 1])) {
-            gameCsvContent += row;
-          }
+          gameCsvContent += row;
         }
       }
     });
 
-    const blueTeamName = controlPanelSettings.blueTeamName;
-    const orangeTeamName = controlPanelSettings.orangeTeamName;
-    const currentGame =
-      controlPanelSettings.blueWins + controlPanelSettings.orangeWins + 1;
-    const numberOfGames = controlPanelSettings.NumberOfGames;
-    const saveTime = new Date().toISOString();
-    const encodedUri = encodeURI(gameCsvContent);
-    const link = document.createElement("a");
-    link.setAttribute("href", encodedUri);
-    link.setAttribute(
-      "download",
-      `game${currentGame}of${numberOfGames}-${blueTeamName}_Vs_${orangeTeamName}-GameData-${saveTime}.csv`
-    );
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    if (gameCsvContent.split("\n").length > 1) {
+      const blueTeamName = controlPanelSettings.blueTeamName;
+      const orangeTeamName = controlPanelSettings.orangeTeamName;
+      const currentGame =
+        controlPanelSettings.blueWins + controlPanelSettings.orangeWins + 1;
+      const numberOfGames = controlPanelSettings.NumberOfGames;
+      const saveTime = new Date().toISOString();
+      const encodedUri = encodeURI(gameCsvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute(
+        "download",
+        `game${currentGame}of${numberOfGames}-${blueTeamName}_Vs_${orangeTeamName}-GameData-${saveTime}.csv`
+      );
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
   };
 
   const processAndSaveStatfeedData = (data: any[]) => {
@@ -155,36 +190,35 @@ export const SaveData = () => {
             item.data.secondary_target.team,
           ].join(",") + "\n";
 
-        if (
-          !isDataSame(row, statfeedCsvContent[statfeedCsvContent.length - 1])
-        ) {
-          statfeedCsvContent += row;
-        }
+        statfeedCsvContent += row;
       }
     });
 
-    const blueTeamName = controlPanelSettings.blueTeamName;
-    const orangeTeamName = controlPanelSettings.orangeTeamName;
-    const currentGame =
-      controlPanelSettings.blueWins + controlPanelSettings.orangeWins + 1;
-    const numberOfGames = controlPanelSettings.NumberOfGames;
-    const saveTime = new Date().toISOString();
-    const encodedUri = encodeURI(statfeedCsvContent);
-    const link = document.createElement("a");
-    link.setAttribute("href", encodedUri);
-    link.setAttribute(
-      "download",
-      `game${currentGame}of${numberOfGames}-${blueTeamName}_Vs_${orangeTeamName}-StatfeedData-${saveTime}.csv`
-    );
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    if (statfeedCsvContent.split("\n").length > 1) {
+      const blueTeamName = controlPanelSettings.blueTeamName;
+      const orangeTeamName = controlPanelSettings.orangeTeamName;
+      const currentGame =
+        controlPanelSettings.blueWins + controlPanelSettings.orangeWins + 1;
+      const numberOfGames = controlPanelSettings.NumberOfGames;
+      const saveTime = new Date().toISOString();
+      const encodedUri = encodeURI(statfeedCsvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute(
+        "download",
+        `game${currentGame}of${numberOfGames}-${blueTeamName}_Vs_${orangeTeamName}-StatfeedData-${saveTime}.csv`
+      );
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
   };
 
   useEffect(() => {
     const processStatfeedEvent = (data: any) => {
       if (data.event === "game:statfeed_event") {
         setStatfeedEvent((prev) => [...prev, data]);
+        console.log("Updated statfeedEvent: ", statfeedEventRef.current.length);
       }
     };
 

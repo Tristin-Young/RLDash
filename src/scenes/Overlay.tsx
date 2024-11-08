@@ -61,25 +61,25 @@ export const Overlay = () => {
   }, [subscribe, setUpdateState, setControlPanelSettings]);
 
   // Conditionally render the overlay based on the value of showOverlayBE
-  if (controlPanelSettings.showOverlayBE) {
-    return (
-      <>
-        <Scorebug />
-        <PlayerStatBar />
-        <PlayerBoostMeter />
-        <PlayerTeamName />
-        <SaveData />
-        <UpdateSeriesScore />
-        <UpdateShowOverlay />
-      </>
-    );
-  } else {
-    return (
-      <>
-        <SaveData />
-        <UpdateSeriesScore />
-        <UpdateShowOverlay />
-      </>
-    );
-  }
+  // if (controlPanelSettings.showOverlayBE) {
+  //   return (
+  //     <>
+  //       <Scorebug />
+  //       <PlayerStatBar />
+  //       <PlayerBoostMeter />
+  //       <PlayerTeamName />
+  //       <SaveData />
+  //       <UpdateSeriesScore />
+  //       <UpdateShowOverlay />
+  //     </>
+  //   );
+  // } else {
+  return (
+    <>
+      <SaveData />
+      {/* <UpdateSeriesScore />
+      <UpdateShowOverlay /> */}
+    </>
+  );
+  // }
 };
