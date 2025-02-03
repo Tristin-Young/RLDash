@@ -2,6 +2,7 @@
 import { useContext, useEffect } from "react";
 import { gameService } from "../../services/gameService";
 import {
+  GreyBoostBar,
   // Divider,
   PlayerName,
   StatBarStatName,
@@ -9,16 +10,22 @@ import {
   StatBarStatValue,
   StatBarWrapper,
   StatsContainer,
+  BoostBarContainer,
+  BlueBoostBar,
+  PlayerBoostValue,
 } from "./PlayerStatBar.style";
 import { WebsocketContext } from "../../contexts/WebsocketContext";
 import { transformGameUpdate } from "../../contexts/transformGameUpdate";
-import PlayerStatBarPNG from "../../assets/PlayerStats.png";
+import PlayerStatBarBluePNG from "../../assets/PlayerStats-Blue.png";
+import PlayerStatBarOrangePNG from "../../assets/PlayerStats-Orange.png";
 import { UpdateStateContext } from "../../contexts/UpdateStateContext";
 import { USPlayer } from "../../models/USPlayer";
+import { ControlPanelSettingsContext } from "../../contexts/ControlPanelSettingsContext";
 
 export const PlayerStatBar = () => {
   const { updateState, setUpdateState } = useContext(UpdateStateContext);
   const { subscribe } = useContext(WebsocketContext); // Changed to useContext
+  const { controlPanelSettings } = useContext(ControlPanelSettingsContext);
 
   useEffect(() => {
     const handleGameUpdate = (innerMessage: any) => {
@@ -43,42 +50,60 @@ export const PlayerStatBar = () => {
     <>
       {spectatedPlayer && (
         <StatBarWrapper>
-          <img src={PlayerStatBarPNG} alt="PlayerStatBar" />
+          <BoostBarContainer>
+            <GreyBoostBar />
+            <BlueBoostBar
+              boost={Number(spectatedPlayer.boost)}
+              color={
+                spectatedPlayer.team === 0
+                  ? controlPanelSettings.blueTeamColor
+                  : controlPanelSettings.orangeTeamColor
+              }
+            />
+          </BoostBarContainer>
+          {spectatedPlayer.team === 0 ? (
+            <img src={PlayerStatBarBluePNG} alt="PlayerStatBar" />
+          ) : (
+            <img src={PlayerStatBarOrangePNG} alt="PlayerStatBar" />
+          )}
+
           {/* <PlayerName>Mountailously</PlayerName> */}
           <PlayerName>{spectatedPlayer.name}</PlayerName>
+          {/* <PlayerName>REALLYLONGNAME</PlayerName> */}
           <StatsContainer>
             <StatBarStatPair>
-              {/* <StatBarStatValue>1234</StatBarStatValue> */}
+              {/* <StatBarStatValue>1234&nbsp;</StatBarStatValue> */}
               <StatBarStatValue>{spectatedPlayer.score}&nbsp;</StatBarStatValue>
               <StatBarStatName>SCORE</StatBarStatName>
             </StatBarStatPair>
             {/* <Divider /> */}
             <StatBarStatPair>
-              {/* <StatBarStatValue>12</StatBarStatValue> */}
+              {/* <StatBarStatValue>12&nbsp;</StatBarStatValue> */}
               <StatBarStatValue>{spectatedPlayer.goals}&nbsp;</StatBarStatValue>
               <StatBarStatName>GOALS</StatBarStatName>
             </StatBarStatPair>
             {/* <Divider /> */}
             <StatBarStatPair>
-              {/* <StatBarStatValue>16</StatBarStatValue> */}
+              {/* <StatBarStatValue>16&nbsp;</StatBarStatValue> */}
               <StatBarStatValue>{spectatedPlayer.shots}&nbsp;</StatBarStatValue>
               <StatBarStatName>SHOTS</StatBarStatName>
             </StatBarStatPair>
             {/* <Divider /> */}
             <StatBarStatPair>
-              {/* <StatBarStatValue>18</StatBarStatValue> */}
+              {/* <StatBarStatValue>18&nbsp;</StatBarStatValue> */}
               <StatBarStatValue>
                 {spectatedPlayer.assists}&nbsp;
               </StatBarStatValue>
-              <StatBarStatName>ASSISTS</StatBarStatName>
+              <StatBarStatName>ASST</StatBarStatName>
             </StatBarStatPair>
             {/* <Divider /> */}
             <StatBarStatPair>
-              {/* <StatBarStatValue>21</StatBarStatValue> */}
+              {/* <StatBarStatValue>21&nbsp;</StatBarStatValue> */}
               <StatBarStatValue>{spectatedPlayer.saves}&nbsp;</StatBarStatValue>
               <StatBarStatName>SAVES</StatBarStatName>
             </StatBarStatPair>
           </StatsContainer>
+          <PlayerBoostValue>{spectatedPlayer.boost}</PlayerBoostValue>
         </StatBarWrapper>
       )}
     </>

@@ -39,6 +39,9 @@ export const ControlPanel = () => {
   const [blueTeamColor, setBlueTeamColor] = useState(
     controlPanelSettings.blueTeamColor
   );
+  const [creatorBannerMessage, setCreatorBannerMessage] = useState(
+    controlPanelSettings.creatorBannerMessage
+  );
   const [orangeTeamColor, setOrangeTeamColor] = useState(
     controlPanelSettings.orangeTeamColor
   );
@@ -112,6 +115,7 @@ export const ControlPanel = () => {
     setOrangeTeamLogo(controlPanelSettings.OrangeTeamPhoto);
     setBlueTeamLogoPreview(controlPanelSettings.BlueTeamPhoto);
     setOrangeTeamLogoPreview(controlPanelSettings.OrangeTeamPhoto);
+    setCreatorBannerMessage(controlPanelSettings.creatorBannerMessage);
   }, [controlPanelSettings]);
 
   // const handleShowTeamWinsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -266,6 +270,7 @@ export const ControlPanel = () => {
       serverPortNumber,
       showOverlayBE,
       useTeamColorsForFlipColors,
+      creatorBannerMessage,
     };
     if (newSettings.useTeamColorsForFlipColors) {
       newSettings.blueTeamFlipColor = newSettings.blueTeamColor;
@@ -635,7 +640,15 @@ export const ControlPanel = () => {
             </FormGroup>
           </div>
         </TwoColumnRow>
-
+        <FormGroup>
+          <Label htmlFor="creatorBannerMessage">Banner Message: </Label>
+          <Input
+            id="creatorBannerMessage"
+            type="text"
+            value={creatorBannerMessage}
+            onChange={(e) => setCreatorBannerMessage(e.target.value)}
+          />
+        </FormGroup>
         <SubmitButton type="submit">Update Settings</SubmitButton>
         {feedbackMessage && <div>{feedbackMessage}</div>}
       </Form>

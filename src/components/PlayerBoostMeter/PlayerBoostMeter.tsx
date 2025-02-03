@@ -9,7 +9,7 @@ import {
 import { boostService } from "../../services/boostService";
 import { WebsocketContext } from "../../contexts/WebsocketContext";
 import { transformGameUpdate } from "../../contexts/transformGameUpdate";
-import BoostPNG from "../../assets/Boost_wCANA.png";
+import BoostPNG from "../../assets/Boost-Opponent.png";
 import { ControlPanelSettingsContext } from "../../contexts/ControlPanelSettingsContext";
 import { UpdateStateContext } from "../../contexts/UpdateStateContext";
 import { USPlayer } from "../../models/USPlayer";
@@ -44,7 +44,7 @@ export const PlayerBoostMeter = () => {
     updateState.game.target
   );
 
-  const normalizedRadius = 120 - 20 * 2; //inner radius - thickness of ring * 2
+  const normalizedRadius = 134 - 20 * 2; //inner radius - thickness of ring * 2
   const circumference = normalizedRadius * 2 * Math.PI;
 
   const PlayerTeam = spectatedPlayer?.team === 0 ? "blue" : "orange";
@@ -55,8 +55,8 @@ export const PlayerBoostMeter = () => {
         <>
           {/* Circle SVG */}
           <svg
-            height={120 * 2}
-            width={120 * 2}
+            height={134 * 2}
+            width={134 * 2}
             style={{ position: "absolute", zIndex: 0 }}
           >
             <BoostMeterRing
@@ -70,11 +70,11 @@ export const PlayerBoostMeter = () => {
                 spectatedPlayer.boost * 1,
                 circumference
               )}
-              strokeWidth={28}
+              strokeWidth={35}
               fill="transparent"
               r={normalizedRadius}
-              cx={89}
-              cy={115}
+              cx={115}
+              cy={157}
             />
           </svg>
 
@@ -85,37 +85,17 @@ export const PlayerBoostMeter = () => {
 
           {controlPanelSettings.showPlayerSpeed === false && (
             <svg
-              height={121 * 2}
-              width={121 * 2}
+              height={134 * 2}
+              width={134 * 2}
               style={{ position: "absolute", zIndex: 2 }}
             >
               <BoostMeterAmount
                 fill="white"
-                x="60%"
-                y="38%"
+                x="50%"
+                y="50%"
                 textAnchor="middle"
                 dy=".3em"
-                fontSize="86px"
-                // fontWeight="bold"
-                color="white"
-              >
-                {spectatedPlayer.boost}
-              </BoostMeterAmount>
-            </svg>
-          )}
-          {controlPanelSettings.showPlayerSpeed === true && (
-            <svg
-              height={121 * 2}
-              width={121 * 2}
-              style={{ position: "absolute", zIndex: 2 }}
-            >
-              <BoostMeterAmount
-                fill="white"
-                x="60%"
-                y="38%"
-                textAnchor="middle"
-                dy=".3em"
-                fontSize="86px"
+                fontSize="70px"
                 // fontWeight="bold"
                 color="white"
               >
@@ -123,11 +103,41 @@ export const PlayerBoostMeter = () => {
               </BoostMeterAmount>
               <BoostMeterSpeed
                 fill="white"
-                x="60%"
-                y="57%"
+                x="50%"
+                y="65%"
                 textAnchor="middle"
                 dy=".3em"
-                fontSize="26px"
+                fontSize="22px"
+              >
+                BOOST
+              </BoostMeterSpeed>
+            </svg>
+          )}
+          {controlPanelSettings.showPlayerSpeed === true && (
+            <svg
+              height={134 * 2}
+              width={134 * 2}
+              style={{ position: "absolute", zIndex: 2 }}
+            >
+              <BoostMeterAmount
+                fill="white"
+                x="50%"
+                y="50%"
+                textAnchor="middle"
+                dy=".3em"
+                fontSize="70px"
+                // fontWeight="bold"
+                color="white"
+              >
+                {spectatedPlayer.boost}
+              </BoostMeterAmount>
+              <BoostMeterSpeed
+                fill="white"
+                x="50%"
+                y="65%"
+                textAnchor="middle"
+                dy=".3em"
+                fontSize="22px"
                 // fontWeight="bold"
               >
                 {controlPanelSettings.metricOrImperial === "KPH"

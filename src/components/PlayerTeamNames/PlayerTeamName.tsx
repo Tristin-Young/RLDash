@@ -5,9 +5,12 @@ import {
   BlueSvgWrapper,
   BlueTeamNamesWrapper,
   BoostBarContainer,
+  CrossOutBlue,
+  CrossOutBlue2,
   FlipIconSvgWrapper,
   GreyBoostBar,
   GreyBoostBarOrange,
+  GreyOutBlue,
   OrangeBoostBar,
   OrangeBoostBarContainer,
   OrangeFlipIconSvgWrapper,
@@ -150,7 +153,7 @@ export const PlayerTeamName = () => {
                   <PlayerBoost>{player.boost}</PlayerBoost>
                 </PlayerNameAndBoostContainer>
                 <BoostBarContainer>
-                  <GreyBoostBar />
+                  {/* <GreyBoostBar /> */}
                   <BlueBoostBar
                     boost={Number(player.boost)}
                     index={index}
@@ -158,11 +161,19 @@ export const PlayerTeamName = () => {
                   />
                 </BoostBarContainer>
               </PlayerContainer>
+
               <FlipIconSvgWrapper>
                 {controlPanelSettings.showFlipResets === true && (
                   <FlipIconSVG color={getFilter(player)} />
                 )}{" "}
               </FlipIconSvgWrapper>
+              {/* {player.isDead && (
+                <>
+                  <CrossOutBlue />
+                  <CrossOutBlue2 />
+                  <GreyOutBlue index={index} />
+                </>
+              )} */}
             </PlayerAndFlipIconContainer>
           ))}
       </BlueTeamNamesWrapper>
@@ -184,7 +195,7 @@ export const PlayerTeamName = () => {
                   </OrangePlayerName>
                 </OrangePlayerNameAndBoostContainer>
                 <OrangeBoostBarContainer>
-                  <GreyBoostBarOrange />
+                  {/* <GreyBoostBarOrange /> */}
                   <OrangeBoostBar
                     boost={Number(player.boost)}
                     index={index}

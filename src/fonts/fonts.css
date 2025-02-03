@@ -1,13 +1,15 @@
 @font-face {
-  font-family: 'Quan Rounded Regular';
-  src: url('./QuanRounded-Regular.woff') format('woff');
+  font-family: "Quan Rounded Regular";
+  src: url("./BasementGrotesque-Black_v1.202\ -\ Radford\ Esports.otf")
+    format("woff");
   font-weight: normal;
   font-style: normal;
 }
-  
+
 @font-face {
-  font-family: 'Quan Rounded Bold';
-  src: url('./QuanRounded-Bold.woff') format('woff');
+  font-family: "Quan Rounded Bold";
+  src: url("./BasementGrotesque-Black_v1.202\ -\ Radford\ Esports.otf")
+    format("woff");
   font-weight: bold;
   font-style: normal;
 }

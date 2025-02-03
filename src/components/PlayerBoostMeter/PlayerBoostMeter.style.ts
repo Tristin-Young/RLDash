@@ -25,10 +25,10 @@ export const BoostMeterInfo = styled.div`
 `;
 export const BoostMeterWrapper = styled.div`
   position: absolute;
-  top: 850px;
-  left: 1610px;
-  height: 220px;
-  width: 300px;
+  top: 720px;
+  left: 1630px;
+  height: 268px;
+  width: 268px;
   margin: 0p auto;
   overflow: hidden;
   transform-origin: 0 0;

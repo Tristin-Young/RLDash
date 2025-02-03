@@ -22,4 +22,5 @@ export interface ControlPanelContext {
   serverPortNumber: number;
   showOverlayBE: boolean;
   winProcessed: boolean;
+  creatorBannerMessage: string;
 }

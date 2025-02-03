@@ -26,7 +26,9 @@ import {
   OrangeSeriesScoreUndertone,
   SeriesScoreDynamicUndertone,
   OrangeSeriesScoreDynamicUndertone,
-  DarkSeriesScoreUndertone,
+  DarkSeriesScoreUndertone1,
+  DarkSeriesScoreUndertone2,
+  ScorebugCreatorBanner,
 } from "./Scorebug.style";
 import { gameService } from "../../services/gameService";
 import { transformGameUpdate } from "../../contexts/transformGameUpdate";
@@ -102,48 +104,43 @@ export const Scorebug = () => {
 
   return (
     <>
-      <EventLogoSVGwrapper>
-        <img src={WarriorGMREvent} alt="Veterans Day Invitational Logo" />
-      </EventLogoSVGwrapper>
-      <SponsorLogo1SVGwrapper>
-        <img src={SyracuseLogo} alt="Veterans Day Invitational Logo" />
-      </SponsorLogo1SVGwrapper>
-      <SponsorLogo2SVGwrapper>
-        <img
-          src={WarriorGMRFoundationLogo}
-          alt="Veterans Day Invitational Logo"
-        />
-      </SponsorLogo2SVGwrapper>
-      <SeriesScoreUndertone
+      {/* <SeriesScoreUndertone
         style={{ backgroundColor: controlPanelSettings.blueTeamColor }}
       />
       <OrangeSeriesScoreUndertone
         style={{ backgroundColor: controlPanelSettings.orangeTeamColor }}
+      /> */}
+      <DarkSeriesScoreUndertone1
+        style={{
+          backgroundColor: "#00000099",
+          width: 56.666 * Math.round(controlPanelSettings.NumberOfGames / 2),
+        }}
       />
-      <DarkSeriesScoreUndertone />
+      <DarkSeriesScoreUndertone2
+        style={{
+          backgroundColor: "#00000099",
+          width: 56.666 * Math.round(controlPanelSettings.NumberOfGames / 2),
+        }}
+      />
       <OrangeSeriesScoreDynamicUndertone
         style={{
           backgroundColor: controlPanelSettings.orangeTeamColor,
-          width:
-            (225 / Math.round(controlPanelSettings.NumberOfGames / 2)) *
-            controlPanelSettings.orangeWins,
+          width: 56.666 * controlPanelSettings.orangeWins,
         }}
       />
       <SeriesScoreDynamicUndertone
         style={{
           backgroundColor: controlPanelSettings.blueTeamColor,
-          width:
-            (225 / Math.round(controlPanelSettings.NumberOfGames / 2)) *
-            controlPanelSettings.blueWins,
+          width: 56.666 * controlPanelSettings.blueWins,
         }}
       />
 
-      <OrangeUndertone
+      {/* <OrangeUndertone
         style={{ backgroundColor: controlPanelSettings.orangeTeamColor }}
-      />
-      <BlueUndertone
+      /> */}
+      {/* <BlueUndertone
         style={{ backgroundColor: controlPanelSettings.blueTeamColor }}
-      />
+      /> */}
       <ScorebugSvgWrapper>
         {controlPanelSettings.showTeamWins &&
           controlPanelSettings.NumberOfGames === 1 && (
@@ -234,6 +231,9 @@ export const Scorebug = () => {
           )}
         </ScorebugClock>
         <ScorebugOrangeLogo />
+        <ScorebugCreatorBanner>
+          {controlPanelSettings.creatorBannerMessage}
+        </ScorebugCreatorBanner>
       </ScorebugWrapper>
     </>
   );
