@@ -113,7 +113,7 @@ export const OrangePlayerContainer = styled.div`
 // font size is 40px
 // font weight is bold
 export const PlayerName = styled.p`
-  font-size: 26px;
+  font-size: 24px;
   margin: 0;
   margin-left: 28px;
   position: relative;
