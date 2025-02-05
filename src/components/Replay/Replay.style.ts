@@ -18,7 +18,7 @@ export const AssistIMG = styled.div`
   position: absolute;
   width: 70px;
   height: 70px;
-  left: 1500px;
+  left: 1135px;
   top: 1003px;
 `;
 
@@ -32,7 +32,7 @@ export const GoalScorerName = styled.div`
   left: 430px;
   top: 1000px;
   font-size: 32px;
-  color: black;
+  color: white;
 `;
 
 export const AssistScorerName = styled.div`
@@ -42,10 +42,10 @@ export const AssistScorerName = styled.div`
   position: absolute;
   width: 390px;
   height: 80px;
-  left: 1105px;
+  left: 1210px;
   top: 1000px;
   font-size: 32px;
-  color: black;
+  color: white;
 `;
 
 export const BallSpeed = styled.div`
