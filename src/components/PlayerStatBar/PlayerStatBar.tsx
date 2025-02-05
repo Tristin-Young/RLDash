@@ -106,7 +106,7 @@ export const PlayerStatBar = () => {
           </StatsContainer>
           <PlayerBoostValue>{spectatedPlayer.boost}</PlayerBoostValue>
           <ScorebugCreatorBanner>
-            {controlPanelSettings.creatorBannerMessage}
+            {controlPanelSettings.bottomCreatorBannerMessage}
           </ScorebugCreatorBanner>
         </StatBarWrapper>
       )}
