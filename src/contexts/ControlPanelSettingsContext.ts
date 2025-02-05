@@ -34,6 +34,7 @@ export const DEFAULT_CONTROL_PANEL_SETTINGS: ControlPanelContext = {
   showOverlayBE: false,
   winProcessed: false,
   creatorBannerMessage: "Radford University",
+  showReplayScreen: false,
 };
 
 export const ControlPanelSettingsContext = createContext<ControlPanelService>({

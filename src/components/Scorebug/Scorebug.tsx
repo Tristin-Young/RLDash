@@ -104,37 +104,36 @@ export const Scorebug = () => {
 
   return (
     <>
-      {/* <SeriesScoreUndertone
-        style={{ backgroundColor: controlPanelSettings.blueTeamColor }}
-      />
-      <OrangeSeriesScoreUndertone
-        style={{ backgroundColor: controlPanelSettings.orangeTeamColor }}
-      /> */}
-      <DarkSeriesScoreUndertone1
-        style={{
-          backgroundColor: "#00000099",
-          width: 56.666 * Math.round(controlPanelSettings.NumberOfGames / 2),
-        }}
-      />
-      <DarkSeriesScoreUndertone2
-        style={{
-          backgroundColor: "#00000099",
-          width: 56.666 * Math.round(controlPanelSettings.NumberOfGames / 2),
-        }}
-      />
-      <OrangeSeriesScoreDynamicUndertone
-        style={{
-          backgroundColor: controlPanelSettings.orangeTeamColor,
-          width: 56.666 * controlPanelSettings.orangeWins,
-        }}
-      />
-      <SeriesScoreDynamicUndertone
-        style={{
-          backgroundColor: controlPanelSettings.blueTeamColor,
-          width: 56.666 * controlPanelSettings.blueWins,
-        }}
-      />
-
+      {controlPanelSettings.NumberOfGames !== 1 && (
+        <>
+          <DarkSeriesScoreUndertone1
+            style={{
+              backgroundColor: "#00000099",
+              width:
+                56.666 * Math.round(controlPanelSettings.NumberOfGames / 2),
+            }}
+          />
+          <DarkSeriesScoreUndertone2
+            style={{
+              backgroundColor: "#00000099",
+              width:
+                56.666 * Math.round(controlPanelSettings.NumberOfGames / 2),
+            }}
+          />
+          <OrangeSeriesScoreDynamicUndertone
+            style={{
+              backgroundColor: controlPanelSettings.orangeTeamColor,
+              width: 56.666 * controlPanelSettings.orangeWins,
+            }}
+          />
+          <SeriesScoreDynamicUndertone
+            style={{
+              backgroundColor: controlPanelSettings.blueTeamColor,
+              width: 56.666 * controlPanelSettings.blueWins,
+            }}
+          />
+        </>
+      )}
       {/* <OrangeUndertone
         style={{ backgroundColor: controlPanelSettings.orangeTeamColor }}
       /> */}

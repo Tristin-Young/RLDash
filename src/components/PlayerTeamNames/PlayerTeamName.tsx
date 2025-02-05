@@ -7,10 +7,13 @@ import {
   BoostBarContainer,
   CrossOutBlue,
   CrossOutBlue2,
+  CrossOutOrange,
+  CrossOutOrange2,
   FlipIconSvgWrapper,
   GreyBoostBar,
   GreyBoostBarOrange,
   GreyOutBlue,
+  GreyOutOrange,
   OrangeBoostBar,
   OrangeBoostBarContainer,
   OrangeFlipIconSvgWrapper,
@@ -167,13 +170,13 @@ export const PlayerTeamName = () => {
                   <FlipIconSVG color={getFilter(player)} />
                 )}{" "}
               </FlipIconSvgWrapper>
-              {/* {player.isDead && (
+              {player.isDead && (
                 <>
-                  <CrossOutBlue />
-                  <CrossOutBlue2 />
+                  <CrossOutBlue index={index} />
+                  <CrossOutBlue2 index={index} />
                   <GreyOutBlue index={index} />
                 </>
-              )} */}
+              )}
             </PlayerAndFlipIconContainer>
           ))}
       </BlueTeamNamesWrapper>
@@ -203,6 +206,13 @@ export const PlayerTeamName = () => {
                   />
                 </OrangeBoostBarContainer>
               </OrangePlayerContainer>
+              {player.isDead && (
+                <>
+                  <CrossOutOrange index={index} />
+                  <CrossOutOrange2 index={index} />
+                  <GreyOutOrange index={index} />
+                </>
+              )}
             </OrangePlayerAndFlipIconContainer>
           ))}
       </OrangeTeamNamesWrapper>

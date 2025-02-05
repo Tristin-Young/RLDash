@@ -9,6 +9,8 @@ import { transformGameUpdate } from "../contexts/transformGameUpdate";
 import { SaveData } from "../components/SaveData/SaveData";
 import { UpdateSeriesScore } from "../components/SeriesScore/UpdateSeriesScore";
 import { UpdateShowOverlay } from "../components/ShowOverlay/UpdateShowOverlay";
+import { UpdateShowReplay } from "../components/Replay/UpdateShowReplay";
+import { Replay } from "../components/Replay/Replay";
 
 export const Overlay = () => {
   const {
@@ -61,25 +63,22 @@ export const Overlay = () => {
   }, [subscribe, setUpdateState, setControlPanelSettings]);
 
   // Conditionally render the overlay based on the value of showOverlayBE
-  if (controlPanelSettings.showOverlayBE) {
-    return (
-      <>
-        <Scorebug />
-        <PlayerStatBar />
-        <PlayerBoostMeter />
-        <PlayerTeamName />
-        <SaveData />
-        <UpdateSeriesScore />
-        <UpdateShowOverlay />
-      </>
-    );
-  } else {
-    return (
-      <>
-        <SaveData />
-        <UpdateSeriesScore />
-        <UpdateShowOverlay />
-      </>
-    );
-  }
+
+  return (
+    <>
+      <SaveData />
+      <UpdateSeriesScore />
+      <UpdateShowOverlay />
+      <UpdateShowReplay />
+      <Replay />
+      {controlPanelSettings.showOverlayBE && (
+        <>
+          <Scorebug />
+          <PlayerStatBar />
+          <PlayerBoostMeter />
+          <PlayerTeamName />
+        </>
+      )}
+    </>
+  );
 };

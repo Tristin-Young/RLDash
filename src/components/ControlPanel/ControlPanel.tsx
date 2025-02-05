@@ -29,7 +29,9 @@ export const ControlPanel = () => {
 
   const { subscribe: websocketSubscribe } = useContext(WebsocketContext); // Renaming subscribe from WebsocketContext
   const [isFormLocked, setIsFormLocked] = useState(false);
-
+  const [showReplayScreen, setShowReplayScreen] = useState(
+    controlPanelSettings.showReplayScreen
+  );
   const [blueTeamName, setBlueTeamName] = useState(
     controlPanelSettings.blueTeamName
   );
@@ -116,6 +118,7 @@ export const ControlPanel = () => {
     setBlueTeamLogoPreview(controlPanelSettings.BlueTeamPhoto);
     setOrangeTeamLogoPreview(controlPanelSettings.OrangeTeamPhoto);
     setCreatorBannerMessage(controlPanelSettings.creatorBannerMessage);
+    setShowReplayScreen(controlPanelSettings.showReplayScreen);
   }, [controlPanelSettings]);
 
   // const handleShowTeamWinsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -271,6 +274,7 @@ export const ControlPanel = () => {
       showOverlayBE,
       useTeamColorsForFlipColors,
       creatorBannerMessage,
+      showReplayScreen,
     };
     if (newSettings.useTeamColorsForFlipColors) {
       newSettings.blueTeamFlipColor = newSettings.blueTeamColor;

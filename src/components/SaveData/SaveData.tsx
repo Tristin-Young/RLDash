@@ -6,6 +6,7 @@ import { SavePlayerDataContext } from "../../contexts/SavePlayerDataContext";
 import { UpdateStateContext } from "../../contexts/UpdateStateContext";
 import { StatfeedEvent } from "../../models/StatfeedEvent/StatfeedEvent";
 import { calculateWinProbability } from "../../services/winPercentage";
+import { wait } from "@testing-library/user-event/dist/utils";
 
 export const SaveData = () => {
   const { updateState, setUpdateState } = useContext(UpdateStateContext);
@@ -43,6 +44,10 @@ export const SaveData = () => {
     };
   }, [subscribe, setGameData, setPlayerData]);
 
+  useEffect(() => {
+    //console.log("Updated statfeedEvent save file variable:", statfeedEvent);
+  }, [statfeedEvent]);
+
   // Handle end of game and process data
   useEffect(() => {
     const processData = (data: any) => {
@@ -50,9 +55,12 @@ export const SaveData = () => {
         data.event === "game:statfeed_event" &&
         data.data.event_name === "MVP"
       ) {
-        //console.log("Game over, processing and saving data");
+        wait(1000);
         processAndSaveGameData(captureData);
         processAndSaveStatfeedData(statfeedEvent);
+        wait(1000);
+        setCaptureData([]);
+        setStatfeedEvent([]);
       }
     };
 
@@ -144,23 +152,24 @@ export const SaveData = () => {
       "data:text/csv;charset=utf-8,Event Name,Type,Main Target Name,Main Target Team,Secondary Target Name,Secondary Target Team\n";
 
     data.forEach((item) => {
-      if (item.event === "game:statfeed_event") {
-        const row =
-          [
-            item.data.event_name,
-            item.data.type,
-            item.data.main_target.name,
-            item.data.main_target.team,
-            item.data.secondary_target.name,
-            item.data.secondary_target.team,
-          ].join(",") + "\n";
+      // console.log("Writing event to csv: ", item);
+      // if (item.event === "game:statfeed_event") {
+      const row =
+        [
+          item.data.event_name,
+          item.data.type,
+          item.data.main_target.name,
+          item.data.main_target.team,
+          item.data.secondary_target.name,
+          item.data.secondary_target.team,
+        ].join(",") + "\n";
 
-        if (
-          !isDataSame(row, statfeedCsvContent[statfeedCsvContent.length - 1])
-        ) {
-          statfeedCsvContent += row;
-        }
-      }
+      // if (
+      //   !isDataSame(row, statfeedCsvContent[statfeedCsvContent.length - 1])
+      // ) {
+      statfeedCsvContent += row;
+      // }
+      // }
     });
 
     const blueTeamName = controlPanelSettings.blueTeamName;
@@ -185,6 +194,7 @@ export const SaveData = () => {
     const processStatfeedEvent = (data: any) => {
       if (data.event === "game:statfeed_event") {
         setStatfeedEvent((prev) => [...prev, data]);
+        //console.log(statfeedEvent);
       }
     };
 

@@ -23,4 +23,5 @@ export interface ControlPanelContext {
   showOverlayBE: boolean;
   winProcessed: boolean;
   creatorBannerMessage: string;
+  showReplayScreen: boolean;
 }

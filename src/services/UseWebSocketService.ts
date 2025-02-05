@@ -90,6 +90,7 @@ export const useWebSocketService = () => {
               callback(innerMessage)
             );
           } else if (innerMessage.data.type === "Goal") {
+            //console.log("Goal event:", innerMessage);
             subscribers["game:statfeed_event_goal"]?.forEach((callback) =>
               callback(innerMessage)
             );
@@ -98,6 +99,7 @@ export const useWebSocketService = () => {
               callback(innerMessage)
             );
           } else if (innerMessage.data.type === "Demolition") {
+            console.log("Demolition event:", innerMessage);
             subscribers["game:statfeed_event_demolition"]?.forEach((callback) =>
               callback(innerMessage)
             );
@@ -118,6 +120,10 @@ export const useWebSocketService = () => {
               callback(innerMessage)
             );
           }
+          //console.log("Statfeed Event: ", innerMessage);
+          subscribers["game:statfeed_event"]?.forEach((callback) =>
+            callback(innerMessage)
+          );
         } else if (message.event === "game:goal_scored") {
           const innerMessage = message.data;
           subscribers["game:goal_scored"]?.forEach((callback) =>

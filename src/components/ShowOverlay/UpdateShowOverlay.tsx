@@ -11,11 +11,11 @@ export const UpdateShowOverlay = () => {
   const hideOverlay = () => {
     if (isOverlayVisibleRef.current) {
       // Ensure this condition is met
-      console.log("Hiding overlay");
+      //console.log("Hiding overlay");
       setControlPanelSettings((prevSettings) => {
         const updatedSettings = { ...prevSettings, showOverlayBE: false };
         isOverlayVisibleRef.current = false; // Update ref state
-        console.log("Overlay hidden, updated settings:", updatedSettings);
+        //console.log("Overlay hidden, updated settings:", updatedSettings);
         return updatedSettings;
       });
     }
@@ -24,11 +24,11 @@ export const UpdateShowOverlay = () => {
   const showOverlay = () => {
     if (!isOverlayVisibleRef.current) {
       // Ensure this condition is met
-      console.log("Showing overlay");
+      //console.log("Showing overlay");
       setControlPanelSettings((prevSettings) => {
         const updatedSettings = { ...prevSettings, showOverlayBE: true };
         isOverlayVisibleRef.current = true; // Update ref state
-        console.log("Overlay shown, updated settings:", updatedSettings);
+        //console.log("Overlay shown, updated settings:", updatedSettings);
         return updatedSettings;
       });
     }
@@ -76,7 +76,7 @@ export const UpdateShowOverlay = () => {
   useEffect(() => {
     const handleGameEnd = () => {
       if (isOverlayVisibleRef.current) {
-        console.log("Game ending, hiding overlay after delay");
+        //console.log("Game ending, hiding overlay after delay");
         setTimeout(() => hideOverlay(), 500); // Adds a slight delay
       }
     };

@@ -60,41 +60,116 @@ export const PlayerContainer = styled.div`
   position: relative;
 `;
 
-export const CrossOutBlue = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 160px;
-  width: 25%;
-  height: 6px;
+interface CrossOutBlueProps {
+  index: number;
+}
+interface CrossOutBlueProps2 {
+  index: number;
+}
+
+export const CrossOutBlue = styled.div.attrs<CrossOutBlueProps>((props) => ({
+  style: {
+    marginTop: `${[-8, 1, 2][props.index % 3]}px`, // Use props.index here
+  },
+}))<CrossOutBlueProps>`
+  position: relative;
+  top: 24px;
+  left: -94px;
+  width: 2%;
+  height: 50px;
   background-color: red;
   transform: translateY(-50%) rotate(-45deg);
   z-index: 3;
 `;
-export const CrossOutBlue2 = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 160px;
-  width: 25%;
-  height: 6px;
+export const CrossOutBlue2 = styled.div.attrs<CrossOutBlueProps2>((props) => ({
+  style: {
+    marginTop: `${[-8, 1, 2][props.index % 3]}px`, // Use props.index here
+  },
+}))<CrossOutBlueProps2>`
+  position: relative;
+  top: 24px;
+  left: -100px;
+  width: 2%;
+  height: 50px;
   background-color: red;
   transform: translateY(-50%) rotate(45deg);
   z-index: 3;
 `;
-
+//92 and 93 diff
+//init vals -100 and -94
 interface GreyOutBlueProps {
   index: number;
 }
 export const GreyOutBlue = styled.div.attrs<GreyOutBlueProps>((props) => ({
   style: {
-    marginTop: `${[0, 10, 10][props.index % 3]}px`, // Use props.index here
+    marginTop: `${[-8, 1, 2][props.index % 3]}px`, // Use props.index here
   },
 }))<GreyOutBlueProps>`
-  osition: absolute;
-  background-color: rgba(255, 0, 0, 0.6);
-  height: 100%;
-  width: 100%;
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.6);
+  height: 48px;
+  width: 320px;
   z-index: 2;
-  border-radius: 12px;
+  border-top-right-radius: 12px;
+  border-bottom-right-radius: 12px;
+`;
+
+interface CrossOutOrangeProps {
+  index: number;
+}
+interface CrossOutOrangeProps2 {
+  index: number;
+}
+
+export const CrossOutOrange = styled.div.attrs<CrossOutOrangeProps>(
+  (props) => ({
+    style: {
+      marginTop: `${[-8, 1, 2][props.index % 3]}px`, // Use props.index here
+    },
+  })
+)<CrossOutOrangeProps>`
+  position: relative;
+  top: 24px;
+  left: 1411px;
+  width: 2%;
+  height: 50px;
+  background-color: red;
+  transform: translateY(-50%) rotate(-45deg);
+  z-index: 3;
+`;
+export const CrossOutOrange2 = styled.div.attrs<CrossOutOrangeProps2>(
+  (props) => ({
+    style: {
+      marginTop: `${[-8, 1, 2][props.index % 3]}px`, // Use props.index here
+    },
+  })
+)<CrossOutOrangeProps2>`
+  position: relative;
+  top: 24px;
+  left: 1405px;
+  width: 2%;
+  height: 50px;
+  background-color: red;
+  transform: translateY(-50%) rotate(45deg);
+  z-index: 3;
+`;
+
+interface GreyOutOrangeProps {
+  index: number;
+}
+export const GreyOutOrange = styled.div.attrs<GreyOutOrangeProps>((props) => ({
+  style: {
+    marginTop: `${[-8, 1, 2][props.index % 3]}px`, // Use props.index here
+  },
+}))<GreyOutOrangeProps>`
+  position: absolute;
+  left: 1600px;
+  background-color: rgba(0, 0, 0, 0.6);
+  height: 48px;
+  width: 320px;
+  z-index: 2;
+  border-top-left-radius: 12px;
+  border-bottom-left-radius: 12px;
 `;
 
 export const OrangePlayerContainer = styled.div`

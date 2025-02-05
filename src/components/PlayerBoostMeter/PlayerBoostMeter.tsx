@@ -9,7 +9,8 @@ import {
 import { boostService } from "../../services/boostService";
 import { WebsocketContext } from "../../contexts/WebsocketContext";
 import { transformGameUpdate } from "../../contexts/transformGameUpdate";
-import BoostPNG from "../../assets/Boost-Opponent.png";
+import BoostOpponentPNG from "../../assets/Boost-Opponent.png";
+import BoostRadfordPNG from "../../assets/Boost-Radford.png";
 import { ControlPanelSettingsContext } from "../../contexts/ControlPanelSettingsContext";
 import { UpdateStateContext } from "../../contexts/UpdateStateContext";
 import { USPlayer } from "../../models/USPlayer";
@@ -79,7 +80,19 @@ export const PlayerBoostMeter = () => {
           </svg>
 
           {/* PNG Image */}
-          <img src={BoostPNG} alt="BoostCircle" style={{ zIndex: 0 }} />
+          {spectatedPlayer.team === 0 ? (
+            <img
+              src={BoostRadfordPNG}
+              alt="BoostCircle"
+              style={{ zIndex: 0 }}
+            />
+          ) : (
+            <img
+              src={BoostOpponentPNG}
+              alt="BoostCircle"
+              style={{ zIndex: 0 }}
+            />
+          )}
 
           {/* Text SVG */}
 
