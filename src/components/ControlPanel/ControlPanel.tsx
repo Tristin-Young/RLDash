@@ -44,6 +44,9 @@ export const ControlPanel = () => {
   const [creatorBannerMessage, setCreatorBannerMessage] = useState(
     controlPanelSettings.creatorBannerMessage
   );
+  const [bottomCreatorBannerMessage, setBottomCreatorBannerMessage] = useState(
+    controlPanelSettings.bottomCreatorBannerMessage
+  );
   const [orangeTeamColor, setOrangeTeamColor] = useState(
     controlPanelSettings.orangeTeamColor
   );
@@ -118,6 +121,9 @@ export const ControlPanel = () => {
     setBlueTeamLogoPreview(controlPanelSettings.BlueTeamPhoto);
     setOrangeTeamLogoPreview(controlPanelSettings.OrangeTeamPhoto);
     setCreatorBannerMessage(controlPanelSettings.creatorBannerMessage);
+    setBottomCreatorBannerMessage(
+      controlPanelSettings.bottomCreatorBannerMessage
+    );
     setShowReplayScreen(controlPanelSettings.showReplayScreen);
   }, [controlPanelSettings]);
 
@@ -274,6 +280,7 @@ export const ControlPanel = () => {
       showOverlayBE,
       useTeamColorsForFlipColors,
       creatorBannerMessage,
+      bottomCreatorBannerMessage,
       showReplayScreen,
     };
     if (newSettings.useTeamColorsForFlipColors) {
@@ -645,12 +652,25 @@ export const ControlPanel = () => {
           </div>
         </TwoColumnRow>
         <FormGroup>
-          <Label htmlFor="creatorBannerMessage">Banner Message: </Label>
+          <Label htmlFor="creatorBannerMessage">
+            Scoreboard Banner Message:{" "}
+          </Label>
           <Input
             id="creatorBannerMessage"
             type="text"
             value={creatorBannerMessage}
             onChange={(e) => setCreatorBannerMessage(e.target.value)}
+          />
+        </FormGroup>
+        <FormGroup>
+          <Label htmlFor="bottomCreatorBannerMessage">
+            Bottom Banner Message:{" "}
+          </Label>
+          <Input
+            id="bottomCreatorBannerMessage"
+            type="text"
+            value={bottomCreatorBannerMessage}
+            onChange={(e) => setBottomCreatorBannerMessage(e.target.value)}
           />
         </FormGroup>
         <SubmitButton type="submit">Update Settings</SubmitButton>

@@ -69,6 +69,21 @@ export const PlayerName = styled.p`
 //   align-items: center;
 // `;
 
+export const ScorebugCreatorBanner = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60px;
+  width: 1115px;
+  font-size: 24px;
+  text-align: center;
+  position: absolute;
+  top: 35px;
+  left: 605px;
+  color: white;
+  padding-top: 3px;
+`;
+
 export const StatsContainer = styled.div`
   //background-color: rgba(255, 0, 0, 0.5);
   width: 605px;

@@ -13,6 +13,7 @@ import {
   BoostBarContainer,
   BlueBoostBar,
   PlayerBoostValue,
+  ScorebugCreatorBanner,
 } from "./PlayerStatBar.style";
 import { WebsocketContext } from "../../contexts/WebsocketContext";
 import { transformGameUpdate } from "../../contexts/transformGameUpdate";
@@ -104,6 +105,9 @@ export const PlayerStatBar = () => {
             </StatBarStatPair>
           </StatsContainer>
           <PlayerBoostValue>{spectatedPlayer.boost}</PlayerBoostValue>
+          <ScorebugCreatorBanner>
+            {controlPanelSettings.creatorBannerMessage}
+          </ScorebugCreatorBanner>
         </StatBarWrapper>
       )}
     </>
