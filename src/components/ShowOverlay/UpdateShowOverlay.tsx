@@ -22,16 +22,16 @@ export const UpdateShowOverlay = () => {
   };
 
   const showOverlay = () => {
-    if (!isOverlayVisibleRef.current) {
-      // Ensure this condition is met
-      //console.log("Showing overlay");
-      setControlPanelSettings((prevSettings) => {
-        const updatedSettings = { ...prevSettings, showOverlayBE: true };
-        isOverlayVisibleRef.current = true; // Update ref state
-        //console.log("Overlay shown, updated settings:", updatedSettings);
-        return updatedSettings;
-      });
-    }
+    //if (!isOverlayVisibleRef.current) {
+    // Ensure this condition is met
+    //console.log("Showing overlay");
+    setControlPanelSettings((prevSettings) => {
+      const updatedSettings = { ...prevSettings, showOverlayBE: true };
+      isOverlayVisibleRef.current = true; // Update ref state
+      //console.log("Overlay shown, updated settings:", updatedSettings);
+      return updatedSettings;
+    });
+    //}
   };
 
   // Hide overlay on game replay start
@@ -61,14 +61,14 @@ export const UpdateShowOverlay = () => {
       "game:pre_countdown_begin",
       handleGameStart
     );
-    const unsubscribeClockTick = subscribe(
-      "game:clock_updated_seconds",
-      handleGameStart
-    );
+    // const unsubscribeClockTick = subscribe(
+    //   "game:clock_updated_seconds",
+    //   handleGameStart
+    // );
 
     return () => {
       unsubscribeGameStart();
-      unsubscribeClockTick();
+      //unsubscribeClockTick();
     };
   }, [subscribe]);
 
@@ -89,6 +89,24 @@ export const UpdateShowOverlay = () => {
     return () => {
       unsubscribeReplayStart();
       unsubscribeClockStop();
+    };
+  }, [subscribe]);
+
+  //show overlay if we get a gamestate event
+  useEffect(() => {
+    const handleGameUpdate = (innerMessage: any) => {
+      isOverlayVisibleRef.current = true;
+      console.log("Clockevent received, showing overlay");
+      showOverlay();
+    };
+
+    const unsubscribeGameUpdate = subscribe(
+      "game:clock_updated_seconds",
+      handleGameUpdate
+    );
+
+    return () => {
+      unsubscribeGameUpdate();
     };
   }, [subscribe]);
 
