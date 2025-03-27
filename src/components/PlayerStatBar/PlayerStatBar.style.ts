@@ -139,3 +139,16 @@ export const PlayerBoostValue = styled.div`
   top: 52px;
   left: 572px;
 `;
+
+export const BottomPicture = styled.div`
+  display: flex;
+  position: absolute;
+  justify-content: center;
+  height: 68px;
+  width: 200px;
+  top: 1012px;
+  right: 0px;
+  0 > img {
+    height: 100%;
+  }
+`;

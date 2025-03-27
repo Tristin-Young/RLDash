@@ -70,6 +70,9 @@ export const ControlPanel = () => {
   );
   const [blueTeamLogo, setBlueTeamLogo] = useState("");
   const [orangeTeamLogo, setOrangeTeamLogo] = useState("");
+  const [bottomBannerPicture, setBottomBannerPicture] = useState("");
+  const [bottomBannerPicturePreview, setBottomBannerPicturePreview] =
+    useState("");
   const [blueTeamLogoPreview, setBlueTeamLogoPreview] = useState("");
   const [orangeTeamLogoPreview, setOrangeTeamLogoPreview] = useState("");
   const [showFlipResets, setShowFlipResets] = useState(
@@ -125,6 +128,8 @@ export const ControlPanel = () => {
       controlPanelSettings.bottomCreatorBannerMessage
     );
     setShowReplayScreen(controlPanelSettings.showReplayScreen);
+    setBottomBannerPicture(controlPanelSettings.bottomBannerPicture);
+    setBottomBannerPicturePreview(controlPanelSettings.bottomBannerPicture);
   }, [controlPanelSettings]);
 
   // const handleShowTeamWinsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -673,6 +678,22 @@ export const ControlPanel = () => {
             onChange={(e) => setBottomCreatorBannerMessage(e.target.value)}
           />
         </FormGroup>
+        <FormGroup>
+          <Label htmlFor="bottomBannerPicture">Bottom Banner Picture:</Label>
+          <Input
+            id="bottomBannerPicture"
+            type="file"
+            accept="image/*"
+            onChange={(e) => handleImageChange(e, "bottomBannerPicture")}
+          />
+        </FormGroup>
+        {bottomBannerPicturePreview && (
+          <img
+            src={bottomBannerPicturePreview}
+            alt="Orange Team Logo"
+            style={{ width: "100px", height: "100px", objectFit: "cover" }}
+          />
+        )}
         <SubmitButton type="submit">Update Settings</SubmitButton>
         {feedbackMessage && <div>{feedbackMessage}</div>}
       </Form>

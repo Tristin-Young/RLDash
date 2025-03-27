@@ -4,6 +4,7 @@ export interface ControlPanelContext {
   orangeTeamName: string;
   BlueTeamPhoto: string;
   OrangeTeamPhoto: string;
+  bottomBannerPicture: string;
   useTeamColorsForFlipColors: boolean;
   blueTeamColor: string;
   orangeTeamColor: string;

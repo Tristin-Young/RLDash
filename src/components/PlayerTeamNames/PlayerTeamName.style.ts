@@ -4,9 +4,10 @@ import styled from "styled-components";
 // size is 320px wide by 160px tall
 // positioned at X=0, Y=0
 export const BlueTeamNamesWrapper = styled.div`
+  //background-color: rgba(255, 0, 0, 0.6);
   color: white;
   position: absolute;
-  top: 0px;
+  top: 20px;
   left: 0px;
   height: 165px;
   width: 320px;
@@ -21,7 +22,7 @@ export const OrangeTeamNamesWrapper = styled.div`
   position: absolute;
   height: 165px;
   width: 320px;
-  top: 0px;
+  top: 20px;
   left: 1600px;
   text-align: center;
 `;
@@ -35,8 +36,8 @@ export const PlayerNameAndBoostContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   height: 55px;
-  width: 320px;
-  margin-left: 15px;
+  width: 300px;
+  margin-left: 35px;
 `;
 
 export const OrangePlayerNameAndBoostContainer = styled.div`
@@ -45,8 +46,8 @@ export const OrangePlayerNameAndBoostContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   height: 55px;
-  width: 320px;
-  margin-right: -70px;
+  width: 300px;
+  margin-right: -50px;
 `;
 
 export const PlayerContainer = styled.div`
@@ -324,7 +325,7 @@ export const GreyBoostBarOrange = styled.div`
 export const BlueSvgWrapper = styled.div`
   position: absolute;
   z-index: -1;
-  top: 0px;
+  top: 20px;
   left: 0px;
   width: 320px;
   height: auto; /* Adjust if you know the exact height of your image or prefer a specific height */
@@ -338,7 +339,7 @@ export const BlueSvgWrapper = styled.div`
 export const OrangeSvgWrapper = styled.div`
   position: absolute;
   z-index: -1;
-  top: 0px; // Adjust these values as needed
+  top: 20px; // Adjust these values as needed
   left: 1600px; // Adjust these values as needed
   width: 320px;
   height: auto; /* Adjust if you know the exact height of your image or prefer a specific height */
